@@ -64,6 +64,8 @@ module Redenik
 		def _gen_actor_by_stats(stats);end
 	end
 
+	# Игровые классы
+
 	class Actor < Person
 		attr_reader :hungriness, :feel_monsters, :feel_traps
 		attr_reader :can_carry_weight
@@ -99,6 +101,19 @@ module Redenik
 	# Отдельный модуль для графики - специально для проекта
 
 	module Graphics
+		module Cache
+			# Текст модуля скопирован с модуля Cache
+			# из состава скриптов по умолчанию
+			# в проектах, создаваемых на VX Ace
+
+			def self.load_bitmap(folder_name, filename, hue = 0);end
+			def self.empty_bitmap;end
+			def self.normal_bitmap(path);end
+			def self.hue_changed_bitmap(path, hue);end
+			def self.include?(key);end
+			def self.clear;end
+		end
+
 		class Image < Sprite
 			def initialize(*args);end
 			def width;end
