@@ -69,7 +69,9 @@ module Redenik
 	class Actor < Person
 		attr_reader :hungriness, :feel_monsters, :feel_traps
 		attr_reader :can_carry_weight
+		
 		# Gainers/Losers
+
 		def gain_item(item,value);end
 		def lose_item(item,value);end
 		def gain_exp(value);end
@@ -79,9 +81,10 @@ module Redenik
 		def inventory;end
 
 		# Проверяет, присутствует ли предмет в инвентаре
-		# => item - 
+		# => item - объект класса Redenik::Item, ::Weapon или ::Armor
 		def got_in_inventory?(item);end
 		def got_key?(rarity);end
+		def got_new_level?;end
 
 		private 
 
