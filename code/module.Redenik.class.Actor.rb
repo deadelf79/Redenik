@@ -32,6 +32,8 @@ class Redenik::Actor < Redenik::Person
 				@inv_weapons-=[item] 	if item.is_a? Redenik::Weapon
 				@inv_armors-=[item] 	if item.is_a? Redenik::Armor
 				@inv_keys-=[item] 		if item.is_a? Redenik::Key
+			else
+				break
 			end
 		}
 	end
