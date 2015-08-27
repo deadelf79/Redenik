@@ -34,6 +34,7 @@ module Redenik
 		attr_reader :exp, :level, :skills
 		def initialize(name,appearance,stats,equips);end
 		def update;end
+		def exp_curve(level);end
 
 		# Сильный?
 		def strong?;end

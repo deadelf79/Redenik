@@ -37,7 +37,12 @@ class Redenik::Actor < Redenik::Person
 	end
 
 	def gain_exp(value)
-
+		if value>0
+			@exp+=value
+			if @exp>exp_curve(level)
+				level+=1
+			end
+		end
 	end
 
 	def inventory
