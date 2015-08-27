@@ -154,6 +154,14 @@ module Redenik
 			def self.clear;end
 		end
 
+		class Event
+			attr_accessor :x, :y, :display_x, :display_y
+			def initialize(map_id,x,y);end
+			def associate_with_actor(actor);end
+			def associate_with_enemy(enemy);end
+			def associate_with_npc(npc);end
+		end
+
 		class Image < Sprite
 			def initialize(*args);end
 			def width;end
@@ -200,6 +208,9 @@ module Redenik
 			def _draw_line_wu(x1,y1,x2,y2,color);end
 		end
 		class Tilemap;end
+		class Player < Event
+			attr_accessor :controlable_now
+		end
 		class Window < Image
 			def initialize(x,y,width,height);end
 		end
