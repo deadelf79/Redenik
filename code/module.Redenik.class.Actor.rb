@@ -39,7 +39,7 @@ class Redenik::Actor < Redenik::Person
 	def gain_exp(value)
 		if value>0
 			@exp+=value
-			if @exp>exp_curve(level)
+			if @exp>exp_curve(level).last
 				level+=1
 			end
 		end

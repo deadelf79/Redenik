@@ -64,6 +64,7 @@ module Redenik
 		attr_reader :exp, :level, :skills
 		def initialize(name,appearance,stats,equips);end
 		def update;end
+		def reset_exp;end
 		def exp_curve(level);end
 
 		# Сильный?
@@ -94,6 +95,8 @@ module Redenik
 
 		def _check_hungry;end
 		def _gen_actor_by_stats(stats);end
+		def _reset_exp;end
+		def _generate_exp_curve;end
 	end
 
 	# Игровые классы
