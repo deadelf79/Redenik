@@ -24,13 +24,14 @@ module Redenik
 
 	class BasicItem < Basic
 		attr_accessor :rarity, :price, :icon_index, :weight
+		attr_reader :help_info
 		def initialize(health,mana,effects,rarity,start_price,type);end
 	end
 
 	#
 	class Person < Basic
 		attr_reader :name, :appearance, :stats :equips
-		attr_reader :exp, :level
+		attr_reader :exp, :level, :skills
 		def initialize(name,appearance,stats,equips);end
 		def update;end
 
@@ -69,6 +70,7 @@ module Redenik
 	class Actor < Person
 		attr_reader :hungriness, :feel_monsters, :feel_traps
 		attr_reader :can_carry_weight
+		def initialize(name,appearance,stats,equips,level);end
 		
 		# Gainers/Losers
 
@@ -99,7 +101,41 @@ module Redenik
 	end
 	class Item;end
 	class Key;end
+	class Skill
+		attr_reader :exp, :condition_string, :level
+		attr_reader :name, :help_info
+	end
 	class Weapon;end
+
+	# МОДУЛИ
+
+	module Alchemy
+		class Ingredient
+			def initialize(name,appearance,weight,effects);end
+			def effect_known?(id);end
+			def any_effect_known?(id);end
+		end
+		class Recepy
+			def initialize(require_ingredients,skill,skill_level,result_item);end
+		end
+	end
+
+	module NameGen
+		def prepare;end
+		def make_name(min,max);end
+	end
+
+	module LevelDesign
+		class Storage
+			attr_accessor :items
+		end
+
+		class Trader < Storage
+			def initialize(name,trade_type_of,max_rarity,max_level);end
+		end
+
+		class Trap;end
+	end
 
 	# Отдельный модуль для графики - специально для проекта
 

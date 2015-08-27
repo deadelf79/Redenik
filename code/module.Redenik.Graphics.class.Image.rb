@@ -2,7 +2,7 @@
 
 class Redenik::Graphics::Image < Sprite
 	def initialize(*args)
-
+		
 	end
 
 	def width

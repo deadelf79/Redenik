@@ -5,7 +5,7 @@
 #
 class Redenik::Actor < Redenik::Person
 
-	def initialize(name,appearance,stats,equips)
+	def initialize(name,appearance,stats,equips,level)
 		super(name,appearance,stats,equips)
 		@inv_items 	= []
 		@inv_weapon = []
