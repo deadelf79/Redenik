@@ -5,7 +5,9 @@
 module Redenik
 	class << self
 		attr_reader :game_actors, :game_items, :game_weapons, :game_armors
-
+		# Начало игры
+		# Инициирует все данные перед стартом и запускает
+		# переход на первую сцену (титульное меню по умолчанию)
 		def start_game;end
 
 		private
@@ -21,12 +23,32 @@ module Redenik
 		attr_reader :health, :mana, :effects
 		attr_accessor :gold_modifier
 		def initialize(health,mana,effects,gold_modifier);end
+		
+		# Проверка на смерть объекта
 		def dead?;end
+		
+		# Првоерка, жив ли еще объект (здоровье должно
+		# быть выше нуля)
 		def alive?;end
+		
+		# Запускает постепенное восстановление здоровья
+		# => value - значение, на которое будет восстановлено текущее здоровье по прошествии времени
 		def restore_health(value);end
+		
+		# Полностью восстанавливает здоровье единоразово
 		def full_restore;end
+		
+		# Запускает постепенное восстановление маны
+		# => value - значение, на которое будет восстановлено текущее количество маны по прошествии времени
 		def restore_mana(value);end
+		
+		# Расходует ману, единоразово отнимая от текущего количество необходимое
 		def use_mana(value);end
+
+		# Проверяет, хватает ли маны на использование
+		def enough_mana?(value);end
+		
+		# Обновляет объект
 		def update;end
 	end
 

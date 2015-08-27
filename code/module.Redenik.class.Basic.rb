@@ -38,6 +38,10 @@ class Basic
 		@mana-=value if alive?
 	end
 
+	def enough_mane?(value)
+		mana >= value
+	end
+
 	def update
 		if alive?
 			if @delta_mana>0 then
