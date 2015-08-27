@@ -21,30 +21,34 @@ class Basic
 	end
 
 	def damage(value)
-		@health-=value
+		if alive?
+			@health-=value
+		end
 	end
 
 	def restore_health(value)
-		@delta_health = (health-value).abs
+		@delta_health = (health-value).abs if alive?
 	end
 
 	def restore_mana(value)
-		@delta_mana = (mana-value).abs
+		@delta_mana = (mana-value).abs if alive?
 	end
 
 	def use_mana(value)
-		@mana-=value
+		@mana-=value if alive?
 	end
 
 	def update
-		if @delta_mana>0 then
-			@delta_mana-=1
-			@mana+=1 if @mana < @max_mana
-		end
+		if alive?
+			if @delta_mana>0 then
+				@delta_mana-=1
+				@mana+=1 if @mana < @max_mana
+			end
 
-		if @delta_health>0 then
-			@delta_health-=1
-			@health+=1 if @health < @max_health
+			if @delta_health>0 then
+				@delta_health-=1
+				@health+=1 if @health < @max_health
+			end
 		end
 	end
 end
