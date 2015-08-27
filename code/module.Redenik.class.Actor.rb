@@ -15,8 +15,6 @@ class Redenik::Actor < Redenik::Person
 	end
 
 	# Gainers/Losers
-		
-	def gain_item(item,value);end
 
 	def gain_item(item,value)
 		value.times{@inv_items<<item} 	if item.is_a? Redenik::Item
