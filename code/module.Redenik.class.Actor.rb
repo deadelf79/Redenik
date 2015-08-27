@@ -19,14 +19,21 @@ class Redenik::Actor < Redenik::Person
 	def gain_item(item,value);end
 
 	def gain_item(item,value)
-		value.times{@inv_items<<item} if item.is_a? Redenik::Item
+		value.times{@inv_items<<item} 	if item.is_a? Redenik::Item
 		value.times{@inv_weapons<<item} if item.is_a? Redenik::Weapon
-		value.times{@inv_armors<<item} if item.is_a? Redenik::Armor
-		value.times{@inv_keys<<item} if item.is_a? Redenik::Key
+		value.times{@inv_armors<<item} 	if item.is_a? Redenik::Armor
+		value.times{@inv_keys<<item} 	if item.is_a? Redenik::Key
 	end
 
 	def lose_item(item,value)
-
+		value.times{
+			if inventory.inlude?(item)
+				@inv_items-=[item] 		if item.is_a? Redenik::Item
+				@inv_weapons-=[item] 	if item.is_a? Redenik::Weapon
+				@inv_armors-=[item] 	if item.is_a? Redenik::Armor
+				@inv_keys-=[item] 		if item.is_a? Redenik::Key
+			end
+		}
 	end
 
 	def gain_exp(value)
