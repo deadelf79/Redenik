@@ -35,10 +35,10 @@ class Basic
 	end
 
 	def use_mana(value)
-		@mana-=value if alive?
+		@mana-=value if alive?&&enough_mana?(value)
 	end
 
-	def enough_mane?(value)
+	def enough_mana?(value)
 		mana >= value
 	end
 
