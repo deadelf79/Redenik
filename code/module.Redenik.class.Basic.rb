@@ -39,12 +39,12 @@ class Basic
 	def update
 		if @delta_mana>0 then
 			@delta_mana-=1
-			@mana+=1
+			@mana+=1 if @mana < @max_mana
 		end
 
 		if @delta_health>0 then
 			@delta_health-=1
-			@health+=1
+			@health+=1 if @health < @max_health
 		end
 	end
 end
