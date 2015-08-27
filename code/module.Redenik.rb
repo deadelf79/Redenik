@@ -18,8 +18,16 @@ module Redenik
 	# Материнские классы, от которых наследуется большинство других
 
 	class Basic
-		attr_accessor :health, :mana, :effects
+		attr_reader :health, :mana, :effects
 		attr_accessor :gold_modifier
+		def initialize(health,mana,effects,gold_modifier);end
+		def dead?;end
+		def alive?;end
+		def restore_health(value);end
+		def full_restore;end
+		def restore_mana(value);end
+		def use_mana(value);end
+		def update;end
 	end
 
 	class BasicItem < Basic
