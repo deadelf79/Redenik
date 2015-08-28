@@ -248,7 +248,42 @@ module Redenik
 		end
 		class Map
 			attr_accessor :events, :tileset, :autotiles
-			def initialize(width,height);end
+			def initialize(id,width,height,type,max_rooms=100);end
+			
+			# На карте безопасно?
+			def is_safe?;end
+			
+			# Является ли карта - магазином?
+			def is_store?;end
+			
+			# Является ли карта - гостиницей?
+			def is_inn?;end
+			
+			# Является ли карта баром/рестораном/кафе?
+			def is_pub?;end
+			
+			# Карта - это этаж Цитадели Испытаний?
+			def is_floor?;end
+			
+			# Карта - это пещера?
+			def is_dungeon?;end
+			
+			# Эта карта является городом?
+			def is_town?;end
+			
+			# Эта карта является убежищем?
+			def is_vault?;end
+			
+			# Эта карта является этажом подвала
+			# в Цитадели Испытаний?
+			def is_basement?;end
+
+			private
+
+			def _gen_room;end
+			def _gen_passage;end
+			def _render_map;end
+			def _save_map(full_mode=false);end
 		end
 		class Tilemap
 			def initialize(map);end
