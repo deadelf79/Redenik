@@ -329,6 +329,10 @@ module Redenik
 			def _redraw_skin(image);end
 		end
 	end
+
+	module Translation
+		module Russian;end
+	end
 end
 
 module Kernel	
