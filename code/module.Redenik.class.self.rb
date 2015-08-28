@@ -6,7 +6,7 @@ module Redenik
 		START___MAX_ITEMS	= 300
 		START___MAX_ARMORS	= 900
 		START___MAX_WEAPON	= 900
-		
+
 		STATS___CLASSES = [
 			{:class_name=>:citizen,		:st=>10,	:dx=>10,	:iq=>10,	:ht=>10},
 			{:class_name=>:warrior,		:st=>12,	:dx=>9,		:iq=>8,		:ht=>11},
@@ -35,13 +35,28 @@ module Redenik
 			add_party_member(0)
 		end
 
-		def main_game;end
+		def main_game
+			end_game if party_dead?
+			
+		end
+		
 		def end_game;end
 		
 		def add_party_member(id)
 			unless @game_party.inlcude?(@game_actors[id])
 				@game_party << @game_actors[id]
 			end
+		end
+
+		def party_dead?
+			all = true
+			@game_party.each{|actor|
+				if !actor.dead?
+					all=false
+					break
+				end
+			}
+			all
 		end
 
 		private

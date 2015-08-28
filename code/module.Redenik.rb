@@ -12,8 +12,9 @@ module Redenik
 		def start_game;end
 		def main_game;end
 		def end_game;end
-		
+
 		def add_party_member(id);end
+		def party_dead?;end
 
 		private
 		def _gen_actors;end
