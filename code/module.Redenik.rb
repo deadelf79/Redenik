@@ -5,10 +5,15 @@
 module Redenik
 	class << self
 		attr_reader :game_actors, :game_items, :game_weapons, :game_armors
+		attr_reader :game_skills, :game_party
 		# Начало игры
 		# Инициирует все данные перед стартом и запускает
 		# переход на первую сцену (титульное меню по умолчанию)
 		def start_game;end
+		def main_game;end
+		def end_game;end
+		
+		def add_party_member(id);end
 
 		private
 		def _gen_actors;end
@@ -129,7 +134,7 @@ module Redenik
 	end
 	
 	class Armor < BasicItem
-		def initialize(effects,rarity,start_price);end
+		def initialize(effects,rarity,start_price,equip_type);end
 	end
 
 	class Enemy < Person
@@ -152,7 +157,7 @@ module Redenik
 	end
 
 	class Weapon < BasicItem
-		def initialize(effects,rarity,start_price);end
+		def initialize(effects,rarity,start_price,two_handed);end
 	end
 
 	# МОДУЛИ

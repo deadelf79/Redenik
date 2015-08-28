@@ -2,7 +2,11 @@
 
 module Redenik
 	class << self
-		START___MAX_ACTORS = 30
+		START___MAX_ACTORS 	= 30
+		START___MAX_ITEMS	= 300
+		START___MAX_ARMORS	= 900
+		START___MAX_WEAPON	= 900
+		
 		STATS___CLASSES = [
 			{:class_name=>:citizen,		:st=>10,	:dx=>10,	:iq=>10,	:ht=>10},
 			{:class_name=>:warrior,		:st=>12,	:dx=>9,		:iq=>8,		:ht=>11},
@@ -11,7 +15,7 @@ module Redenik
 		]
 
 		attr_reader :game_actors, :game_items, :game_weapons, :game_armors
-		attr_reader :game_skills
+		attr_reader :game_skills, :game_party
 
 		def start_game
 			# Подготовим переменные
@@ -20,12 +24,24 @@ module Redenik
 			@game_weapons 	= []
 			@game_armors 	= []
 			@game_skills	= []
+			@game_party		= []
 			# Вызовем методы
 			_gen_actors
 			_gen_items
 			_gen_weapons
 			_gen_armors
 			_gen_skills
+
+			add_party_member(0)
+		end
+
+		def main_game;end
+		def end_game;end
+		
+		def add_party_member(id)
+			unless @game_party.inlcude?(@game_actors[id])
+				@game_party << @game_actors[id]
+			end
 		end
 
 		private
