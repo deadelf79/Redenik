@@ -179,9 +179,15 @@ module Redenik
 	end
 
 	module NameGen
-		def prepare;end
-		def make_name(min,max);end
-		def make_info(type);end
+		class << self
+			def prepare;end
+			def make_name(min,max);end
+			def make_info(type);end
+
+			private 
+
+			def _clear_banned_couples;end
+		end
 	end
 
 	module LevelDesign
@@ -271,6 +277,7 @@ module Redenik
 			# (алгоритм Брезенхема + сглаживание)
 			def _draw_line_wu(x1,y1,x2,y2,color);end
 		end
+
 		class Map
 			attr_accessor :events, :tileset, :autotiles
 			def initialize(id,width,height,type,max_rooms=100);end
@@ -310,6 +317,7 @@ module Redenik
 			def _render_map;end
 			def _save_map(full_mode=false);end
 		end
+
 		class Tilemap
 			def initialize(map);end
 
@@ -317,9 +325,11 @@ module Redenik
 
 			def _draw_map;end
 		end
+
 		class Player < Event
 			attr_accessor :controlable_now
 		end
+
 		class Window < Image
 			def initialize(x,y,width,height);end
 			def skin=(image);end

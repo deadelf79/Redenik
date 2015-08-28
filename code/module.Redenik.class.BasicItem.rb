@@ -14,7 +14,7 @@ class Redenik::BasicItem < Redenik::Basic
 	def _gen_help_info
 		@help_info =	case @type
 						when :heal_hp
-							Redenik::NameGen.make_info()
+							#Redenik::NameGen.make_info()
 						when :heal_mp
 						end
 	end
