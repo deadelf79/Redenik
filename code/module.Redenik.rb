@@ -232,6 +232,7 @@ module Redenik
 			private
 
 			def _swap(v1,v2);end
+
 			# Построение линии по алгоритму Брезенхема
 			def _draw_line_bresenham(x1,y1,x2,y2,color);end
 			def _draw_circle_bresenham(x,y,radius,color);end
@@ -240,12 +241,27 @@ module Redenik
 			# (алгоритм Брезенхема + сглаживание)
 			def _draw_line_wu(x1,y1,x2,y2,color);end
 		end
-		class Tilemap;end
+		class Map
+			attr_accessor :events, :tileset
+			def initialize(width,height);end
+		end
+		class Tilemap
+			def initialize(map);end
+
+			private
+
+			def _draw_map;end
+		end
 		class Player < Event
 			attr_accessor :controlable_now
 		end
 		class Window < Image
 			def initialize(x,y,width,height);end
+			def skin=(image);end
+
+			private
+
+			def _redraw_skin(image);end
 		end
 	end
 end
