@@ -128,18 +128,32 @@ module Redenik
 		def _gain_stat(type);end
 	end
 	
-	class Armor;end
+	class Armor < BasicItem
+		def initialize(effects,rarity,start_price);end
+	end
+
 	class Enemy < Person
 		attr_reader :rarity, :base_creature
 		def initialize(name,base_creature,stats,equips);end
 	end
-	class Item;end
-	class Key;end
+
+	class Item < BasicItem
+		def initialize(effects,rarity,start_price,food);end
+		def eatable?;end
+	end
+
+	class Key
+		def initialize(rarity);end
+	end
+
 	class Skill
 		attr_reader :exp, :condition_string, :level
 		attr_reader :name, :help_info
 	end
-	class Weapon;end
+
+	class Weapon < BasicItem
+		def initialize(effects,rarity,start_price);end
+	end
 
 	# МОДУЛИ
 
