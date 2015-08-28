@@ -2,9 +2,9 @@
 
 class Redenik::Person < Redenik::Basic
 	FEATURES___TOO_LOW	= (1..3)
-	FEATURES___LOW 		= (4..7)
-	FEATURES___NORMAL 	= (8..12)
-	FEATURES___HIGH 	= (13..16)
+	FEATURES___LOW 		= (4..8)
+	FEATURES___NORMAL 	= (9..11)
+	FEATURES___HIGH 	= (12..16)
 	FEATURES___SUPERB 	= (17..20)
 	LEVEL___MAXIMUM		= 100
 
@@ -40,7 +40,8 @@ class Redenik::Person < Redenik::Basic
 	
 	# Слабый?
 	def weak?
-
+		return false if stats[:st]>=FEATURES___NORMAL.first
+		true
 	end
 	
 	# Проворный?
@@ -53,7 +54,8 @@ class Redenik::Person < Redenik::Basic
 	
 	# Неуклюжий?
 	def clumsy?
-
+		return false if stats[:dx]>=FEATURES___NORMAL.first
+		true
 	end
 
 	# Умный?
@@ -66,7 +68,8 @@ class Redenik::Person < Redenik::Basic
 	
 	# Глупый?
 	def stupid?
-
+		return false if stats[:iq]>=FEATURES___NORMAL.first
+		true
 	end
 	
 	# Живучий?
@@ -79,7 +82,8 @@ class Redenik::Person < Redenik::Basic
 
 	# Нежизнеспособный?
 	def unviable?
-
+		return false if stats[:ht]>=FEATURES___NORMAL.first
+		true
 	end
 
 	private 
