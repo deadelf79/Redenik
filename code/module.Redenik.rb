@@ -193,6 +193,11 @@ module Redenik
 			def associate_with_actor(actor);end
 			def associate_with_enemy(enemy);end
 			def associate_with_npc(npc);end
+			def agressive?;end
+			def frightened?;end
+			def notice_enemy?;end
+			def can_carry_loot?;end
+			def take_loot(from_xy);end
 		end
 
 		class Image < Sprite
@@ -242,7 +247,7 @@ module Redenik
 			def _draw_line_wu(x1,y1,x2,y2,color);end
 		end
 		class Map
-			attr_accessor :events, :tileset
+			attr_accessor :events, :tileset, :autotiles
 			def initialize(width,height);end
 		end
 		class Tilemap
