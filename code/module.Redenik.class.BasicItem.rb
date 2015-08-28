@@ -1,6 +1,6 @@
 # encoding utf-8
 
-class BasicItem < Basic
+class Redenik::BasicItem < Redenik::Basic
 	attr_accessor :rarity, :price, :icon_index, :weight
 	attr_reader :help_info
 	def initialize(health,mana,effects,rarity,start_price,type)

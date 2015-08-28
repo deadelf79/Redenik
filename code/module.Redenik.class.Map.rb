@@ -1,6 +1,6 @@
 # encoding utf-8
 
-class Map
+class Redenik::Map
 	attr_accessor :events, :tileset, :autotiles
 	def initialize(id,width,height,type,max_rooms=100)
 		@map_id = id
