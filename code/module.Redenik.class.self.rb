@@ -75,7 +75,7 @@ module Redenik
 		end
 
 		def _gen_items
-
+			
 		end
 
 		def _gen_weapons

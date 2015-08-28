@@ -26,7 +26,7 @@ module Redenik
 	# Материнские классы, от которых наследуется большинство других
 
 	class Basic
-		attr_reader :health, :mana, :effects
+		attr_reader :name, :health, :mana, :effects
 		attr_accessor :gold_modifier
 		def initialize(health,mana,effects,gold_modifier);end
 		
@@ -62,11 +62,15 @@ module Redenik
 		attr_accessor :rarity, :price, :icon_index, :weight
 		attr_reader :help_info
 		def initialize(health,mana,effects,rarity,start_price,type);end
+
+		private
+
+		def _gen_help_info;end
 	end
 
 	#
 	class Person < Basic
-		attr_reader :name, :appearance, :stats :equips
+		attr_reader :appearance, :stats :equips
 		attr_reader :exp, :level, :skills
 		def initialize(name,appearance,stats,equips);end
 		def update;end
@@ -177,6 +181,7 @@ module Redenik
 	module NameGen
 		def prepare;end
 		def make_name(min,max);end
+		def make_info(type);end
 	end
 
 	module LevelDesign
