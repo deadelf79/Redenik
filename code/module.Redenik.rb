@@ -199,7 +199,13 @@ module Redenik
 			def initialize(name,trade_type_of,max_rarity,max_level);end
 		end
 
-		class Trap;end
+		class Trap
+			def initialize(map_id,x,y);end
+			def update;end
+			def detected?;end
+			def touch_comer;end
+			def triggered?;end
+		end
 	end
 
 	# Отдельный модуль для графики - специально для проекта
@@ -227,8 +233,10 @@ module Redenik
 			def agressive?;end
 			def frightened?;end
 			def notice_enemy?;end
+			def notice_trap?;end
 			def can_carry_loot?;end
 			def take_loot(from_xy);end
+			def check_for_a_trap(x,y);end
 		end
 
 		class Image < Sprite
@@ -328,6 +336,7 @@ module Redenik
 
 		class Player < Event
 			attr_accessor :controlable_now
+			def manual_detect_traps;end
 		end
 
 		class Window < Image
