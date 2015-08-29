@@ -75,7 +75,9 @@ module Redenik
 		end
 
 		def _gen_items
-			
+			START___MAX_ITEMS.times{|index|
+				#
+			}
 		end
 
 		def _gen_weapons

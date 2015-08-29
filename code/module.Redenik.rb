@@ -352,6 +352,8 @@ module Redenik
 	module Translation
 		module Russian;end
 	end
+
+	module Balance;end
 end
 
 module Kernel	
