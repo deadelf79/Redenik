@@ -75,8 +75,30 @@ module Redenik
 		end
 
 		def _gen_items
-			START___MAX_ITEMS.times{|index|
-				#
+			sum = 0
+			Redenik::Balance.ITEMS.each_value{|value|sum+=value}
+			offset = 0
+			Redenik::Balance.ITEMS.each{|key,value|
+				for index in offset...((value.to_f/sum)*START___MAX_ITEMS).to_i
+					@game_items << Redenik::Actor.new(
+						Redenik::NameGen.make_name(2,3),
+						[key],
+						[:common,:uncommon,:rare].sample,
+						[:eat,:drink,:absorb,:adopt].sample
+					)
+					if Redenik::Translation::Russian.ITEM_DESC[key]!=nil
+						@game_items.last.help_info = format(Redenik::Translation::Russian.ITEM_DESC[key].sample,
+							case @game_items.last.rarity
+							when :common
+								Redenik::Translation::Russian.EFFECT_STR[:low].sample
+							when :uncommon
+								Redenik::Translation::Russian.EFFECT_STR[:medium].sample
+							when :rare
+								Redenik::Translation::Russian.EFFECT_STR[:hard].sample
+							end)
+					end
+				end
+				offset = ((value.to_f/sum)*START___MAX_ITEMS).to_i
 			}
 		end
 

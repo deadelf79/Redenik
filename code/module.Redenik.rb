@@ -139,7 +139,7 @@ module Redenik
 	end
 	
 	class Armor < BasicItem
-		def initialize(effects,rarity,start_price,equip_type);end
+		def initialize(effects,rarity,equip_type);end
 	end
 
 	class Enemy < Person
@@ -148,7 +148,7 @@ module Redenik
 	end
 
 	class Item < BasicItem
-		def initialize(effects,rarity,start_price,food);end
+		def initialize(name,effects,rarity,food);end
 		def eatable?;end
 	end
 
@@ -162,7 +162,7 @@ module Redenik
 	end
 
 	class Weapon < BasicItem
-		def initialize(effects,rarity,start_price,two_handed);end
+		def initialize(effects,rarity,two_handed);end
 	end
 
 	# МОДУЛИ
