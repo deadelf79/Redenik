@@ -37,7 +37,7 @@ module Redenik
 		# быть выше нуля)
 		def alive?;end
 		
-		# Запускает постепенное восстановление здоровья
+		# Запускает постепенное восстановление здоровья 
 		# => value - значение, на которое будет восстановлено текущее здоровье по прошествии времени
 		def restore_health(value);end
 		
@@ -70,7 +70,7 @@ module Redenik
 
 	#
 	class Person < Basic
-		attr_reader :appearance, :stats :equips
+		attr_reader :appearance, :stats, :equips
 		attr_reader :exp, :level, :skills
 		def initialize(name,appearance,stats,equips);end
 		def update;end
@@ -268,7 +268,7 @@ module Redenik
 			def clear_rect(rect);end
 			def draw_rect(rect,color,fill=true);end
 			def draw_text(rect,text,color,horizontal_align=0,vertical_alig=0);end
-			def draw_line(x1,y1,x2,y2,color,rasterize=false)
+			def draw_line(x1,y1,x2,y2,color,rasterize=false);end
 			def draw_circle(x,y,radius,color,rasterize=false);end
 			def draw_circle_rect(x1,y1,x2,y2,color);end
 			def draw_plot(x,y,color);end

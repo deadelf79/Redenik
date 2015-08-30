@@ -16,4 +16,15 @@ module Redenik::Balance
 		:storybook	=> 50,
 		:learnskill => 25
 	}
+
+	ITEM_COSTS = {
+		:heal_hp	=> 100,
+		:heal_mp	=> 150,
+		:poison		=> 200,
+		:scroll 	=> 150,
+		:spellbook	=> 300,
+		:spellscroll=> 150,
+		:storybook	=> 200,
+		:learnskill => 400
+	}
 end
