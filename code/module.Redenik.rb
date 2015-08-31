@@ -34,16 +34,27 @@ module Redenik
 		end
 
 		class Screen_Base
-
-		end
-
-		class Screen_Menu_Base < Screen_Base
 			def initialize(timer);end
 			def update;end
+			def update_basics;end
+			def update_gfx;end
+			def update_input;end
 			def dispose;end
 		end
 
+		class Screen_Menu_Base < Screen_Base
+			def create___all_windows;end
+			def create___all_pictures;end
+			def dispose___all_windows;end
+			def dispose___all_pictures;end
+			def fire___ok;end
+			def fire___cancel;end
+		end
+
 		class Screen_Title < Screen_Menu_Base
+			def create___background;end
+			def create___game_title;end
+			def create___title_window;end
 			def fire___new_game;end
 			def fire___load_game;end
 			def fire___settings;end
@@ -51,6 +62,38 @@ module Redenik
 			def fire___statistics;end
 			def fire___quit_game;end
 		end
+
+		class Screen_New < Screen_Menu_Base
+			def fire___change_name;end
+			def fire___change_class;end
+			def fire___change_stat(stat);end
+		end
+
+		class Screen_Name < Screen_Menu_Base
+			def update_keyboard;end
+			def fire___enter_char(char);end
+			def fire___delete_char(char);end
+			def fire___change_pointer_pos(pos);end
+		end
+
+		class Screen_Load < Screen_Menu_Base
+			def fire___check_load_file;end
+			def fire___start_loaded_game;end
+		end
+
+		class Screen_Settings < Screen_Menu_Base
+			def fire___change_sound_volume;end
+			def fire___change_music_volume;end
+			def fire___change_language;end
+		end
+
+		class Screen_Achievements
+			def fire___change_achiv_to_show(index);end
+			def fire___show_achiv_desc(index);end
+		end
+
+		class Screen_Statistics;end
+		class Screen_Quit;end
 	end
 
 	# Материнские классы, от которых наследуется большинство других
