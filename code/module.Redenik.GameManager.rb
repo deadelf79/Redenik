@@ -1,6 +1,6 @@
 # encoding utf-8
 
-module GameManager
+module Redenik::GameManager
 	class << self
 		def start
 			@stack = []
