@@ -23,6 +23,36 @@ module Redenik
 		def _gen_armors;end
 	end
 
+	module GameManager
+		class << self
+			def start;end
+			def main;end
+			def change_scene(scene);end
+			def setup_scene(scene);end
+			def update_scene;end
+			def dispose_scene;end
+		end
+
+		class Screen_Base
+
+		end
+
+		class Screen_Menu_Base < Screen_Base
+			def initialize(timer);end
+			def update;end
+			def dispose;end
+		end
+
+		class Screen_Title < Screen_Menu_Base
+			def fire___new_game;end
+			def fire___load_game;end
+			def fire___settings;end
+			def fire___achivements;end
+			def fire___statistics;end
+			def fire___quit_game;end
+		end
+	end
+
 	# Материнские классы, от которых наследуется большинство других
 
 	class Basic
