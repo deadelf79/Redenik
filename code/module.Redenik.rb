@@ -33,6 +33,7 @@ module Redenik
 			def dispose_scene;end
 			def call(scene);end
 			def goto(scene);end
+			def cancel;end
 		end
 
 		class Screen_Base

@@ -40,5 +40,9 @@ module Redenik::GameManager
 			@stack.clear
 			setup_scene(scene)
 		end
+
+		def cancel
+			dispose_scene
+		end
 	end
 end
