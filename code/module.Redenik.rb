@@ -27,10 +27,12 @@ module Redenik
 		class << self
 			def start;end
 			def main;end
-			def change_scene(scene);end
+			def quit;end
 			def setup_scene(scene);end
 			def update_scene;end
 			def dispose_scene;end
+			def call(scene);end
+			def goto(scene);end
 		end
 
 		class Screen_Base
