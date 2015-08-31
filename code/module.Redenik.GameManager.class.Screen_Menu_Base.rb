@@ -1,6 +1,6 @@
 # encoding utf-8
 
-class Redenik::GameManager::Screen_Menu_Base < Screen_Base
+class Redenik::GameManager::Screen_Menu_Base < Redenik::GameManager::Screen_Base
 	def fire___ok
 		#
 	end
