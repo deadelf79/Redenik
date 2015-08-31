@@ -42,13 +42,13 @@ module Redenik
 			def update_gfx;end
 			def update_input;end
 			def dispose;end
-		end
-
-		class Screen_Menu_Base < Screen_Base
 			def create___all_windows;end
 			def create___all_pictures;end
 			def dispose___all_windows;end
 			def dispose___all_pictures;end
+		end
+
+		class Screen_Menu_Base < Screen_Base
 			def fire___ok;end
 			def fire___cancel;end
 		end
