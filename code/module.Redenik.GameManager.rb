@@ -4,9 +4,12 @@ module Redenik::GameManager
 	class << self
 		def start
 			@stack = []
+			self.call(Redenik::GameManager::Screen_Title)
+			@started = true
 		end
 
 		def main
+			start if not @started
 			update_scene
 		end
 
