@@ -271,10 +271,15 @@ module Redenik
 	module LevelDesign
 		class Storage
 			attr_accessor :items
+			def initialize(max_rarity,max_level);end
+		end
+
+		class Crate < Storage
+			def initialize(name,appearance)
 		end
 
 		class Trader < Storage
-			def initialize(name,trade_type_of,max_rarity,max_level);end
+			def initialize(name,trade_type_of);end
 		end
 
 		class Trap
@@ -283,6 +288,17 @@ module Redenik
 			def detected?;end
 			def touch_comer;end
 			def triggered?;end
+		end
+
+		class Door
+			def initialize(map_id,x,y,hidden=false);end
+			def opened?;end
+			def closed?;end
+			def trapped;end
+			def locked?;end
+			def hidden?;end
+			def lock(:key_rarity);end
+			def trap(trap_event);end
 		end
 	end
 
