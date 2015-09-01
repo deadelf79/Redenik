@@ -109,7 +109,7 @@ class Redenik::Graphics::Image < Sprite
 	end
 
 	def draw_text(rect,text,color,horizontal_align=0,vertical_align=0)
-		@data.bitmap.
+		@data.bitmap.draw_text(rect,text,color,horizontal_align=0,vertical_align=0)
 	end
 
 	def draw_line(x1,y1,x2,y2,color,rasterize=false)
@@ -152,7 +152,7 @@ class Redenik::Graphics::Image < Sprite
 		# спасибо BasmanovDaniil
 		# Оригинальная статья: http://habrahabr.ru/post/185086/
 		steep = (y2-y1).abs > (x2-x1).abs
-		steep ? x1,y1 = _swap(x1,y1) : x2,y2 = _swap(x2,y2)
+		steep ? (x1,y1 = _swap(x1,y1)) : (x2,y2 = _swap(x2,y2))
 		if x1>x2
 			x1,x2 = _swap(x1,x2)
 			y1,y2 = _swap(y1,y2)

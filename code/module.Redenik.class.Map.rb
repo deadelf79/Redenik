@@ -2,10 +2,11 @@
 
 class Redenik::Map
 	attr_accessor :events, :tileset, :autotiles
-	def initialize(id,width,height,type,max_rooms=100)
+	def initialize(id,width,height,type,min_level,max_level,max_rooms=100)
 		@map_id = id
 		@data = Table.new(width,height,3)
 		@type, @max_rooms = type, max_rooms
+		@min_level, @max_level = min_level, max_level
 		@room_array, @passage_array = [],[]
 		_gen_room
 		_gen_passage

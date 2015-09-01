@@ -1,6 +1,6 @@
 # encoding utf-8
 
-class Redenik::GameManager::Screen_Title < Redenik::GameManager::Scene_Menu_Base
+class Redenik::GameManager::Screen_Title < Redenik::GameManager::Screen_Menu_Base
 	def create___all_pictures
 		create___background
 		create___game_title

@@ -90,13 +90,16 @@ module Redenik
 			def fire___change_language;end
 		end
 
-		class Screen_Achievements
+		class Screen_Achievements < Screen_Menu_Base
 			def fire___change_achiv_to_show(index);end
 			def fire___show_achiv_desc(index);end
 		end
 
-		class Screen_Statistics;end
-		class Screen_Quit
+		class Screen_Statistics < Screen_Menu_Base
+			#
+		end
+		
+		class Screen_Quit < Screen_Menu_Base
 			def create___quit_window;end
 		end
 	end
@@ -275,7 +278,7 @@ module Redenik
 		end
 
 		class Crate < Storage
-			def initialize(name,appearance)
+			def initialize(name,appearance);end
 		end
 
 		class Trader < Storage
@@ -297,7 +300,7 @@ module Redenik
 			def trapped;end
 			def locked?;end
 			def hidden?;end
-			def lock(:key_rarity);end
+			def lock(key_rarity);end
 			def trap(trap_event);end
 		end
 	end
@@ -384,7 +387,7 @@ module Redenik
 
 		class Map
 			attr_accessor :events, :tileset, :autotiles
-			def initialize(id,width,height,type,max_rooms=100);end
+			def initialize(id,width,height,type,min_level,max_level,max_rooms=100);end
 			
 			# На карте безопасно?
 			def is_safe?;end

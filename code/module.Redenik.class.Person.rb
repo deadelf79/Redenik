@@ -8,7 +8,7 @@ class Redenik::Person < Redenik::Basic
 	FEATURES___SUPERB 	= (17..20)
 	LEVEL___MAXIMUM		= 100
 
-	attr_reader :appearance, :stats :equips
+	attr_reader :appearance, :stats, :equips
 	attr_reader :exp, :level
 	def initialize(name,appearance,stats,equips)
 		@name, @appearance, @stats, @equips = name, appearance, stats, equips

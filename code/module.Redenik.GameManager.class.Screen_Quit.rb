@@ -1,6 +1,6 @@
 # encoding utf-8
 
-class Redenik::GameManager::Screen_Quit < Redenik::GameManager::Scene_Menu_Base
+class Redenik::GameManager::Screen_Quit < Redenik::GameManager::Screen_Menu_Base
 	def create___all_windows
 		create___quit_window
 	end
