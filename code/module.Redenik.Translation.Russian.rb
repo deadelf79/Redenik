@@ -80,7 +80,7 @@ module Redenik::Translation::Russian
 		:key_platinum     =>    "платиновый",
 		:key_titanium     =>    "титановый",
 		:key_adamantium   =>    "адамантиевый",
-		:key_diamant      =>    "бриллиантовый",
+		:key_diamant      =>    "алмазный",
 		:key_unobtanium   =>    "недостаниумовый",
 	}
 end

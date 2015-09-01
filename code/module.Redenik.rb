@@ -230,7 +230,7 @@ module Redenik
 		def eatable?;end
 	end
 
-	class Key
+	class Key < BasicItem
 		def initialize(rarity);end
 	end
 
