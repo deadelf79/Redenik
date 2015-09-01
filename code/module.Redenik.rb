@@ -422,8 +422,8 @@ module Redenik
 			def _save_map(full_mode=false);end
 		end
 
-		class Tilemap
-			def initialize(map);end
+		class Tilemap < Image
+			def initialize(map,tileset);end
 
 			private
 
