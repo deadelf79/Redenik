@@ -96,7 +96,9 @@ module Redenik
 		end
 
 		class Screen_Statistics;end
-		class Screen_Quit;end
+		class Screen_Quit
+			def create___quit_window;end
+		end
 	end
 
 	# Материнские классы, от которых наследуется большинство других
