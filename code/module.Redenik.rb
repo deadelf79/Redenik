@@ -98,7 +98,7 @@ module Redenik
 		class Screen_Statistics < Screen_Menu_Base
 			#
 		end
-		
+
 		class Screen_Quit < Screen_Menu_Base
 			def create___quit_window;end
 		end
@@ -420,6 +420,8 @@ module Redenik
 			private
 
 			def _gen_room;end
+			def _collided?(rect);end
+			def _passed_intersect_limit?(rect);end
 			def _gen_passage;end
 			def _render_map;end
 			def _save_map(full_mode=false);end

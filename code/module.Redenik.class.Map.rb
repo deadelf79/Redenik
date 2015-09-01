@@ -53,7 +53,49 @@ class Redenik::Map
 
 	private
 
-	def _gen_room;end
+	def _gen_room
+		rect = Rect.new(
+			rand(5..@data.xsize-5-@max_room_size),
+			rand(5..@data.ysize-5-@max_room_size),
+			rand(@max_room_size),
+			rand(@max_room_size)
+		)
+		loop do
+			if _collided?
+				rect.x = rand(5..@data.xsize-5-@max_room_size),
+				rect.y = rand(5..@data.ysize-5-@max_room_size),
+				rect.width = rand(@max_room_size),
+				rect.height = rand(@max_room_size)
+			else
+				break
+			end
+		end
+		@room_array << rect
+	end
+	
+	def _collided?(rect)
+		collided = false
+		@room_array.each{|room|
+			if rect.x+rect.width>room.x
+				if rect.y+rect.height>room.y
+					collided = true
+					break
+				end
+			end
+			if rect.x>room.x and rect.x<room.x+room.width
+				if rect.y>room.y and rect.y<room.y+room.height
+					collided = true
+					break
+				end
+			end
+		}
+		collided
+	end
+
+	def _passed_intersect_limit?(rect)
+
+	end
+
 	def _gen_passage;end
 	def _render_map;end
 	def _save_map(full_mode=false)
