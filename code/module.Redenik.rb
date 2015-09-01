@@ -324,6 +324,8 @@ module Redenik
 			def associate_with_actor(actor);end
 			def associate_with_enemy(enemy);end
 			def associate_with_npc(npc);end
+			def associate_with_trap(trap);end
+			def associate_with_door(door);end
 			def agressive?;end
 			def frightened?;end
 			def notice_enemy?;end
