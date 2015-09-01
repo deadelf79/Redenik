@@ -424,6 +424,8 @@ module Redenik
 
 		class Tilemap < Image
 			def initialize(map,tileset);end
+			def refresh;end
+			def dispose;end
 
 			private
 

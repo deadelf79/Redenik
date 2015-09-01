@@ -2,18 +2,6 @@
 
 module Redenik
 	class << self
-		START___MAX_ACTORS 	= 30
-		START___MAX_ITEMS	= 300
-		START___MAX_ARMORS	= 900
-		START___MAX_WEAPON	= 900
-
-		STATS___CLASSES = [
-			{:class_name=>:citizen,		:st=>10,	:dx=>10,	:iq=>10,	:ht=>10},
-			{:class_name=>:warrior,		:st=>12,	:dx=>9,		:iq=>8,		:ht=>11},
-			{:class_name=>:mage,		:st=>8,		:dx=>8,		:iq=>12,	:ht=>10},
-			{:class_name=>:thief,		:st=>8,		:dx=>13,	:iq=>11,	:ht=>8}
-		]
-
 		attr_reader :game_actors, :game_items, :game_weapons, :game_armors
 		attr_reader :game_skills, :game_party
 
@@ -62,8 +50,10 @@ module Redenik
 		private
 		def _gen_actors
 			new_level = 0
-			START___MAX_ACTORS.times{|index|
-				rand_class = STATS___CLASSES[STATS___CLASSES.keys.sample]
+			Redenik::Balance::START___MAX_ACTORS.times{|index|
+				rand_class = Redenik::Balance::STATS___CLASSES[
+					Redenik::Balance::STATS___CLASSES.keys.sample
+				]
 				@game_actors << Redenik::Actor.new(
 					Redenik::NameGen.make_name(3,4),									# NAME
 					rand_class[:class_name],											# APPEARANCE
@@ -79,7 +69,7 @@ module Redenik
 			Redenik::Balance.ITEMS.each_value{|value|sum+=value}
 			offset = 0
 			Redenik::Balance.ITEMS.each{|key,value|
-				for index in offset...((value.to_f/sum)*START___MAX_ITEMS).to_i
+				for index in offset...((value.to_f/sum)*Redenik::Balance::START___MAX_ITEMS).to_i
 					@game_items << Redenik::Actor.new(
 						Redenik::NameGen.make_name(2,3),
 						[key],
