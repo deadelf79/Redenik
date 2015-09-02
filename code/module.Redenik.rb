@@ -243,7 +243,15 @@ module Redenik
 	end
 
 	class Weapon < BasicItem
-		def initialize(effects,rarity,two_handed);end
+		def initialize(effects,rarity,weapon_type);end
+
+		private
+
+		def _gen_health_by_rare(rarity);end
+
+		def _gen_mana_by_rare(rarity);end
+
+		def _gen_wield_by_type(rarity);end
 	end
 
 	# МОДУЛИ
