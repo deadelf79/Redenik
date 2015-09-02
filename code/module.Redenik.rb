@@ -454,6 +454,7 @@ module Redenik
 
 	module Translation
 		module Russian;end
+		module Engish;end # may be
 	end
 
 	module Balance;end
