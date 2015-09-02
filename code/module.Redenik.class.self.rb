@@ -116,9 +116,11 @@ module Redenik
 		end
 
 		def _change_player(new_id)
-			@player_actor = @game_party[new_id]
-			@player_id[:party_id]=new_id
-			@player_id[:actor_id]=@game_actors.index(@game_party[new_id])
+			if !@game_party[new_id].nil?
+				@player_actor = @game_party[new_id]
+				@player_id[:party_id]=new_id
+				@player_id[:actor_id]=@game_actors.index(@game_party[new_id])
+			end
 		end
 	end
 end
