@@ -13,6 +13,11 @@ module Redenik
 			@game_armors 	= []
 			@game_skills	= []
 			@game_party		= []
+			@player_id		= {
+				:actor_id => 0,
+				:party_id => 0
+			}
+			@player_actor	= nil
 			# Вызовем методы
 			_gen_actors
 			_gen_items
@@ -25,7 +30,7 @@ module Redenik
 
 		def main_game
 			end_game if party_dead?
-			
+			_change_player(next_member) if @game_party[@player_id[:party_id]].dead?
 		end
 		
 		def end_game;end
@@ -33,6 +38,9 @@ module Redenik
 		def add_party_member(id)
 			unless @game_party.inlcude?(@game_actors[id])
 				@game_party << @game_actors[id]
+			end
+			if id==@player_id
+				_change_player
 			end
 		end
 
@@ -105,6 +113,12 @@ module Redenik
 
 		def _gen_skills
 
+		end
+
+		def _change_player(new_id)
+			@player_actor = @game_party[new_id]
+			@player_id[:party_id]=new_id
+			@player_id[:actor_id]=@game_actors.index(@game_party[new_id])
 		end
 	end
 end

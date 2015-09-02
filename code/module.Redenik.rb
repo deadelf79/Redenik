@@ -323,6 +323,7 @@ module Redenik
 
 		class Event
 			attr_accessor :x, :y, :display_x, :display_y
+			attr_accessor :controlable_now
 			def initialize(map_id,x,y);end
 			def associate_with_actor(actor);end
 			def associate_with_enemy(enemy);end
@@ -435,11 +436,6 @@ module Redenik
 			private
 
 			def _draw_map;end
-		end
-
-		class Player < Event
-			attr_accessor :controlable_now
-			def manual_detect_traps;end
 		end
 
 		class Window < Image
