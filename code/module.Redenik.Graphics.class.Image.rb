@@ -98,13 +98,13 @@ class Redenik::Graphics::Image < Sprite
 		else
 			# Тогда рисуем линиями
 			# Верх
-			draw_line(rect.x,rect.y,rect.width,rect.y)
+			draw_line(rect.x,rect.y,rect.x + rect.width,rect.y)
 			# Низ
-			draw_line(rect.x,rect.height,rect.width,rect.height)
+			draw_line(rect.x,rect.height,rect.x + rect.width,rect.height)
 			# Лево
-			draw_line(rect.x,rect.y,rect.width,rect.y)
+			draw_line(rect.x,rect.y,rect.x,rect.y + rect.height)
 			# Право
-			draw_line(rect.x,rect.y,rect.width,rect.y)
+			draw_line(rect.x + rect.width,rect.y,rect.x + rect.width,rect.height)
 		end
 	end
 
