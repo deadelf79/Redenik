@@ -141,6 +141,53 @@ class Redenik::Graphics::Image < Sprite
 		@data.bitmap.set_pixel(x,y,color)
 	end
 
+
+	# Colors
+
+	def white(subdued=false)
+		subdued ? Color.new(237,237,237) : Color.new(255,255,255)
+	end
+
+	def black(subdued=false)
+		subdued ? Color.new(25,25,25) : Color.new(0,0,0)
+	end
+
+	def red(subdued=false)
+		subdued ? Color.new(217,31,31) : Color.new(255,0,0)
+	end
+
+	def orange(subdued=false)
+		subdued ? Color.new(217,115,31) : Color.new(255,128,0)
+	end
+
+	def yellow(subdued=false)
+		subdued ? Color.new(255,255,51) : Color.new(255,255,0)
+	end
+
+	def lime(subdued=false)
+		subdued ? Color.new(217,115,31) : Color.new(128,255,0)
+	end
+
+	def green(subdued=false)
+		subdued ? Color.new(217,115,31) : Color.new(0,255,0)
+	end
+
+	def cyan(subdued=false)
+		subdued ? Color.new(66,169,255) : Color.new(0,128,255)
+	end
+
+	def blue(subdued=false)
+		subdued ? Color.new(217,115,31) : Color.new(0,0,255)
+	end
+
+	def purple(subdued=false)
+		subdued ? Color.new(217,115,31) : Color.new(128,0,128)
+	end
+
+	def pink(subdued=false)
+		subdued ? Color.new(217,115,31) : Color.new(255,128,0)
+	end
+
 	private
 
 	def _swap(v1,v2)

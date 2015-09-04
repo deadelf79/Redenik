@@ -381,6 +381,20 @@ module Redenik
 			def draw_circle_rect(x1,y1,x2,y2,color);end
 			def draw_plot(x,y,color);end
 
+			# Colors
+
+			def white(subdued=false);end
+			def black(subdued=false);end
+			def red(subdued=false);end
+			def orange(subdued=false);end
+			def yellow(subdued=false);end
+			def lime(subdued=false);end
+			def green(subdued=false);end
+			def cyan(subdued=false);end
+			def blue(subdued=false);end
+			def purple(subdued=false);end
+			def pink(subdued=false);end
+
 			private
 
 			def _swap(v1,v2);end
@@ -448,11 +462,7 @@ module Redenik
 
 		class Window < Image
 			def initialize(x,y,width,height);end
-			def skin=(image);end
-
 			private
-
-			def _redraw_skin(image);end
 		end
 	end
 
