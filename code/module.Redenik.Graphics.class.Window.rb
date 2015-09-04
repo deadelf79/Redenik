@@ -54,10 +54,9 @@ class Redenik::Graphics::Window < Redenik::Graphics::Image
 			icon_offset = temp.width
 			temp.dispose
 		end
-		x_offset = 0
-		#
+		x_offset = index%columns
 		self.draw_text(
-			Rect.new(x_offset+icon_offset,index*line_height,width/columns,line_height),
+			Rect.new(x_offset+icon_offset,index*line_height,width/columns-icon_offset,line_height),
 			@list[index][:name],
 			@list[index][:enabled] ? white : white(true)
 		)
