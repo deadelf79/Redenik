@@ -4,6 +4,7 @@ class Redenik::Graphics::Window < Redenik::Graphics::Image
 	def initialize(x,y,width,height)
 		super(x,y,width,height)
 		@list = []
+		@columns = 1
 	end
 
 	def show
@@ -32,6 +33,14 @@ class Redenik::Graphics::Window < Redenik::Graphics::Image
 		_draw_all_buttons
 	end
 
+	def columns=(value)
+		@columns = value if value>=1
+	end
+
+	def columns
+		@columns
+	end
+
 	private
 
 	def _draw_all_buttons
@@ -45,6 +54,12 @@ class Redenik::Graphics::Window < Redenik::Graphics::Image
 			icon_offset = temp.width
 			temp.dispose
 		end
-		self.draw_text(Rect.new(0,index*line_height,width,line_height),@list[index][:name],@list[index][:enabled] ? white : white(true))
+		x_offset = 0
+		#
+		self.draw_text(
+			Rect.new(x_offset+icon_offset,index*line_height,width/columns,line_height),
+			@list[index][:name],
+			@list[index][:enabled] ? white : white(true)
+		)
 	end
 end
