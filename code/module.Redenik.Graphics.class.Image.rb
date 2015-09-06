@@ -141,6 +141,10 @@ class Redenik::Graphics::Image < Sprite
 		@data.bitmap.set_pixel(x,y,color)
 	end
 
+	def draw_icon(icon_index)
+		
+	end
+
 
 	# Colors
 

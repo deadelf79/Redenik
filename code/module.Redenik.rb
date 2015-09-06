@@ -381,6 +381,8 @@ module Redenik
 			def draw_circle_rect(x1,y1,x2,y2,color);end
 			def draw_plot(x,y,color);end
 
+			def draw_icon(icon_index);end
+
 			# Colors
 
 			def white(subdued=false);end
