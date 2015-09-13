@@ -251,7 +251,7 @@ module Redenik
 
 		def _gen_mana_by_rare(rarity);end
 
-		def _gen_wield_by_type(rarity);end
+		def _gen_wield_by_type(type);end
 	end
 
 	# МОДУЛИ
@@ -476,7 +476,7 @@ module Redenik
 	module Balance;end
 end
 
-module Kernel	
+module Kernel
 	def with(instance, &block)
 		instance.instance_eval(&block)
 		instance
