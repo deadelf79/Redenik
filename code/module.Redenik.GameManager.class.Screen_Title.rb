@@ -25,6 +25,10 @@ class Redenik::GameManager::Screen_Title < Redenik::GameManager::Screen_Menu_Bas
 			192,
 			192
 		)
+		with @title_window do
+			add_button(rect,"New game",white)
+		end
+		@title_window.refresh
 	end
 
 	def fire___new_game

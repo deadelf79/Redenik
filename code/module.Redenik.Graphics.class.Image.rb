@@ -1,8 +1,9 @@
 # encoding utf-8
 
 class Redenik::Graphics::Image < Sprite
-	def initialize(*args)
-		
+	def initialize(x,y,w,h)
+		@data = Sprite.new(x,y)
+		@data.bitmap = Bitmap.new(w,h)
 	end
 
 	def width
