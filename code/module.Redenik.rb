@@ -352,7 +352,7 @@ module Redenik
 		end
 
 		class Image < Sprite
-			def initialize(*args);end
+			def initialize(x,y,w,h);end
 			def width;end
 			def height;end
 			def width=(value);end
