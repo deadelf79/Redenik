@@ -39,7 +39,7 @@ module Redenik
 			unless @game_party.inlcude?(@game_actors[id])
 				@game_party << @game_actors[id]
 			end
-			if id==@player_id
+			if id==@player_id[:actor_id]
 				_change_player
 			end
 		end
