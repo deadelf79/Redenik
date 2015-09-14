@@ -1,19 +1,23 @@
 ===========================================================================
-14.09.15(Monday)-10:46:30
+14.09.15(Monday)-15:09:48
 ===========================================================================
 Initialize
 Engine load successful
-undefined method `bitmap' for nil:NilClass
-C:/Users/user/YandexDisk/Source/Redenik/code/module.Redenik.Graphics.class.Image.rb:53:in `rect'
-C:/Users/user/YandexDisk/Source/Redenik/code/module.Redenik.GameManager.class.Screen_Title.rb:29:in `block in create___title_window'
-C:/Users/user/YandexDisk/Source/Redenik/code/module.Redenik.rb:482:in `instance_eval'
-C:/Users/user/YandexDisk/Source/Redenik/code/module.Redenik.rb:482:in `with'
-C:/Users/user/YandexDisk/Source/Redenik/code/module.Redenik.GameManager.class.Screen_Title.rb:28:in `create___title_window'
+scene Class created for...
+===========================================================================
+Catch an error! See backtrace:
+wrong number of arguments (1 for 2)
+C:/Users/user/YandexDisk/Source/Redenik/code/module.Redenik.Graphics.class.Image.rb:5:in `initialize'
+C:/Users/user/YandexDisk/Source/Redenik/code/module.Redenik.Graphics.class.Image.rb:5:in `new'
+C:/Users/user/YandexDisk/Source/Redenik/code/module.Redenik.Graphics.class.Image.rb:5:in `initialize'
+C:/Users/user/YandexDisk/Source/Redenik/code/module.Redenik.Graphics.class.Window.rb:5:in `initialize'
+C:/Users/user/YandexDisk/Source/Redenik/code/module.Redenik.GameManager.class.Screen_Title.rb:22:in `new'
+C:/Users/user/YandexDisk/Source/Redenik/code/module.Redenik.GameManager.class.Screen_Title.rb:22:in `create___title_window'
 C:/Users/user/YandexDisk/Source/Redenik/code/module.Redenik.GameManager.class.Screen_Title.rb:10:in `create___all_windows'
 C:/Users/user/YandexDisk/Source/Redenik/code/module.Redenik.GameManager.class.Screen_Base.rb:6:in `initialize'
 C:/Users/user/YandexDisk/Source/Redenik/code/module.Redenik.GameManager.rb:25:in `new'
 C:/Users/user/YandexDisk/Source/Redenik/code/module.Redenik.GameManager.rb:25:in `setup_scene'
-C:/Users/user/YandexDisk/Source/Redenik/code/module.Redenik.GameManager.rb:42:in `call'
+C:/Users/user/YandexDisk/Source/Redenik/code/module.Redenik.GameManager.rb:43:in `call'
 C:/Users/user/YandexDisk/Source/Redenik/code/module.Redenik.GameManager.rb:21:in `setup_first_scene'
 C:/Users/user/YandexDisk/Source/Redenik/code/module.Redenik.GameManager.rb:7:in `start'
 C:/Users/user/YandexDisk/Source/Redenik/code/module.Redenik.GameManager.rb:12:in `main'
