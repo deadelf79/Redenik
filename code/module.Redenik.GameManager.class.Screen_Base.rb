@@ -2,10 +2,10 @@
 
 class Redenik::GameManager::Screen_Base
 	def initialize(timer)
-		timer
+		@creation_time = 0
 		create___all_windows
 		create___all_pictures
-		return Time.now - timer
+		_make_timer(timer)
 	end
 
 	def update
@@ -48,5 +48,15 @@ class Redenik::GameManager::Screen_Base
 		self.instance_variables.each{|var|
 			var.dispose if var.is_a? Redenik::Graphics::Image
 		}
+	end
+
+	def creation_time
+		@creation_time
+	end
+
+	private
+
+	def _make_timer(timer)
+		@creation_time = Time.now - timer
 	end
 end

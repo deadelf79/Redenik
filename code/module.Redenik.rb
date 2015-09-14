@@ -48,6 +48,9 @@ module Redenik
 			def create___all_pictures;end
 			def dispose___all_windows;end
 			def dispose___all_pictures;end
+			def creation_time;end
+			private
+			def _make_timer(timer);end
 		end
 
 		class Screen_Menu_Base < Screen_Base
