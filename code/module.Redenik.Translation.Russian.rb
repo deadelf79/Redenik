@@ -1,4 +1,4 @@
-# encoding utf-8
+﻿# encoding utf-8
 
 module Redenik::Translation::Russian
 	AMOUNT_1 = "штука"
