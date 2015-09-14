@@ -2,7 +2,9 @@
 
 class Redenik::Graphics::Image < Sprite
 	def initialize(x,y,w,h)
-		@data = Sprite.new(x,y)
+		@data = Sprite.new
+		@data.x = x
+		@data.y = y
 		@data.bitmap = Bitmap.new(w,h)
 	end
 
@@ -110,7 +112,19 @@ class Redenik::Graphics::Image < Sprite
 	end
 
 	def draw_text(rect,text,color,horizontal_align=0,vertical_align=0)
-		@data.bitmap.draw_text(rect,text,color,horizontal_align=0,vertical_align=0)
+		@data.bitmap.font.color = color
+		text_size_height = text_size(text).height # <= Добавим немного оптимизации подсчётам
+		if rect.height>text_size_height
+			case vertical_align
+			when 0 # Top
+				rect.y = 0
+			when 1 # Center
+				rect.y = rect.height - text_size_height/2
+			when 2 # Bottom
+				rect.y = rect.height - text_size_height
+			end
+		end
+		@data.bitmap.draw_text(rect,text,horizontal_align)
 	end
 
 	def draw_line(x1,y1,x2,y2,color,rasterize=false)

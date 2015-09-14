@@ -44,21 +44,21 @@ class Redenik::Graphics::Window < Redenik::Graphics::Image
 	private
 
 	def _draw_all_buttons
-		@list.each{|index|_draw_button(index)}
+		@list.each{|button|_draw_button(button,@list.index(button))}
 	end
 
-	def _draw_button(index)
+	def _draw_button(button,index)
 		icon_offset = 0
-		if @list[index][:appearance]!=nil
-			temp = Cache.load_bitmap(@list[index][:appearance][:icon])
+		if button[:appearance]!=nil
+			temp = Redenik::Graphics::Cache.load_bitmap(button[:appearance][:icon])
 			icon_offset = temp.width
 			temp.dispose
 		end
 		x_offset = index%columns
 		self.draw_text(
 			Rect.new(x_offset+icon_offset,index*line_height,width/columns-icon_offset,line_height),
-			@list[index][:name],
-			@list[index][:enabled] ? white : white(true)
+			button[:name],
+			button[:enabled] ? white : white(true)
 		)
 	end
 end
