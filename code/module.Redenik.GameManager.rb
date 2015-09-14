@@ -39,7 +39,9 @@ module Redenik::GameManager
 		end
 
 		def call(scene)
+			wr "scene #{scene.class} created for...",0
 			setup_scene(scene)
+			wr "#{@stack.last.creation_time} ms"
 		end
 
 		def goto(scene)
