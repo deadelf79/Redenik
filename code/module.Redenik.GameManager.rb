@@ -4,7 +4,7 @@ module Redenik::GameManager
 	class << self
 		def start
 			@stack = []
-			self.call(Redenik::GameManager::Screen_Title)
+			setup_first_scene
 			@started = true
 		end
 
@@ -15,6 +15,10 @@ module Redenik::GameManager
 
 		def quit
 			exit
+		end
+
+		def setup_first_scene
+			self.call(Redenik::GameManager::Screen_Title)
 		end
 
 		def setup_scene(scene)

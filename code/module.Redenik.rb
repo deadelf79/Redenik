@@ -28,6 +28,7 @@ module Redenik
 			def start;end
 			def main;end
 			def quit;end
+			def setup_first_scene;end
 			def setup_scene(scene);end
 			def update_scene;end
 			def dispose_scene;end
