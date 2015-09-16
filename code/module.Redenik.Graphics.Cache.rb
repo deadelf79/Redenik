@@ -5,6 +5,12 @@ module Redenik::Graphics::Cache
 	# из состава скриптов по умолчанию
 	# в проектах, создаваемых на VX Ace
 
+	def self.load_image(folder_name, filename, hue =0)
+		temp = Redenik::Graphics::Image.new 0,0
+		temp.copy load_bitmap(folder_name, filename, hue = 0)
+		temp
+	end
+
 	def self.load_bitmap(folder_name, filename, hue = 0)
 		@cache ||= {}
 		if filename.empty?
