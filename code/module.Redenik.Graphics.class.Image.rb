@@ -138,7 +138,8 @@ class Redenik::Graphics::Image < Sprite
 		if rect.height>text_size_height
 			case vertical_align
 			when 0 # Top
-				rect.y = 0
+				# do nothing
+				#rect.y = 0
 			when 1 # Center
 				rect.y = rect.height - text_size_height/2
 			when 2 # Bottom
