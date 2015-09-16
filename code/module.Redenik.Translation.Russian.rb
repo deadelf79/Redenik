@@ -83,4 +83,15 @@ module Redenik::Translation::Russian
 		:key_diamant      =>    "алмазный",
 		:key_unobtanium   =>    "недостаниумовый",
 	}
+
+	SCREENS = {
+		title: {
+			new_game: 		"Новая игра",
+			load_game:  	"Загрузить",
+			settings: 		"Настройки",
+			achievements: 	"Достижения",
+			statistics: 	"Статистика",
+			quit: 			"Выход"
+		}
+	}
 end

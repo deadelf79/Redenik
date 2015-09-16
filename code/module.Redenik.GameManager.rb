@@ -10,7 +10,7 @@ module Redenik::GameManager
 
 		def main
 			start if not @started
-			update_scene
+			update_scene while !empty?
 		end
 
 		def quit
@@ -31,15 +31,15 @@ module Redenik::GameManager
 
 		def dispose_scene
 			@stack.last.dispose
-			if @stack.size>0
-				@stack.pop
-			else
-				quit
-			end
+			!empty? ? @stack.pop : quit
+		end
+
+		def empty?
+			@stack.size==0
 		end
 
 		def call(scene)
-			wr "scene #{scene.class} created for...",0
+			wr "Screen '#{scene.inspect}' created for...",0
 			setup_scene(scene)
 			wr "#{@stack.last.creation_time} ms"
 		end

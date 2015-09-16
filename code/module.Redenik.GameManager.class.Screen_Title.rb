@@ -20,13 +20,19 @@ class Redenik::GameManager::Screen_Title < Redenik::GameManager::Screen_Menu_Bas
 
 	def create___title_window
 		@title_window = Redenik::Graphics::Window.new(
-			Graphics.width/2 - 96,
-			Graphics.height - 200,
+			32,
+			375,
 			192,
-			192
+			104
 		)
 		with @title_window do
-			add_button("New game",:fire___new_game)
+			font.name = ["MilenaSans"]
+			add_button(Redenik::Translation::Russian::SCREENS[:title][:new_game],:fire___new_game)
+			add_button(Redenik::Translation::Russian::SCREENS[:title][:load_game],:fire___load_game)
+			add_button(Redenik::Translation::Russian::SCREENS[:title][:settings],:fire___settings)
+			add_button(Redenik::Translation::Russian::SCREENS[:title][:achievements],:fire___achievements)
+			add_button(Redenik::Translation::Russian::SCREENS[:title][:statistics],:fire___statistics)
+			add_button(Redenik::Translation::Russian::SCREENS[:title][:quit],:fire___quit)
 		end
 		@title_window.refresh
 	end
