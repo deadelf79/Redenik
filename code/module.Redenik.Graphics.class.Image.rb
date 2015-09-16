@@ -1,11 +1,32 @@
 # encoding utf-8
 
 class Redenik::Graphics::Image < Sprite
-	def initialize(x,y,w,h)
+	def initialize(x,y,w=32,h=32)
 		@data = Sprite.new
 		@data.x = x
 		@data.y = y
 		@data.bitmap = Bitmap.new(w,h)
+	end
+
+	def copy(bitmap)
+		@data.bitmap.dispose
+		@data.bitmap = bitmap
+	end
+
+	def x
+		@data.x
+	end
+
+	def y
+		@data.y
+	end
+
+	def x=(value)
+		@data.x=value
+	end
+
+	def y=(value)
+		@data.y=value
 	end
 
 	def width

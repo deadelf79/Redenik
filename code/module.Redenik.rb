@@ -325,6 +325,8 @@ module Redenik
 			# из состава скриптов по умолчанию
 			# в проектах, создаваемых на VX Ace
 
+			# Загрузка сразу в класс Image
+			def self.load_image(folder_name, filename, hue =0);end
 			def self.load_bitmap(folder_name, filename, hue = 0);end
 			def self.empty_bitmap;end
 			def self.normal_bitmap(path);end
@@ -352,7 +354,12 @@ module Redenik
 		end
 
 		class Image < Sprite
-			def initialize(x,y,w,h);end
+			def initialize(x,y,w=32,h=32);end
+			def copy(bitmap);end
+			def x;end
+			def y;end
+			def x=(value);end
+			def y=(value);end
 			def width;end
 			def height;end
 			def width=(value);end
