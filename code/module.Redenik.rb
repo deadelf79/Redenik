@@ -475,7 +475,29 @@ module Redenik
 
 		class Window < Image
 			def initialize(x,y,width,height);end
+			def show;end
+
+			def hide;end
+
+			def line_height;end
+
+			def add_button(name, method, appearance = nil, enabled = true);end
+
+			def refresh;end
+
+			def columns=(value);end
+
+			def columns;end
+
+			def select(index);end
+
 			private
+
+			def _draw_all_buttons;end
+
+			def _draw_button(button,index);end
+
+			def _show_sliders;end
 		end
 	end
 

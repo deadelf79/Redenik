@@ -5,6 +5,11 @@ class Redenik::Graphics::Window < Redenik::Graphics::Image
 		super(x,y,width,height)
 		@list = []
 		@columns = 1
+
+		@select = Redenik::Graphics::Cache.load_image('Gfx/Windows/','select')
+		@select.width = width/columns
+		@select_index = 0
+		@select.visible = false
 	end
 
 	def show
@@ -16,7 +21,7 @@ class Redenik::Graphics::Window < Redenik::Graphics::Image
 	end
 
 	def line_height
-		Font.default_size+4
+		font.size+4
 	end
 
 	def add_button(name, method, appearance = nil, enabled = true)
@@ -31,6 +36,7 @@ class Redenik::Graphics::Window < Redenik::Graphics::Image
 	def refresh
 		self.clear
 		_draw_all_buttons
+		_show_sliders
 	end
 
 	def columns=(value)
@@ -41,10 +47,33 @@ class Redenik::Graphics::Window < Redenik::Graphics::Image
 		@columns
 	end
 
+	def select(index)
+		@select.width = width/columns
+		@select_index = index
+		if index<0
+			select.hide 
+			return
+		end
+
+		select.show
+		x_offset = index%columns
+		y_offset = 0
+		@list.each{|button|
+			y_offset+=1 if button[:enabled]
+		}
+
+		select.x = x_offset
+		select.y = y_offset
+	end
+
 	private
 
 	def _draw_all_buttons
-		@list.each{|button|_draw_button(button,@list.index(button))}
+		y_offset=0
+		@list.each do |button|
+			_draw_button(button,y_offset)
+			y_offset+=1 if button[:enabled]
+		end
 	end
 
 	def _draw_button(button,index)
@@ -60,5 +89,13 @@ class Redenik::Graphics::Window < Redenik::Graphics::Image
 			button[:name],
 			button[:enabled] ? white : white(true)
 		)
+	end
+
+	def _show_sliders
+		# проверяем по вертикали
+		# если общая высота элементов больше высоты окна, то...
+		if @list.size*line_height>width
+
+		end
 	end
 end
