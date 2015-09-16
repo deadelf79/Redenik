@@ -11,11 +11,11 @@ class Redenik::GameManager::Screen_Title < Redenik::GameManager::Screen_Menu_Bas
 	end
 
 	def create___background
-		@background = Redenik::Graphics::Cache.load_bitmap('Gfx/Titles/','background')
+		@background = Redenik::Graphics::Cache.load_image('Gfx/Titles/','background')
 	end
 
 	def create___game_title
-		@game_title = Redenik::Graphics::Cache.load_bitmap('Gfx/Titles/','game_title')
+		@game_title = Redenik::Graphics::Cache.load_image('Gfx/Titles/','game_title')
 	end
 
 	def create___title_window
