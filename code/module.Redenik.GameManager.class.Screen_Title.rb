@@ -11,7 +11,8 @@ class Redenik::GameManager::Screen_Title < Redenik::GameManager::Screen_Menu_Bas
 	end
 
 	def create___background
-		@background = Redenik::Graphics::Cache.load_image('Gfx/Titles/','background')
+		backs = ["man","knight"]
+		@background = Redenik::Graphics::Cache.load_image('Gfx/Titles/',"background_#{backs.sample}")
 	end
 
 	def create___game_title
