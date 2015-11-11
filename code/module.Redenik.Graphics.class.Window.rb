@@ -5,11 +5,16 @@ class Redenik::Graphics::Window < Redenik::Graphics::Image
 		super(x,y,width,height)
 		@list = []
 		@columns = 1
+		puts x
+		puts y
 
-		@select = Redenik::Graphics::Cache.load_image('Gfx/Windows/','select')
+		@select = Redenik::Graphics::Image.new(0,0)
 		@select.width = width/columns
-		@select_index = 0
-		@select.visible = false
+		@select.copy Redenik::Graphics::Cache.load_bitmap('Gfx/Windows/','select')
+		@select.z = self.z + 1
+		@select_alpha = false
+		
+		select 0
 	end
 
 	def show
@@ -51,19 +56,41 @@ class Redenik::Graphics::Window < Redenik::Graphics::Image
 		@select.width = width/columns
 		@select_index = index
 		if index<0
-			select.hide 
+			@select.hide 
 			return
 		end
 
-		select.show
+		@select.show
 		x_offset = index%columns
 		y_offset = 0
 		@list.each{|button|
 			y_offset+=1 if button[:enabled]
 		}
 
-		select.x = x_offset
-		select.y = y_offset
+		@select.x = x_offset + x
+		@select.y = y_offset + y# * line_height
+	end
+
+	def update
+		if @select.visible
+			if @select_alpha
+				if @select.opacity < 255
+					@select.opacity += 1
+					@select.zoom_x -= 0.02
+					@select.zoom_y -= 0.02
+				else
+					@select_alpha = false
+				end
+			else
+				if @select.opacity > 128
+					@select.opacity -= 1
+					@select.zoom_x += 0.02
+					@select.zoom_y += 0.02
+				else
+					@select_alpha = true
+				end
+			end
+		end
 	end
 
 	private

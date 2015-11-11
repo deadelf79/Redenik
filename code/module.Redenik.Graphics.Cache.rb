@@ -8,7 +8,7 @@ module Redenik::Graphics::Cache
 	def self.load_image(folder_name, filename, hue =0)
 		temp = Redenik::Graphics::Image.new 0,0
 		temp.copy load_bitmap(folder_name, filename, hue = 0)
-		temp
+		return temp
 	end
 
 	def self.load_bitmap(folder_name, filename, hue = 0)

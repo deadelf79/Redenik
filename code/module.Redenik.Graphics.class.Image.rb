@@ -13,6 +13,12 @@ class Redenik::Graphics::Image < Sprite
 		@data.bitmap = bitmap
 	end
 
+	def clone
+		my_clone = Redenik::Graphics::Image.new(x, y, width, height)
+		my_clone.copy(@data.bitmap)
+		my_clone
+	end
+
 	def x
 		@data.x
 	end
@@ -21,12 +27,20 @@ class Redenik::Graphics::Image < Sprite
 		@data.y
 	end
 
+	def z
+		@data.z
+	end
+
 	def x=(value)
-		@data.x=value
+		@data.x = value
 	end
 
 	def y=(value)
-		@data.y=value
+		@data.y = value
+	end
+
+	def z=(value)
+		@data.z = value
 	end
 
 	def width
@@ -49,6 +63,96 @@ class Redenik::Graphics::Image < Sprite
 		bitmap.blt(0,0,@data.bitmap,Rect.new(0,0,width,height))
 		@data.bitmap.dispose
 		@data.bitmap = bitmap
+	end
+
+	def show
+		visible = true
+	end
+
+	def hide
+		visible = false
+	end
+
+	# RGSS Sprite
+
+	def visible
+		@data.visible
+	end
+
+	def visible=(value)
+		@data.visible = value
+	end
+
+	def update
+		@data.update
+	end
+
+	def flash(color,duration)
+		@data.flash(color,duration)
+	end
+
+	def viewport=(new_viewport)
+		@data.viewport(new_viewport)
+	end
+
+	def ox
+		@data.ox
+	end
+
+	def oy
+		@data.oy
+	end
+
+	def ox=(value)
+		@data.ox = value
+	end
+
+	def oy=(value)
+		@data.oy = value
+	end
+
+	def zoom_x
+
+	end
+
+	def zoom_y
+
+	end
+
+	def zoom_x=(value)
+
+	end
+
+	def zoom_y=(value)
+
+	end
+
+	def angle(rotation)
+
+	end
+
+	def mirror(value=false)
+
+	end
+
+	def opacity
+
+	end
+	
+	def opacity=(value)
+
+	end
+	
+	def blend_type(type)
+
+	end
+	
+	def color(color)
+
+	end
+	
+	def tone(tone)
+
 	end
 
 	# RGSS Bitmap
