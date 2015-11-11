@@ -86,6 +86,19 @@ class Redenik::Person < Redenik::Basic
 		true
 	end
 
+	# Очаровательный?
+	def charming?
+		return false if stats[:cr]<FEATURES___NORMAL.first
+		return false if stats[:cr]<=FEATURES___NORMAL.last
+		true
+	end
+	
+	# Грубый?
+	def rough?
+		return false if stats[:cr]>=FEATURES___NORMAL.first
+		true
+	end
+
 	private 
 
 	def _check_hungry;end
