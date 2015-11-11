@@ -186,6 +186,12 @@ module Redenik
 		# Нежизнеспособный?
 		def unviable?;end
 
+		# Очаровательный?
+		def charming?;end
+		
+		# Грубый?
+		def rough?;end
+
 		private 
 
 		def _check_hungry;end
@@ -356,14 +362,42 @@ module Redenik
 		class Image < Sprite
 			def initialize(x,y,w=32,h=32);end
 			def copy(bitmap);end
+			def clone;end
 			def x;end
 			def y;end
+			def z;end
 			def x=(value);end
 			def y=(value);end
+			def z=(value);end
 			def width;end
 			def height;end
 			def width=(value);end
 			def height=(value);end
+			def show;end
+			def hide;end
+
+			# RGSS Sprite
+
+			def visible;end
+			def visible=(value);end
+			def update;end
+			def flash(color,duration);end
+			def viewport=(new_viewport);end
+			def ox;end
+			def oy;end
+			def ox=(value);end
+			def oy=(value);end
+			def zoom_x;end
+			def zoom_y;end
+			def zoom_x=(value);end
+			def zoom_y=(value);end
+			def angle(rotation);end
+			def mirror(value=false);end
+			def opacity;end
+			def opacity=(value);end
+			def blend_type(type);end
+			def color(color);end
+			def tone(tone);end
 
 			# RGSS Bitmap
 			
@@ -490,6 +524,8 @@ module Redenik
 			def columns;end
 
 			def select(index);end
+
+			def update;end
 
 			private
 
