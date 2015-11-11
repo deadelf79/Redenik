@@ -39,9 +39,13 @@ module Redenik::GameManager
 		end
 
 		def call(scene)
-			wr "Screen '#{scene.inspect}' created for...",0
-			setup_scene(scene)
-			wr "#{@stack.last.creation_time} ms"
+			begin
+				wr "Screen '#{scene.inspect}' created for...",0
+				setup_scene(scene)
+				wr "#{@stack.last.creation_time} ms"
+			rescue => error
+				msgbox "Error when call scene '#{scene}': #{error}. Because of:\n#{error.backtrace.join("\n")}"
+			end
 		end
 
 		def goto(scene)
