@@ -62,6 +62,7 @@ module Redenik
 			def create___background;end
 			def create___game_title;end
 			def create___title_window;end
+			def update;end
 			def fire___new_game;end
 			def fire___load_game;end
 			def fire___settings;end

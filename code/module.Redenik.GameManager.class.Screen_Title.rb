@@ -34,8 +34,17 @@ class Redenik::GameManager::Screen_Title < Redenik::GameManager::Screen_Menu_Bas
 			add_button(Redenik::Translation::Russian::SCREENS[:title][:achievements],:fire___achievements)
 			add_button(Redenik::Translation::Russian::SCREENS[:title][:statistics],:fire___statistics)
 			add_button(Redenik::Translation::Russian::SCREENS[:title][:quit],:fire___quit)
+			activate
 		end
 		@title_window.refresh
+	end
+
+	def update
+		super
+		@title_window.update
+		#self.instance_variables.each{|win|
+		#	win.update if win.is_a? Redenik::Graphics::Window
+		#}
 	end
 
 	def fire___new_game

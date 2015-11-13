@@ -112,47 +112,47 @@ class Redenik::Graphics::Image < Sprite
 	end
 
 	def zoom_x
-
+		@data.zoom_x
 	end
 
 	def zoom_y
-
+		@data.zoom_y
 	end
 
 	def zoom_x=(value)
-
+		@data.zoom_x = value
 	end
 
 	def zoom_y=(value)
-
+		@data.zoom_y = value
 	end
 
 	def angle(rotation)
-
+		@data.angle(rotation)
 	end
 
 	def mirror(value=false)
-
+		@data.mirror(value)
 	end
 
 	def opacity
-
+		@data.opacity
 	end
 	
 	def opacity=(value)
-
+		@data.opacity = value
 	end
 	
 	def blend_type(type)
-
+		@data.blend_type(type)
 	end
 	
 	def color(color)
-
+		@data.color(color)
 	end
 	
 	def tone(tone)
-
+		@data.tone(tone)
 	end
 
 	# RGSS Bitmap

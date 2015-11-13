@@ -12,9 +12,26 @@ class Redenik::Graphics::Window < Redenik::Graphics::Image
 		@select.width = width/columns
 		@select.copy Redenik::Graphics::Cache.load_bitmap('Gfx/Windows/','select')
 		@select.z = self.z + 1
+		@select.opacity = 158
+		@select.ox, @select.oy = @select.width/2, @select.height/2
+
 		@select_alpha = false
 		
 		select 0
+
+		@active = false
+	end
+
+	def activate
+		@active = true
+	end
+
+	def deactivate
+		@active = false
+	end
+
+	def is_active?
+		@active
 	end
 
 	def show
@@ -52,12 +69,14 @@ class Redenik::Graphics::Window < Redenik::Graphics::Image
 		@columns
 	end
 
-	def select(index)
+	def select(index, hide = true)
 		@select.width = width/columns
 		@select_index = index
-		if index<0
+		if index<0&&hide
 			@select.hide 
 			return
+		else
+			index = @list.size - 1
 		end
 
 		@select.show
@@ -67,29 +86,38 @@ class Redenik::Graphics::Window < Redenik::Graphics::Image
 			y_offset+=1 if button[:enabled]
 		}
 
-		@select.x = x_offset + x
-		@select.y = y_offset + y# * line_height
+		@select.x = x_offset + x + @select.width/2
+		@select.y = y_offset*line_height + y + @select.height/2
 	end
 
 	def update
+		return unless @active
 		if @select.visible
 			if @select_alpha
-				if @select.opacity < 255
+				if @select.opacity < 158
 					@select.opacity += 1
-					@select.zoom_x -= 0.02
-					@select.zoom_y -= 0.02
+					@select.zoom_x -= 0.001
+					@select.zoom_y -= 0.001
 				else
 					@select_alpha = false
 				end
 			else
-				if @select.opacity > 128
+				if @select.opacity > 64
 					@select.opacity -= 1
-					@select.zoom_x += 0.02
-					@select.zoom_y += 0.02
+					@select.zoom_x += 0.001
+					@select.zoom_y += 0.001
 				else
 					@select_alpha = true
 				end
 			end
+		end
+
+		if Input.trigger?(:DOWN)
+			select(@select_index+1)
+		end
+
+		if Input.trigger?(:UP)
+			select(@select_index-1,false)
 		end
 	end
 
