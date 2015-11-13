@@ -383,7 +383,7 @@ module Redenik
 			def visible=(value);end
 			def update;end
 			def flash(color,duration);end
-			def viewport=(new_viewport);end
+			def viewport;end
 			def ox;end
 			def oy;end
 			def ox=(value);end
@@ -416,6 +416,10 @@ module Redenik
 			def text_size(str);end
 			def get_pixel(x,y);end
 			def set_pixel(x,y,color);end
+
+			# Movement
+
+			def move_to(x,y);end
 
 			# Drawers
 
@@ -508,8 +512,17 @@ module Redenik
 			def _draw_map;end
 		end
 
-		class Window < Image
+		class Window# < Image
 			def initialize(x,y,width,height);end
+
+			def x;end
+
+			def y;end
+
+			def width;end
+
+			def height;end
+
 			def show;end
 
 			def hide;end

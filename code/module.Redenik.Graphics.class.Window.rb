@@ -1,25 +1,39 @@
 # encoding utf-8
 
-class Redenik::Graphics::Window < Redenik::Graphics::Image
-	def initialize(x,y,width,height)
-		super(x,y,width,height)
+class Redenik::Graphics::Window
+	def initialize(x, y, width, height)
+		@main_viewport = Viewport.new(x, y, width, height)
+		@main_viewport.z = 100
+
 		@list = []
+		@button_list = []
 		@columns = 1
-		puts x
-		puts y
-
-		@select = Redenik::Graphics::Image.new(0,0)
-		@select.width = width/columns
-		@select.copy Redenik::Graphics::Cache.load_bitmap('Gfx/Windows/','select')
-		@select.z = self.z + 1
-		@select.opacity = 158
-		@select.ox, @select.oy = @select.width/2, @select.height/2
-
-		@select_alpha = false
-		
-		select 0
-
 		@active = false
+		@select_movement = false
+		@select_x_offset = 0.0
+
+		@select = Redenik::Graphics::Image.new(0, 0, 32, 32, @main_viewport)
+		@select.copy Redenik::Graphics::Cache.load_bitmap('Gfx/Windows/', 'select')
+		@select.z = 100
+		@select.oy = -6
+
+		select 0
+	end
+
+	def x
+		@main_viewport.rect.x
+	end
+
+	def y
+		@main_viewport.rect.y
+	end
+
+	def width
+		@main_viewport.rect.width
+	end
+
+	def height
+		@main_viewport.rect.height
 	end
 
 	def activate
@@ -43,7 +57,7 @@ class Redenik::Graphics::Window < Redenik::Graphics::Image
 	end
 
 	def line_height
-		font.size+4
+		Font.default_size+4
 	end
 
 	def add_button(name, method, appearance = nil, enabled = true)
@@ -55,8 +69,14 @@ class Redenik::Graphics::Window < Redenik::Graphics::Image
 		}
 	end
 
+	def clear
+		@button_list.each{|button|
+			button.dispose
+		}
+	end
+
 	def refresh
-		self.clear
+		clear
 		_draw_all_buttons
 		_show_sliders
 	end
@@ -71,53 +91,59 @@ class Redenik::Graphics::Window < Redenik::Graphics::Image
 
 	def select(index, hide = true)
 		@select.width = width/columns
-		@select_index = index
 		if index<0&&hide
-			@select.hide 
+			@select.hide
+			@select_index = index
 			return
-		else
+		elsif index<0&&!hide
 			index = @list.size - 1
 		end
+		index = 0 if index >= @list.size
+		@select_index = index
+		return if @button_list.size == 0
 
 		@select.show
-		x_offset = index%columns
-		y_offset = 0
-		@list.each{|button|
-			y_offset+=1 if button[:enabled]
-		}
-
-		@select.x = x_offset + x + @select.width/2
-		@select.y = y_offset*line_height + y + @select.height/2
+		@select.x = @button_list[index].x
+		@select.y = @button_list[index].y
 	end
 
 	def update
 		return unless @active
 		if @select.visible
-			if @select_alpha
-				if @select.opacity < 158
-					@select.opacity += 1
-					@select.zoom_x -= 0.001
-					@select.zoom_y -= 0.001
+			if @select_movement
+				if (16 - @select_x_offset)>0.2
+					@select_x_offset += 0.2
 				else
-					@select_alpha = false
+					@select_movement = !@select_movement
 				end
 			else
-				if @select.opacity > 64
-					@select.opacity -= 1
-					@select.zoom_x += 0.001
-					@select.zoom_y += 0.001
+				if @select_x_offset > 0 
+					@select_x_offset -= 0.2
 				else
-					@select_alpha = true
+					@select_movement = !@select_movement
 				end
 			end
+			@select.x = @select_x_offset
+			@button_list[@select_index].x = @select_x_offset + 24
 		end
 
-		if Input.trigger?(:DOWN)
-			select(@select_index+1)
+		@button_list.each{|button|
+			next if @button_list.index(button) == @select_index
+			button.move_to(0,button.y)
+			button.update
+		}
+
+		if Input.trigger?( :DOWN )
+			select(@select_index + 1)
 		end
 
-		if Input.trigger?(:UP)
-			select(@select_index-1,false)
+		if Input.trigger?( :UP )
+			select(@select_index - 1, false)
+		end
+
+		# check it out
+		if Input.trigger?( :C )
+			@list[@select_index].call
 		end
 	end
 
@@ -132,18 +158,30 @@ class Redenik::Graphics::Window < Redenik::Graphics::Image
 	end
 
 	def _draw_button(button,index)
-		icon_offset = 0
-		if button[:appearance]!=nil
-			temp = Redenik::Graphics::Cache.load_bitmap(button[:appearance][:icon])
-			icon_offset = temp.width
-			temp.dispose
-		end
 		x_offset = index%columns
-		self.draw_text(
-			Rect.new(x_offset+icon_offset,index*line_height,width/columns-icon_offset,line_height),
-			button[:name],
-			button[:enabled] ? white : white(true)
+		y_offset = index*line_height
+		@button_list.push Redenik::Graphics::Image.new(
+			x_offset,
+			y_offset,
+			width/columns,
+			line_height,
+			@main_viewport
 		)
+		refont = Font.default_name
+		Font.default_name = ["MilenaSans","Arial"]
+		@button_list.last.draw_text(
+			@button_list.last.rect,
+			button[:name],
+		 	button[:enabled] ? @button_list.last.white : @button_list.last.white(true)
+		)
+		Font.default_name = refont
+
+		# icon_offset = 0
+		# if button[:appearance]!=nil
+		# 	temp = Redenik::Graphics::Cache.load_bitmap(button[:appearance][:icon])
+		# 	icon_offset = temp.width
+		# 	temp.dispose
+		# end
 	end
 
 	def _show_sliders

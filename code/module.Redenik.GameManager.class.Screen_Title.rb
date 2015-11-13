@@ -24,10 +24,9 @@ class Redenik::GameManager::Screen_Title < Redenik::GameManager::Screen_Menu_Bas
 			32,
 			375,
 			192,
-			104
+			116
 		)
 		with @title_window do
-			font.name = ["MilenaSans"]
 			add_button(Redenik::Translation::Russian::SCREENS[:title][:new_game],:fire___new_game)
 			add_button(Redenik::Translation::Russian::SCREENS[:title][:load_game],:fire___load_game)
 			add_button(Redenik::Translation::Russian::SCREENS[:title][:settings],:fire___settings)

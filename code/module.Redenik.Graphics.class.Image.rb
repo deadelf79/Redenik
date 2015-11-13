@@ -1,16 +1,20 @@
 # encoding utf-8
 
 class Redenik::Graphics::Image < Sprite
-	def initialize(x,y,w=32,h=32)
-		@data = Sprite.new
+	def initialize(x, y, w=32, h=32, viewport = nil)
+		@data = Sprite.new(viewport)
 		@data.x = x
 		@data.y = y
 		@data.bitmap = Bitmap.new(w,h)
+
+		@dest_x, @dest_y = 0, 0
+		self
 	end
 
 	def copy(bitmap)
 		@data.bitmap.dispose
 		@data.bitmap = bitmap
+		self
 	end
 
 	def clone
@@ -33,14 +37,17 @@ class Redenik::Graphics::Image < Sprite
 
 	def x=(value)
 		@data.x = value
+		self
 	end
 
 	def y=(value)
 		@data.y = value
+		self
 	end
 
 	def z=(value)
 		@data.z = value
+		self
 	end
 
 	def width
@@ -56,6 +63,7 @@ class Redenik::Graphics::Image < Sprite
 		bitmap.blt(0,0,@data.bitmap,Rect.new(0,0,width,height))
 		@data.bitmap.dispose
 		@data.bitmap = bitmap
+		self
 	end
 
 	def height=(value)
@@ -63,6 +71,7 @@ class Redenik::Graphics::Image < Sprite
 		bitmap.blt(0,0,@data.bitmap,Rect.new(0,0,width,height))
 		@data.bitmap.dispose
 		@data.bitmap = bitmap
+		self
 	end
 
 	def show
@@ -84,15 +93,41 @@ class Redenik::Graphics::Image < Sprite
 	end
 
 	def update
+		# Sprite update
 		@data.update
+		# Move to
+		# Destination X
+		if (self.x - @dest_x).abs > 10
+			if self.x > @dest_x
+				self.x -= (self.x - @dest_x).abs / 4
+			else
+				self.x += (self.x - @dest_x).abs / 4
+			end
+		elsif (self.x - @dest_x).abs > 2
+			self.x = @dest_x
+		end
+		# Destination Y
+		# if (self.y - @dest_y).abs > 10
+		# 	if self.y > @dest_y
+		# 		self.y -= (self.y - @dest_y).abs / 4
+		# 	else
+		# 		self.y += (self.y - @dest_y).abs / 4
+		# 	end
+		# else
+		# 	if self.y > @dest_y
+		# 		self.y -= 1
+		# 	else
+		# 		self.y += 1
+		# 	end
+		# end
 	end
 
 	def flash(color,duration)
 		@data.flash(color,duration)
 	end
 
-	def viewport=(new_viewport)
-		@data.viewport(new_viewport)
+	def viewport
+		@data.viewport
 	end
 
 	def ox
@@ -105,10 +140,12 @@ class Redenik::Graphics::Image < Sprite
 
 	def ox=(value)
 		@data.ox = value
+		self
 	end
 
 	def oy=(value)
 		@data.oy = value
+		self
 	end
 
 	def zoom_x
@@ -121,18 +158,22 @@ class Redenik::Graphics::Image < Sprite
 
 	def zoom_x=(value)
 		@data.zoom_x = value
+		self
 	end
 
 	def zoom_y=(value)
 		@data.zoom_y = value
+		self
 	end
 
 	def angle(rotation)
 		@data.angle(rotation)
+		self
 	end
 
 	def mirror(value=false)
 		@data.mirror(value)
+		self
 	end
 
 	def opacity
@@ -141,18 +182,22 @@ class Redenik::Graphics::Image < Sprite
 	
 	def opacity=(value)
 		@data.opacity = value
+		self
 	end
 	
 	def blend_type(type)
 		@data.blend_type(type)
+		self
 	end
 	
 	def color(color)
 		@data.color(color)
+		self
 	end
 	
 	def tone(tone)
 		@data.tone(tone)
+		self
 	end
 
 	# RGSS Bitmap
@@ -184,40 +229,55 @@ class Redenik::Graphics::Image < Sprite
 	def dispose
 		@data.bitmap.dispose
 		@data.dispose
+		self
 	end
 
 	def disposed
 		@data.bitmap.disposed&&@data.disposed
+		self
 	end
 
 	def hue_change(hue)
 		@data.bitmap.hue_change(hue)
+		self
 	end
 
 	def blur
 		@data.bitmap.blur
+		self
 	end
 
 	def radial_blur(angle,division)
 		@data.bitmap.radial_blur(angle,division)
+		self
 	end
 
 	def text_size(str)
 		@data.bitmap.text_size(str)
+		self
 	end
 
 	def get_pixel(x,y)
 		@data.bitmap.get_pixel(x,y)
+		self
 	end
 
 	def set_pixel(x,y,color)
 		@data.bitmap.set_pixel(x,y,color)
+		self
+	end
+
+	# Movement
+
+	def move_to(x,y)
+		@dest_x, @dest_y = x, y
 	end
 
 	# Drawers
 
 	def clear_rect(rect)
 		@data.bitmap.clear_rect(rect)
+		self
 	end
 
 	def draw_rect(rect,color,fill=true)
@@ -234,6 +294,7 @@ class Redenik::Graphics::Image < Sprite
 			# Право
 			draw_line(rect.x + rect.width,rect.y,rect.x + rect.width,rect.height)
 		end
+		self
 	end
 
 	def draw_text(rect,text,color,horizontal_align=0,vertical_align=0)
@@ -251,6 +312,7 @@ class Redenik::Graphics::Image < Sprite
 			end
 		end
 		@data.bitmap.draw_text(rect,text,horizontal_align)
+		self
 	end
 
 	def draw_line(x1,y1,x2,y2,color,rasterize=false)
