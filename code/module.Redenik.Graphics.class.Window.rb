@@ -60,13 +60,22 @@ class Redenik::Graphics::Window
 		Font.default_size+4
 	end
 
-	def add_button(name, method, appearance = nil, enabled = true)
+	def add_button(name, method, appearance = nil, second = "", enabled = true)
 		@list << {
-			:name => name,
-			:method => method,
-			:appearance => appearance,
-			:enabled => enabled
+			name:name,
+			method:method,
+			appearance:appearance,
+			enabled:enabled,
+			second:second
 		}
+	end
+
+	def list
+		@list
+	end
+
+	def index
+		@select_index
 	end
 
 	def clear
@@ -141,10 +150,11 @@ class Redenik::Graphics::Window
 			select(@select_index - 1, false)
 		end
 
-		# check it out
-		if Input.trigger?( :C )
-			@list[@select_index].call
-		end
+		@button_list.each{|button|
+			if Mouse.area?( button.x + x, button.y + y, button.width, button.height )
+				select( @button_list.index( button ) )
+			end
+		}
 	end
 
 	private
@@ -167,21 +177,26 @@ class Redenik::Graphics::Window
 			line_height,
 			@main_viewport
 		)
-		refont = Font.default_name
-		Font.default_name = ["MilenaSans","Arial"]
+
+		icon_offset = 0
+		if button[:appearance]!=nil
+			temp = Redenik::Graphics::Cache.load_bitmap(button[:appearance][:icon])
+			icon_offset = temp.width
+			temp.dispose
+		end
+
+		rect_offsetted = Rect.new(
+			@button_list.last.rect.x + icon_offset,
+			@button_list.last.rect.y,
+			@button_list.last.rect.width,
+			@button_list.last.rect.height
+		)
+
 		@button_list.last.draw_text(
-			@button_list.last.rect,
+			rect_offsetted,
 			button[:name],
 		 	button[:enabled] ? @button_list.last.white : @button_list.last.white(true)
 		)
-		Font.default_name = refont
-
-		# icon_offset = 0
-		# if button[:appearance]!=nil
-		# 	temp = Redenik::Graphics::Cache.load_bitmap(button[:appearance][:icon])
-		# 	icon_offset = temp.width
-		# 	temp.dispose
-		# end
 	end
 
 	def _show_sliders

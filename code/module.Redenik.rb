@@ -37,6 +37,12 @@ module Redenik
 			def cancel;end
 		end
 
+		class Achievement
+			def initialize(hash);end
+			def get?;end
+			def get;end
+		end
+
 		class Screen_Base
 			def initialize(timer);end
 			def update;end
@@ -529,9 +535,15 @@ module Redenik
 
 			def line_height;end
 
-			def add_button(name, method, appearance = nil, enabled = true);end
+			def add_button(name, method, appearance = nil, second = "", enabled = true);end
+
+			def list;end
+
+			def index;end
 
 			def refresh;end
+
+			def clear;end
 
 			def columns=(value);end
 
