@@ -17,6 +17,10 @@ class Redenik::Graphics::Window
 		@select.z = 100
 		@select.oy = -6
 
+		@slider = Redenik::Graphics::Image.new(width-8, 0, 8, height, @main_viewport)
+		@slider.z = 200
+		@slider.opacity = 128
+
 		select 0
 	end
 
@@ -87,7 +91,7 @@ class Redenik::Graphics::Window
 	def refresh
 		clear
 		_draw_all_buttons
-		_show_sliders
+		_draw_sliders
 	end
 
 	def columns=(value)
@@ -155,6 +159,12 @@ class Redenik::Graphics::Window
 				select( @button_list.index( button ) )
 			end
 		}
+
+		@slider.move_to(
+			@slider.x,
+			@select_index*@main_viewport.rect.height/@list.size
+		)
+		@slider.update
 	end
 
 	private
@@ -199,11 +209,20 @@ class Redenik::Graphics::Window
 		)
 	end
 
-	def _show_sliders
-		# проверяем по вертикали
-		# если общая высота элементов больше высоты окна, то...
-		if @list.size*line_height>width
+	def _draw_sliders
+		if @list.size*line_height>height
+			_draw_vertical_slider
+		end
+	end
 
+	def _draw_vertical_slider
+		@slider.height = @main_viewport.rect.height / @list.size
+		with @slider do
+			draw_rect( rect, white )
+			draw_plot( 0, 		0, 			Color.new( 255, 255, 255, 128 ) )
+			draw_plot( width-1,	0, 			Color.new( 255, 255, 255, 128 ) )
+			draw_plot( 0, 		height-1, 	Color.new( 255, 255, 255, 128 ) )
+			draw_plot( width-1, height-1, 	Color.new( 255, 255, 255, 128 ) )
 		end
 	end
 end

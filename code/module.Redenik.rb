@@ -559,7 +559,9 @@ module Redenik
 
 			def _draw_button(button,index);end
 
-			def _show_sliders;end
+			def _draw_sliders;end
+
+			def _draw_vertical_slider;end
 		end
 	end
 

@@ -107,19 +107,15 @@ class Redenik::Graphics::Image < Sprite
 			self.x = @dest_x
 		end
 		# Destination Y
-		# if (self.y - @dest_y).abs > 10
-		# 	if self.y > @dest_y
-		# 		self.y -= (self.y - @dest_y).abs / 4
-		# 	else
-		# 		self.y += (self.y - @dest_y).abs / 4
-		# 	end
-		# else
-		# 	if self.y > @dest_y
-		# 		self.y -= 1
-		# 	else
-		# 		self.y += 1
-		# 	end
-		# end
+		if (self.y - @dest_y).abs > 10
+			if self.y > @dest_y
+				self.y -= (self.y - @dest_y).abs / 4
+			else
+				self.y += (self.y - @dest_y).abs / 4
+			end
+		elsif (self.y - @dest_y).abs > 2
+			self.y = @dest_y
+		end
 	end
 
 	def flash(color,duration)
@@ -282,7 +278,7 @@ class Redenik::Graphics::Image < Sprite
 
 	def draw_rect(rect,color,fill=true)
 		if fill
-			@data.bitmap.draw_rect(rect,color)
+			@data.bitmap.fill_rect(rect,color)
 		else
 			# Тогда рисуем линиями
 			# Верх

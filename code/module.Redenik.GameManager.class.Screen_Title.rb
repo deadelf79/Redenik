@@ -23,7 +23,7 @@ class Redenik::GameManager::Screen_Title < Redenik::GameManager::Screen_Menu_Bas
 		@title_window = Redenik::Graphics::Window.new(
 			32,
 			375,
-			192,
+			208,
 			116
 		)
 		with @title_window do
@@ -41,9 +41,6 @@ class Redenik::GameManager::Screen_Title < Redenik::GameManager::Screen_Menu_Bas
 	def update
 		super
 		@title_window.update
-		#self.instance_variables.each{|win|
-		#	win.update if win.is_a? Redenik::Graphics::Window
-		#}
 	end
 
 	def fire___new_game
