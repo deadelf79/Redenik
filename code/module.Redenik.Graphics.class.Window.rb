@@ -21,6 +21,8 @@ class Redenik::Graphics::Window
 		@slider.z = 200
 		@slider.opacity = 128
 
+		@button_h_offset = 0
+
 		select 0
 	end
 
@@ -116,55 +118,18 @@ class Redenik::Graphics::Window
 		return if @button_list.size == 0
 
 		@select.show
-		@select.x = @button_list[index].x
+		@select.x = 0
 		@select.y = @button_list[index].y
 	end
 
 	def update
 		return unless @active
-		if @select.visible
-			if @select_movement
-				if (16 - @select_x_offset)>0.2
-					@select_x_offset += 0.2
-				else
-					@select_movement = !@select_movement
-				end
-			else
-				if @select_x_offset > 0 
-					@select_x_offset -= 0.2
-				else
-					@select_movement = !@select_movement
-				end
-			end
-			@select.x = @select_x_offset
-			@button_list[@select_index].x = @select_x_offset + 24
-		end
-
-		@button_list.each{|button|
-			next if @button_list.index(button) == @select_index
-			button.move_to(0,button.y)
-			button.update
-		}
-
-		if Input.trigger?( :DOWN )
-			select(@select_index + 1)
-		end
-
-		if Input.trigger?( :UP )
-			select(@select_index - 1, false)
-		end
-
-		@button_list.each{|button|
-			if Mouse.area?( button.x + x, button.y + y, button.width, button.height )
-				select( @button_list.index( button ) )
-			end
-		}
-
-		@slider.move_to(
-			@slider.x,
-			@select_index*@main_viewport.rect.height/@list.size
-		)
-		@slider.update
+		_update___select_animation
+		_update___button_animation
+		_update___button_select_by_keys
+		_update___button_select_by_mouse
+		_update___button_select_by_wheel
+		_update___slider_movement
 	end
 
 	private
@@ -224,5 +189,86 @@ class Redenik::Graphics::Window
 			draw_plot( 0, 		height-1, 	Color.new( 255, 255, 255, 128 ) )
 			draw_plot( width-1, height-1, 	Color.new( 255, 255, 255, 128 ) )
 		end
+	end
+
+	def _update___select_animation
+		if @select.visible
+			if @select_movement
+				if (16 - @select_x_offset)>0.2
+					@select_x_offset += 0.2
+				else
+					@select_movement = !@select_movement
+				end
+			else
+				if @select_x_offset > 0 
+					@select_x_offset -= 0.2
+				else
+					@select_movement = !@select_movement
+				end
+			end
+			@select.x = @select_x_offset
+			@button_list[@select_index].x = @select_x_offset + 24
+		end
+	end
+
+	def _update___button_animation
+		@button_list.each{|button|
+			next if @button_list.index(button) == @select_index
+			button.move_to(0,button.y)
+			button.update
+		}
+	end
+
+	def _update___button_select_by_keys
+		if Input.trigger?( :DOWN )
+			select(@select_index + 1)
+			@button_h_offset -= @button_list[@select_index].height if @select.y > height
+			@button_list.each{|button|
+				button.y += @button_list[@select_index].height
+			}
+			@select.y = @button_list[@select_index].y
+		end
+
+		if Input.trigger?( :UP )
+			select(@select_index - 1, false)
+			@button_h_offset += @button_list[@select_index].height if @select.y < 0
+			@button_list.each{|button|
+				button.y -= @button_list[@select_index].height
+			}
+			@select.y = @button_list[@select_index].y
+		end
+	end
+
+	def _update___button_select_by_mouse
+		@button_list.each{|button|
+			if Mouse.area?( x, y, width, height )
+				if Mouse.area?( (button.x - @select_x_offset) + x, button.y + y, button.width, button.height )
+					select( @button_list.index( button ) ) if @button_list.index( button ) != @select_index
+				end
+			end
+		}
+	end
+
+	def _update___button_select_by_wheel
+		if Mouse.area?( x, y, width, height )
+			f = Mouse.scroll
+			if !f.nil?
+				if f[2] < 0
+					select(@select_index + 1)
+					Mouse.set_pos( Mouse.pos[0], y + @button_list[@select_index].y + 5 )
+				else
+					select(@select_index - 1, false)
+					Mouse.set_pos( Mouse.pos[0], y + @button_list[@select_index].y + 5 )
+				end
+			end
+		end
+	end
+
+	def _update___slider_movement
+		@slider.move_to(
+			@slider.x,
+			@select_index*@main_viewport.rect.height/@list.size
+		)
+		@slider.update
 	end
 end
