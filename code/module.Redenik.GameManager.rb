@@ -35,7 +35,7 @@ module Redenik::GameManager
 		end
 
 		def empty?
-			@stack.size==0
+			@stack.size == 0
 		end
 
 		def call(scene)

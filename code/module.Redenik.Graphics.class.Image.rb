@@ -192,7 +192,7 @@ class Redenik::Graphics::Image < Sprite
 	end
 	
 	def tone(tone)
-		@data.tone(tone)
+		@data.tone = tone
 		self
 	end
 

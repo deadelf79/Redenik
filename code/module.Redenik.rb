@@ -60,6 +60,7 @@ module Redenik
 		end
 
 		class Screen_Menu_Base < Screen_Base
+			def update;end
 			def fire___ok;end
 			def fire___cancel;end
 		end
@@ -78,9 +79,16 @@ module Redenik
 		end
 
 		class Screen_New < Screen_Menu_Base
+			def create___background;end
+			def create___classes;end
+			def create___buttons;end
+			def create___game_new_window;end
+			def create___game_start_window;end
+			def update;end
 			def fire___change_name;end
 			def fire___change_class;end
 			def fire___change_stat(stat);end
+			def fire___start_game;end
 		end
 
 		class Screen_Name < Screen_Menu_Base
