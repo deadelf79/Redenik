@@ -24,7 +24,7 @@ class Redenik::GameManager::Screen_Title < Redenik::GameManager::Screen_Menu_Bas
 			32,
 			375,
 			208,
-			116
+			108
 		)
 		with @title_window do
 			add_button(Redenik::Translation::Russian::SCREENS[:title][:new_game],:fire___new_game)
@@ -41,6 +41,11 @@ class Redenik::GameManager::Screen_Title < Redenik::GameManager::Screen_Menu_Bas
 	def update
 		super
 		@title_window.update
+	end
+
+	def fire___ok
+		index = @title_window.index
+		send(@title_window.list[index][:method]) if @title_window.list[index][:enabled]
 	end
 
 	def fire___new_game
