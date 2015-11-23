@@ -47,6 +47,9 @@ class Redenik::GameManager::Screen_Base
 	def dispose___all_pictures
 		self.instance_variables.each{|var|
 			var.dispose if var.is_a? Redenik::Graphics::Image
+			var.dispose if var.is_a? Bitmap
+			var.dispose if var.is_a? Sprite
+			var.dispose if var.is_a? Plane
 		}
 	end
 
