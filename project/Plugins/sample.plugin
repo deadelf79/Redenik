@@ -1,0 +1,8 @@
+﻿// sample.plugin
+
+var a = 0, b=2;
+if (a === 0){
+	do_something(13);
+} else {
+	print "error, man!";
+}

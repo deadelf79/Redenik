@@ -586,6 +586,14 @@ module Redenik
 			def read_list;end
 			def check_for_errors;end
 			def load;end
+			private
+			def _convert(code);end
+			def _exclude_tabs;end
+			def _exclude_comments;end
+			def _exclude_lines;end
+			def _clean_code;end
+			def _convert_conditions;end
+			def _convert_variables;end
 		end
 	end
 end
