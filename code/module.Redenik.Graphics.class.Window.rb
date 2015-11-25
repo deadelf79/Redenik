@@ -83,7 +83,7 @@ class Redenik::Graphics::Window
 	end
 
 	def line_height
-		Font.default_size+4
+		DEFAULT_FONT_SIZE
 	end
 
 	def add_button(name, method, appearance = nil, second = "", enabled = true)
