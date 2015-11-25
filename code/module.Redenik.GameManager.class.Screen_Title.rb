@@ -32,7 +32,7 @@ class Redenik::GameManager::Screen_Title < Redenik::GameManager::Screen_Menu_Bas
 			add_button(Redenik::Translation::Russian::SCREENS[:title][:settings],:fire___settings)
 			add_button(Redenik::Translation::Russian::SCREENS[:title][:achievements],:fire___achievements)
 			add_button(Redenik::Translation::Russian::SCREENS[:title][:statistics],:fire___statistics)
-			add_button(Redenik::Translation::Russian::SCREENS[:title][:quit],:fire___quit)
+			add_button(Redenik::Translation::Russian::SCREENS[:title][:quit],:fire___quit_game)
 			activate
 		end
 		@title_window.refresh
@@ -60,7 +60,7 @@ class Redenik::GameManager::Screen_Title < Redenik::GameManager::Screen_Menu_Bas
 		Redenik::GameManager::call(Redenik::GameManager::Screen_Settings)
 	end
 
-	def fire___achivements
+	def fire___achievements
 		Redenik::GameManager::call(Redenik::GameManager::Screen_Achievements)
 	end
 
