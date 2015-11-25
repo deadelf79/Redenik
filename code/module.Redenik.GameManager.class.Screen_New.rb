@@ -3,6 +3,7 @@
 class Redenik::GameManager::Screen_New < Redenik::GameManager::Screen_Menu_Base
 	def create___all_pictures
 		create___background
+		create___game_start
 		create___classes
 		create___buttons
 	end
@@ -16,6 +17,11 @@ class Redenik::GameManager::Screen_New < Redenik::GameManager::Screen_Menu_Base
 		@background = Plane.new
 		@background.bitmap = Bitmap.new("Gfx/Planes/retrolines")
 		@background.z = 100
+	end
+
+	def create___game_start
+		@game_start = Redenik::Graphics::Cache.load_image('Gfx/Titles/','game_start')
+		@game_start.z = 101
 	end
 
 	def create___classes
