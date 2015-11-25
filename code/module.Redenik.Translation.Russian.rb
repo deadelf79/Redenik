@@ -92,6 +92,11 @@ module Redenik::Translation::Russian
 			achievements: 	"Достижения",
 			statistics: 	"Статистика",
 			quit: 			"Выход"
+		},
+		quit: {
+			question:  		"Выйти из игры?",
+			yes: 			"Да, выйти",
+			no: 			"Нет, остаться", 
 		}
 	}
 end
