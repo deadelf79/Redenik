@@ -248,20 +248,10 @@ class Redenik::Graphics::Window
 	def _update___button_select_by_keys
 		if Input.trigger?( :DOWN )
 			select(@select_index + 1)
-			#@button_h_offset -= @button_list[@select_index].height if @select.y > height
-			#@button_list.each{|button|
-			#	button.y += @button_list[@select_index].height
-			#}
-			#@select.y = @button_list[@select_index].y
 		end
 
 		if Input.trigger?( :UP )
 			select(@select_index - 1, false)
-			#@button_h_offset += @button_list[@select_index].height if @select.y < 0
-			#@button_list.each{|button|
-			#	button.y -= @button_list[@select_index].height
-			#}
-			#@select.y = @button_list[@select_index].y
 		end
 	end
 
