@@ -34,6 +34,22 @@ class Redenik::Graphics::Window
 		@main_viewport.rect.y
 	end
 
+	def z
+		@main_viewport.z
+	end
+
+	def x=(value)
+		@main_viewport.rect.x = value
+	end
+
+	def y=(value)
+		@main_viewport.rect.y = value
+	end
+
+	def z=(value)
+		@main_viewport.z = value
+	end
+
 	def width
 		@main_viewport.rect.width
 	end
@@ -55,11 +71,15 @@ class Redenik::Graphics::Window
 	end
 
 	def show
-		self.visible = true
+		@main_viewport.visible = true
 	end
 
 	def hide
-		self.visible = false
+		@main_viewport.visible = false
+	end
+
+	def visible
+		@main_viewport.visible
 	end
 
 	def line_height
@@ -117,6 +137,12 @@ class Redenik::Graphics::Window
 		@select_index = index
 		return if @button_list.size == 0
 
+		while @button_list[index].y>height
+			@button_list.each{ |button| button.y-=line_height }
+		end
+		while @button_list[index].y<0
+			@button_list.each{ |button| button.y+=line_height }
+		end
 		@select.show
 		@select.x = 0
 		@select.y = @button_list[index].y
@@ -222,20 +248,20 @@ class Redenik::Graphics::Window
 	def _update___button_select_by_keys
 		if Input.trigger?( :DOWN )
 			select(@select_index + 1)
-			@button_h_offset -= @button_list[@select_index].height if @select.y > height
-			@button_list.each{|button|
-				button.y += @button_list[@select_index].height
-			}
-			@select.y = @button_list[@select_index].y
+			#@button_h_offset -= @button_list[@select_index].height if @select.y > height
+			#@button_list.each{|button|
+			#	button.y += @button_list[@select_index].height
+			#}
+			#@select.y = @button_list[@select_index].y
 		end
 
 		if Input.trigger?( :UP )
 			select(@select_index - 1, false)
-			@button_h_offset += @button_list[@select_index].height if @select.y < 0
-			@button_list.each{|button|
-				button.y -= @button_list[@select_index].height
-			}
-			@select.y = @button_list[@select_index].y
+			#@button_h_offset += @button_list[@select_index].height if @select.y < 0
+			#@button_list.each{|button|
+			#	button.y -= @button_list[@select_index].height
+			#}
+			#@select.y = @button_list[@select_index].y
 		end
 	end
 
