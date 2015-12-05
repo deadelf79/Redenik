@@ -18,7 +18,7 @@ module Redenik::NameGen
 	                              "тб","тд","тж","тз","тл","тм",
 	                              "чб","чг","чд","чж","чз","чл","чс","чш",
 	                              "шб","шг","шд","шж","шз","шл","шс","шч"]
-		def self.prepare
+		def prepare
 			@vowels = VOWELS_RU
 			@consonants = CONSONANTS_RU
 			@couples = []
@@ -35,8 +35,9 @@ module Redenik::NameGen
 			_clear_banned_couples
 		end
 
-		def self.make_name(min,max)
-			(count=4)
+		def make_name(min,max)
+			count = min + (max - min).abs
+			puts count
 			@result = ""
 			for index in 0...count
 				if index < count-1
@@ -54,7 +55,7 @@ module Redenik::NameGen
 			@result
 		end
 
-		def self.make_info(type)
+		def make_info(type)
 
 		end
 

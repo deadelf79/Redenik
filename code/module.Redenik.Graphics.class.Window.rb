@@ -36,7 +36,7 @@ class Redenik::Graphics::Window < Redenik::Graphics::UI_Component
 
 	def add_button(name, method, appearance = nil, second = "", enabled = true)
 		@last_abc = 'A' if @last_abc.nil?
-		@last_abc = @last_abc=='Z' ? 0 : @abc[@abc.index(@last.abc)+1]
+		@last_abc = @last_abc=='Z' ? 0 : @abc[@abc.index(@last_abc)+1]
 		@list << {
 			name:name,
 			method:method,

@@ -75,11 +75,11 @@ class Redenik::Graphics::Image < Sprite
 	end
 
 	def show
-		visible = true
+		self.visible = true
 	end
 
 	def hide
-		visible = false
+		self.visible = false
 	end
 
 	# RGSS Sprite
@@ -250,12 +250,10 @@ class Redenik::Graphics::Image < Sprite
 
 	def text_size(str)
 		@data.bitmap.text_size(str)
-		self
 	end
 
 	def get_pixel(x,y)
 		@data.bitmap.get_pixel(x,y)
-		self
 	end
 
 	def set_pixel(x,y,color)

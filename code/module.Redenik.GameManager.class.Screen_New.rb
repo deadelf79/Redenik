@@ -10,6 +10,7 @@ class Redenik::GameManager::Screen_New < Redenik::GameManager::Screen_Menu_Base
 
 	def create___all_windows
 		create___game_new_window
+		create___game_input_name
 		create___game_start_window
 	end
 
@@ -36,12 +37,40 @@ class Redenik::GameManager::Screen_New < Redenik::GameManager::Screen_Menu_Base
 		# основное окно с классами, статами и прочим
 	end
 
+	def create___game_input_name
+		Redenik::NameGen.prepare
+		@input_name = Redenik::Graphics::InputBox.new( 352, 196, 216, 24, Redenik::NameGen.make_name( 3, 4 ) )
+		@input_name.z = 110
+	end
+
 	def create___game_start_window
 		# окно с выбором "начать новую / отмена"
 	end
 
 	def update
 		super
+		@input_name.update if @input_name.is_active?
+	end
+
+	def fire___ok
+		if !@input_name.edit_now?
+			#if Mouse.area?(@input_name.x, @input_name.y, @input_name.width, @input_name.height)
+				@input_name.activate
+				@input_name.begin_edit
+			#end
+		else
+			@input_name.end_edit
+			@input_name.deactivate
+		end
+	end
+
+	def fire___cancel
+		if !@input_name.edit_now?
+			super
+		else
+			@input_name.end_edit
+			@input_name.deactivate
+		end
 	end
 
 	def fire___change_name;end

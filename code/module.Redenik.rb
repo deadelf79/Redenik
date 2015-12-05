@@ -102,6 +102,7 @@ module Redenik
 			def create___buttons;end
 			def create___game_new_window;end
 			def create___game_start_window;end
+			def create___game_input_name;end
 			def update;end
 			def fire___change_name;end
 			def fire___change_class;end
@@ -624,17 +625,25 @@ module Redenik
 			def _draw_vertical_slider;end
 		end
 
+		# Компонент для простого отображения текста
 		class Label < UI_Component
+			# Задает текст, который будет выведен на компонент
 			def text(value);end
 		end
 
 		class InputBox < UI_Component
 			def clear;end
+			def refresh;end
 			def begin_edit;end
 			def end_edit;end
+			def edit_now?;end
 			private
+			def _repos_pointer;end
 			def _show_keyboard;end
 			def _hide_keyboard;end
+			def _draw_pointer;end
+			def _input_update;end
+			def _enter;end
 		end
 	end
 
