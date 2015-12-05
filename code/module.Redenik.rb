@@ -1,12 +1,29 @@
-# encoding utf-8
+# = Redenik Game Engine (based on RGSS3)
+# Полная документация по классам и модулям движка для игры Redenik
+# Автор:: DeadElf79
+# Исходный код:: https://github.com/deadelf79/Redenik
 
 # Абстрактный модуль для хранения указателей
 # на все функции встроенных в него классов
 module Redenik
 	class << self
-		attr_reader :game_actors, :game_items, :game_weapons, :game_armors
-		attr_reader :game_skills, :game_party
-		# Начало игры
+		# Массив данных обо всех персонажах в игре
+		attr_reader :game_actors
+
+		attr_reader :game_items
+
+		attr_reader :game_weapons
+
+		attr_reader :game_armors
+
+		attr_reader :game_skills
+
+		# Массив данных и команде.<br>
+		# Содержит набор ссылок на персонажей из массива @game_actors, с которыми
+		# были установлены дружеские отношения и которые присоединились
+		# к команде игрока.
+		attr_reader :game_party
+
 		# Инициирует все данные перед стартом и запускает
 		# переход на первую сцену (титульное меню по умолчанию)
 		def start_game;end
@@ -73,13 +90,14 @@ module Redenik
 			def fire___new_game;end
 			def fire___load_game;end
 			def fire___settings;end
-			def fire___achivements;end
+			def fire___achievements;end
 			def fire___statistics;end
 			def fire___quit_game;end
 		end
 
 		class Screen_New < Screen_Menu_Base
 			def create___background;end
+			def create___game_start;end
 			def create___classes;end
 			def create___buttons;end
 			def create___game_new_window;end
@@ -110,6 +128,9 @@ module Redenik
 		end
 
 		class Screen_Achievements < Screen_Menu_Base
+			def create___background;end
+			def create___game_achievements;end
+			def create___game_achi_window;end
 			def fire___change_achiv_to_show(index);end
 			def fire___show_achiv_desc(index);end
 		end
@@ -119,7 +140,12 @@ module Redenik
 		end
 
 		class Screen_Quit < Screen_Menu_Base
+			def create___background;end
+			def create___game_quit;end
 			def create___quit_window;end
+			def create___quit_label;end
+			def fire___yes;end
+			def fire___no;end
 		end
 	end
 
@@ -516,6 +542,10 @@ module Redenik
 			def _save_map(full_mode=false);end
 		end
 
+		class StaticMap < Map
+			def initialize(id,filename);end
+		end
+
 		class Tilemap < Image
 			def initialize(map,tileset);end
 			def refresh;end
@@ -526,12 +556,20 @@ module Redenik
 			def _draw_map;end
 		end
 
-		class Window# < Image
+		class UI_Component
 			def initialize(x,y,width,height);end
 
 			def x;end
 
 			def y;end
+
+			def z;end
+
+			def x=(value);end
+
+			def y=(value);end
+
+			def z=(value);end
 
 			def width;end
 
@@ -541,8 +579,24 @@ module Redenik
 
 			def hide;end
 
+			def visible;end
+
 			def line_height;end
 
+			def line_height=(value);end
+
+			def update;end
+
+			def activate;end
+
+			def deactivate;end
+
+			def is_active?;end
+
+			def rect;end
+		end
+
+		class Window < UI_Component
 			def add_button(name, method, appearance = nil, second = "", enabled = true);end
 
 			def list;end
@@ -559,8 +613,6 @@ module Redenik
 
 			def select(index);end
 
-			def update;end
-
 			private
 
 			def _draw_all_buttons;end
@@ -570,6 +622,19 @@ module Redenik
 			def _draw_sliders;end
 
 			def _draw_vertical_slider;end
+		end
+
+		class Label < UI_Component
+			def text(value);end
+		end
+
+		class InputBox < UI_Component
+			def clear;end
+			def begin_edit;end
+			def end_edit;end
+			private
+			def _show_keyboard;end
+			def _hide_keyboard;end
 		end
 	end
 

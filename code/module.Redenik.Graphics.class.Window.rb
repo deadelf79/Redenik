@@ -1,24 +1,26 @@
 # encoding utf-8
 
-class Redenik::Graphics::Window
+class Redenik::Graphics::Window < Redenik::Graphics::UI_Component
 	def initialize(x, y, width, height)
-		@main_viewport = Viewport.new(x, y, width, height)
-		@main_viewport.z = 100
+		super(x, y, width, height)
+
+		@abc=[]
+		('A'..'Z').each{|a|@abc+=[a]}
+		@last_abc = nil
 
 		@list = []
 		@button_list = []
 		@columns = 1
-		@active = false
 		@select_movement = false
 		@select_x_offset = 0.0
 
 		@select = Redenik::Graphics::Image.new(0, 0, 32, 32, @main_viewport)
 		@select.copy Redenik::Graphics::Cache.load_bitmap('Gfx/Windows/', 'select')
-		@select.z = 100
+		@select.z = self.z + 10
 		@select.oy = -6
 
 		@slider = Redenik::Graphics::Image.new(width-8, 0, 8, height, @main_viewport)
-		@slider.z = 200
+		@slider.z = self.z + 10
 		@slider.opacity = 128
 
 		@button_h_offset = 0
@@ -26,73 +28,22 @@ class Redenik::Graphics::Window
 		select 0
 	end
 
-	def x
-		@main_viewport.rect.x
-	end
-
-	def y
-		@main_viewport.rect.y
-	end
-
-	def z
-		@main_viewport.z
-	end
-
-	def x=(value)
-		@main_viewport.rect.x = value
-	end
-
-	def y=(value)
-		@main_viewport.rect.y = value
-	end
-
 	def z=(value)
-		@main_viewport.z = value
-	end
-
-	def width
-		@main_viewport.rect.width
-	end
-
-	def height
-		@main_viewport.rect.height
-	end
-
-	def activate
-		@active = true
-	end
-
-	def deactivate
-		@active = false
-	end
-
-	def is_active?
-		@active
-	end
-
-	def show
-		@main_viewport.visible = true
-	end
-
-	def hide
-		@main_viewport.visible = false
-	end
-
-	def visible
-		@main_viewport.visible
-	end
-
-	def line_height
-		DEFAULT_FONT_SIZE
+		super
+		@select.z = self.z + 10
+		@slider.z = self.z + 10
 	end
 
 	def add_button(name, method, appearance = nil, second = "", enabled = true)
+		@last_abc = 'A' if @last_abc.nil?
+		@last_abc = @last_abc=='Z' ? 0 : @abc[@abc.index(@last.abc)+1]
 		@list << {
 			name:name,
 			method:method,
 			appearance:appearance,
 			enabled:enabled,
-			second:second
+			second:second,
+			abc:@last_abc
 		}
 	end
 
@@ -149,7 +100,7 @@ class Redenik::Graphics::Window
 	end
 
 	def update
-		return unless @active
+		super
 		_update___select_animation
 		_update___button_animation
 		_update___button_select_by_keys
@@ -161,10 +112,10 @@ class Redenik::Graphics::Window
 	private
 
 	def _draw_all_buttons
-		y_offset=0
+		y_offset = 0
 		@list.each do |button|
 			_draw_button(button,y_offset)
-			y_offset+=1 if button[:enabled]
+			y_offset += 1 if button[:enabled]
 		end
 	end
 
