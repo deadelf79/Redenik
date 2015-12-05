@@ -1,0 +1,20 @@
+{
+	"type":[
+		"is_safe",
+		"is_town",
+		"is_store"
+	],
+	"store_type":[
+		"item"
+	],
+	"store_purse":300,
+	"width":30,
+	"height":30,
+	"data":[
+		1
+	],
+	"events":[
+		"0":"_",
+		"-1":"trader"
+	]
+}
