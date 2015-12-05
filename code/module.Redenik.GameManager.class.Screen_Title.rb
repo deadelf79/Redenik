@@ -35,6 +35,7 @@ class Redenik::GameManager::Screen_Title < Redenik::GameManager::Screen_Menu_Bas
 			add_button(Redenik::Translation::Russian::SCREENS[:title][:quit],:fire___quit_game)
 			activate
 		end
+		@title_window.z = 1
 		@title_window.refresh
 	end
 
