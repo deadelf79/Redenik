@@ -8,6 +8,7 @@ class Redenik::GameManager::Screen_Quit < Redenik::GameManager::Screen_Menu_Base
 
 	def create___all_windows
 		create___quit_window
+		create___quit_label
 	end
 
 	def create___background
@@ -29,17 +30,33 @@ class Redenik::GameManager::Screen_Quit < Redenik::GameManager::Screen_Menu_Base
 			64
 		)
 		with @quit_window do
-			add_button(Redenik::Translation::Russian::SCREENS[:quit][:no],:fire___yes)
-			add_button(Redenik::Translation::Russian::SCREENS[:quit][:yes],:fire___no)
+			add_button( Redenik::Translation::Russian::SCREENS[:quit][:no],  :fire___no )
+			add_button( Redenik::Translation::Russian::SCREENS[:quit][:yes], :fire___yes )
 			activate
 		end
 		@quit_window.z = 102
 		@quit_window.refresh
 	end
 
+	def create___quit_label
+		@quit_label = Redenik::Graphics::Label.new(
+			310,
+			262,
+			192,
+			64
+		)
+		@quit_label.z = 103
+		@quit_label.text( Redenik::Translation::Russian::SCREENS[:quit][:question] )
+	end
+
 	def update
 		super
 		@quit_window.update
+	end
+
+	def fire___ok
+		index = @quit_window.index
+		send(@quit_window.list[index][:method]) if @quit_window.list[index][:enabled]
 	end
 
 	def fire___yes
