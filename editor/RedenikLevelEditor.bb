@@ -3,7 +3,9 @@ Graphics3D 800,600,32,2
 Global maxw=50, maxh=50
 Dim array(maxw,maxh)
 Global size=32,fill=False
-Global xoff,yoff,speed=4
+Global xoff=-(maxw/2-maxw/4)*size,yoff=-(maxh/2-maxh/4)*size,speed=4
+
+Global tileid = 2
 
 ;sample map data
 For x=0 To maxw-1
@@ -23,11 +25,13 @@ array(9, 1 )=-8 ; npc-nosex
 array(10,1 )=-9 ; npc-ally
 array(11,1 )=-10 ; npc-enemy
 
-For x=0 To 29
-	array(x,0)=255
-	array(x,29)=255
-	array(0,x)=255
-	array(29,x)=255
+For x=-xoff/size-1 To -xoff/size+GraphicsWidth()/size+1
+	array(x,-yoff/size-1)=255
+	array(x,-yoff/size+GraphicsHeight()/size+1)=255
+Next
+For y=-yoff/size-1 To -yoff/size+GraphicsHeight()/size+1
+	array(-xoff/size-1,y)=255
+	array(-xoff/size+GraphicsWidth()/size+1,y)=255
 Next
 
 While Not KeyHit(1)
@@ -87,6 +91,9 @@ While Not KeyHit(1)
 				Case 1
 					fill=False
 					Color 255,255,255
+				Case 2
+					fill=True
+					Color 255,255,255
 				; map border
 				Case 255
 					fill=False
@@ -102,10 +109,10 @@ While Not KeyHit(1)
 	Color 255,255,255
 	Rect GraphicsWidth()-200,0,200,GraphicsHeight(),0
 	Rect GraphicsWidth()-197,3,194,GraphicsHeight()-6,0
-		; show current tile
+		; show current tile info
 		Rect GraphicsWidth()-197,3,194,20,0
 		If RectsOverlap(MouseX(),MouseY(),1,1,0,0,GraphicsWidth()-200,GraphicsHeight()) Then
-			If RectsOverlap(MouseX(),MouseY(),1,1,xoff,yoff,GraphicsWidth(),GraphicsHeight()) Then
+			If RectsOverlap(MouseX(),MouseY(),1,1,xoff,yoff,GraphicsWidth()-xoff,GraphicsHeight()-yoff) Then
 				For x=0 To maxw-1
 					For y=0 To maxh-1
 						If RectsOverlap(MouseX(),MouseY(),1,1,xoff+x*size,yoff+y*size,size,size) Then
@@ -137,10 +144,27 @@ While Not KeyHit(1)
 								Text xoff+x*size+size/2,yoff+y*size+size/2,"npc-enemy",1,1
 							Case 0
 								Text xoff+x*size+size/2,yoff+y*size+size/2,"_",1,1
+							Case 2
+								Color 0,0,0
+								Text xoff+x*size+size/2,yoff+y*size+size/2,"WALL",1,1
 							Case 255
 								Color 200,128,0
 								Text xoff+x*size+size/2,yoff+y*size+size/2,"border",1,1
 							End Select
+							
+							; draw tileid
+							If KeyDown(42)
+								If MouseDown(1)
+									tileid = array(x,y)
+								EndIf
+							Else
+								If MouseDown(1)
+									array(x,y) = tileid
+								EndIf
+							EndIf
+							If MouseDown(2)
+								array(x,y) = 1
+							EndIf
 						EndIf
 					Next
 				Next
@@ -149,6 +173,31 @@ While Not KeyHit(1)
 			Color 255,255,255
 			Text GraphicsWidth()-195,5,"< nothing selected >"
 		EndIf
+		; show current tile id
+		Color 255,255,255
+		Rect GraphicsWidth()-197,33,194,20,0
+		Text GraphicsWidth()-195,33,"TileID: "+tileid
+		Color 0,255,0
+		Select tileid
+		Case 1
+			Text GraphicsWidth()-120,33,"["+"Emptiness"+"]"
+		Case -1
+			Text GraphicsWidth()-120,33,"["+"Trader"+"]"
+		Case -2
+			Text GraphicsWidth()-120,33,"["+"Inn provider"+"]"
+		Case -3
+			Text GraphicsWidth()-120,33,"["+"Quest giver"+"]"
+		Case -4
+			Text GraphicsWidth()-120,33,"["+"Place to sleep"+"]"
+		Case -5
+		Case -6
+		Case -7
+		Case -8
+		Case -9
+		Case -10
+		Case 2
+			Text GraphicsWidth()-120,33,"["+"Wall"+"]"
+		End Select
 	; map movement
 	If KeyDown(30) Then
 		xoff=xoff+speed
@@ -161,6 +210,13 @@ While Not KeyHit(1)
 	EndIf
 	If KeyDown(31) Then
 		yoff=yoff-speed
+	EndIf
+	; select tileid
+	If KeyHit(16) Then
+		tileid = tileid - 1
+	EndIf
+	If KeyHit(18) Then
+		tileid = tileid + 1
 	EndIf
 	Flip 0:VWait
 Wend
