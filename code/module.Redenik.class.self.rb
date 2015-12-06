@@ -55,7 +55,17 @@ module Redenik
 			all
 		end
 
+		def joypad_enabled?
+			@joypad = true if @joypad.nil?
+			@joypad
+		end
+
+		def joypad(enable)
+			@joypad = enable
+		end
+
 		private
+
 		def _gen_actors
 			new_level = 0
 			Redenik::Balance::START___MAX_ACTORS.times{|index|

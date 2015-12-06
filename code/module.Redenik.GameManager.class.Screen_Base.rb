@@ -22,7 +22,7 @@ class Redenik::GameManager::Screen_Base
 	end
 
 	def update_input
-		Input.update
+		Redenik.joypad_enabled? ? Input.update : Keys.update
 	end
 
 	def dispose

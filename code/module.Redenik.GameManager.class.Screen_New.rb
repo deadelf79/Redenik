@@ -49,15 +49,19 @@ class Redenik::GameManager::Screen_New < Redenik::GameManager::Screen_Menu_Base
 
 	def update
 		super
-		@input_name.update if @input_name.is_active?
+		if @input_name.is_active?
+			Redenik.joypad(false)
+			@input_name.update
+		else
+			Redenik.joypad(true)
+		end
 	end
 
 	def fire___ok
+		Input.update
 		if !@input_name.edit_now?
-			#if Mouse.area?(@input_name.x, @input_name.y, @input_name.width, @input_name.height)
-				@input_name.activate
-				@input_name.begin_edit
-			#end
+			@input_name.activate
+			@input_name.begin_edit
 		else
 			@input_name.end_edit
 			@input_name.deactivate

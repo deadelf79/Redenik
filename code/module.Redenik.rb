@@ -33,6 +33,9 @@ module Redenik
 		def add_party_member(id);end
 		def party_dead?;end
 
+		def joypad_enabled?;end
+		def joypad(enable);end
+
 		private
 		def _gen_actors;end
 		def _gen_items;end
@@ -632,6 +635,7 @@ module Redenik
 		end
 
 		class InputBox < UI_Component
+			def initialize(x, y, width, height, initial_text="", max_chars=nil);end
 			def clear;end
 			def refresh;end
 			def begin_edit;end
