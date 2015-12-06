@@ -37,7 +37,6 @@ module Redenik::NameGen
 
 		def make_name(min,max)
 			count = min + (max - min).abs
-			puts count
 			@result = ""
 			for index in 0...count
 				if index < count-1
