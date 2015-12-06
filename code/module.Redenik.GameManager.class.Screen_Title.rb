@@ -49,6 +49,10 @@ class Redenik::GameManager::Screen_Title < Redenik::GameManager::Screen_Menu_Bas
 		send(@title_window.list[index][:method]) if @title_window.list[index][:enabled]
 	end
 
+	def fire___cancel
+		fire___quit_game
+	end
+
 	def fire___new_game
 		Redenik::GameManager::call(Redenik::GameManager::Screen_New)
 	end
