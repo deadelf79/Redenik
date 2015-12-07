@@ -11,6 +11,7 @@ class Redenik::Graphics::Window < Redenik::Graphics::UI_Component
 		@list = []
 		@button_list = []
 		@columns = 1
+		@column_width = self.width / @columns
 		@select_movement = false
 		@select_x_offset = 0.0
 
@@ -59,6 +60,7 @@ class Redenik::Graphics::Window < Redenik::Graphics::UI_Component
 		@button_list.each{|button|
 			button.dispose
 		}
+		@button_list.clear
 	end
 
 	def refresh
@@ -75,6 +77,14 @@ class Redenik::Graphics::Window < Redenik::Graphics::UI_Component
 		@columns
 	end
 
+	def column_width
+		@column_width
+	end
+
+	def column_width=(value)
+		column_width = value
+	end
+
 	def select(index, hide = true)
 		@select.width = width/columns
 		if index<0&&hide
@@ -88,11 +98,17 @@ class Redenik::Graphics::Window < Redenik::Graphics::UI_Component
 		@select_index = index
 		return if @button_list.size == 0
 
-		while @button_list[index].y>height
-			@button_list.each{ |button| button.y-=line_height }
+		while @button_list[index].y > height
+			@button_list.each do |button|
+				button.x = @button_list.index(button) % columns * column_width
+				button.y -= line_height
+			end
 		end
-		while @button_list[index].y<0
-			@button_list.each{ |button| button.y+=line_height }
+		while @button_list[index].y < 0
+			@button_list.each do |button|
+				button.x = @button_list.index(button) % columns * column_width
+				button.y += line_height
+			end
 		end
 		@select.show
 		@select.x = 0
@@ -119,21 +135,22 @@ class Redenik::Graphics::Window < Redenik::Graphics::UI_Component
 		end
 	end
 
-	def _draw_button(button,index)
-		x_offset = index%columns
-		y_offset = index*line_height
+	def _draw_button( button, index )
+		x_offset = index % columns * column_width
+		y_offset = index/ columns * line_height
 		@button_list.push Redenik::Graphics::Image.new(
 			x_offset,
 			y_offset,
-			width/columns,
+			column_width,
 			line_height,
 			@main_viewport
 		)
 
 		icon_offset = 0
 		if button[:appearance]!=nil
-			temp = Redenik::Graphics::Cache.load_bitmap(button[:appearance][:icon])
+			temp = Redenik::Graphics::Cache.load_bitmap( 'Gfx/Icons/', button[:appearance][:icon] )
 			icon_offset = temp.width
+			@button_list.last.blt( 0, 0, temp, @button_list.last.rect )
 			temp.dispose
 		end
 
