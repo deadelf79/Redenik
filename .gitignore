@@ -1,7 +1,13 @@
 # Игнор-лист файлов проекта
 # Игнорируем все файлы данных форматов
-*.log
-*.psd
+/project/**/*.log
+/project/**/*.psd
+/project/**/*.png
+/project/**/*.jpeg
+/project/**/*.jpg
+/editor/*.bb_bak1
+/editor/*.bb_bak2
+/gendoc.bat
 ## Documentation cache and generated files:
 /.yardoc/
 /_yardoc/
