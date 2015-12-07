@@ -7,7 +7,8 @@ class Redenik::Graphics::Image < Sprite
 		@data.y = y
 		@data.bitmap = Bitmap.new(w,h)
 
-		@dest_x, @dest_y = 0, 0
+		@dest_x, @dest_y = @data.x, @data.y
+		@moving = false
 		self
 	end
 
@@ -116,6 +117,8 @@ class Redenik::Graphics::Image < Sprite
 		elsif (self.y - @dest_y).abs > 2
 			self.y = @dest_y
 		end
+
+		@moving = (self.x == @dest_x) && (self.y == @dest_y) ? false : true
 	end
 
 	def flash(color,duration)
@@ -267,6 +270,10 @@ class Redenik::Graphics::Image < Sprite
 		@dest_x, @dest_y = x, y
 	end
 
+	def moving?
+		@moving
+	end
+
 	# Drawers
 
 	def clear_rect(rect)
@@ -293,19 +300,27 @@ class Redenik::Graphics::Image < Sprite
 
 	def draw_text(rect,text,color,horizontal_align=0,vertical_align=0)
 		@data.bitmap.font.color = color
-		text_size_height = text_size(text).height # <= Добавим немного оптимизации подсчётам
-		if rect.height>text_size_height
+		text_lines = text.split(/\n/)
+		text_size_height = text_size( text ).height * text_lines.size # <= Добавим немного оптимизации подсчётам
+		if rect.height > text_size_height
 			case vertical_align
 			when 0 # Top
 				# do nothing
-				#rect.y = 0
 			when 1 # Center
 				rect.y = rect.height - text_size_height/2
 			when 2 # Bottom
 				rect.y = rect.height - text_size_height
 			end
 		end
-		@data.bitmap.draw_text(rect,text,horizontal_align)
+		text_lines.each do |line|
+			line_rect = Rect.new(
+				rect.x,
+				rect.y + text_lines.index(line)*text_size_height/text_lines.size,
+				rect.width,
+				text_size_height/text_lines.size
+			)
+			@data.bitmap.draw_text(line_rect,line,horizontal_align)
+		end
 		self
 	end
 
@@ -315,11 +330,11 @@ class Redenik::Graphics::Image < Sprite
 		# Проверка, прямая ли линия - если да, то прямоугольником проще
 		if y1==y2
 			x1,x2 = _swap(x1,x2) if x1>x2
-			draw_rect(Rect.new(x1,y1,x2-x1,1))
+			draw_rect( Rect.new(x1,y1,x2-x1,1), color )
 		end
 		if x1==x2
 			y1,y2 = _swap(y1,y2) if y1>y2
-			draw_rect(Rect.new(x1,y1,1,y2-y1))
+			draw_rect( Rect.new(x1,y1,1,y2-y1), color )
 		end
 		# Проверка, использована ли растеризация - если да,
 		# то переводим с антиалиасингом (Алгоритм Ву),
@@ -336,6 +351,30 @@ class Redenik::Graphics::Image < Sprite
 
 	def draw_plot(x,y,color)
 		@data.bitmap.set_pixel(x,y,color)
+	end
+
+	def flood_fill(x,y,color)
+		# Код перенесен отсюда: http://rosettacode.org/wiki/Category:Ruby
+		# Переписано для соответствия с RGSS и Image
+		current_color = self.get_pixel(x,y)
+		queue = []
+		queue.push({x:x,y:y})
+		until queue.empty?
+			last = queue.shift
+			if current_color == self.get_pixel(last[:x],last[:y])
+				west = _find_border(last, current_color, :west)
+				east = _find_border(last, current_color, :east)
+				self.draw_line(west[:x], west[:y], east[:x], east[:y], color)
+				q = west
+				while q[:x] < east[:x]
+					[:north, :south].each do |direction|
+						n = _neighbour_pixel(q, direction)
+						queue.push(n) if current_color == self.get_pixel(n[:x],n[:y])
+					end
+					q = _neighbour_pixel(q, :east)
+				end
+			end
+		end
 	end
 
 	def draw_icon(icon_index)
@@ -400,7 +439,10 @@ class Redenik::Graphics::Image < Sprite
 		# спасибо BasmanovDaniil
 		# Оригинальная статья: http://habrahabr.ru/post/185086/
 		steep = (y2-y1).abs > (x2-x1).abs
-		steep ? (x1,y1 = _swap(x1,y1)) : (x2,y2 = _swap(x2,y2))
+		if steep
+			(x1,y1 = _swap(x1,y1))
+			(x2,y2 = _swap(x2,y2))
+		end
 		if x1>x2
 			x1,x2 = _swap(x1,x2)
 			y1,y2 = _swap(y1,y2)
@@ -408,10 +450,10 @@ class Redenik::Graphics::Image < Sprite
 		deltax, deltay = x2 - x1, (y2 - y1).abs
     	error, ystep = (deltax.to_f/2).to_i, (y1 < y2) ? 1 : -1
      	y = y1
-     	(x1..x2).each{|x|
-        	draw_plot(steep ? y : x, steep ? x : y)
+     	(x1...x2).each{|x|
+        	draw_plot(steep ? y : x, steep ? x : y, color)
      		error -= deltay
-        	if 2 * error >= deltax
+        	if error < 0
 				y += ystep
 				error += deltax
             end
@@ -419,4 +461,22 @@ class Redenik::Graphics::Image < Sprite
 	end
 
 	def _draw_line_wu(x1,y1,x2,y2,color);end
+
+	def _neighbour_pixel(pixel,direction)
+		case direction
+		when :north then { x:pixel[:x], y:pixel[:y] - 1 }
+		when :south then { x:pixel[:x], y:pixel[:y] + 1 }
+		when :east then { x:pixel[:x] + 1, y:pixel[:y] }
+		when :west then { x:pixel[:x] - 1, y:pixel[:y] }
+		end
+	end
+
+	def _find_border(pixel,color,direction)
+		nextpixel = _neighbour_pixel(pixel, direction)
+		while self.get_pixel(nextpixel[:x],nextpixel[:y]) == color
+			pixel = nextpixel
+			nextpixel = _neighbour_pixel(pixel,direction)
+		end
+		pixel
+	end
 end
