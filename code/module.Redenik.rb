@@ -103,9 +103,16 @@ module Redenik
 			def create___game_start;end
 			def create___classes;end
 			def create___buttons;end
-			def create___game_new_window;end
+			def create___select;end
+			def create___game_choose_class;end
+			def create___game_stat_st;end
+			def create___game_stat_dx;end
+			def create___game_stat_iq;end
+			def create___game_stat_ht;end
+			def create___game_stat_cr;end
 			def create___game_start_window;end
 			def create___game_input_name;end
+			def create___game_help_window;end
 			def update;end
 			def fire___change_name;end
 			def fire___change_class;end
@@ -377,7 +384,7 @@ module Redenik
 			# в проектах, создаваемых на VX Ace
 
 			# Загрузка сразу в класс Image
-			def self.load_image(folder_name, filename, hue =0);end
+			def self.load_image(folder_name, filename, hue = 0);end
 			def self.load_bitmap(folder_name, filename, hue = 0);end
 			def self.empty_bitmap;end
 			def self.normal_bitmap(path);end
@@ -464,6 +471,7 @@ module Redenik
 			# Movement
 
 			def move_to(x,y);end
+			def moving?;end
 
 			# Drawers
 
@@ -475,6 +483,7 @@ module Redenik
 			def draw_circle_rect(x1,y1,x2,y2,color);end
 			def draw_plot(x,y,color);end
 
+			def flood_fill(x,y,color);end
 			def draw_icon(icon_index);end
 
 			# Colors
@@ -502,6 +511,9 @@ module Redenik
 			# Построение линии по алгоритму Ву
 			# (алгоритм Брезенхема + сглаживание)
 			def _draw_line_wu(x1,y1,x2,y2,color);end
+
+			def _neighbour_pixel(pixel,direction);end
+			def _find_border(pixel,color,direction);end
 		end
 
 		class Map
@@ -626,6 +638,21 @@ module Redenik
 			def _draw_sliders;end
 
 			def _draw_vertical_slider;end
+		end
+
+		class Slideshow < UI_Component
+			def add_slide(name, filename, appearance=nil);end
+			def list;end
+			def index;end
+			def refresh;end
+			def clear;end
+			def show_arrows(enabled);end
+			def select(index);end
+			private
+			def _draw_all_slides;end
+			def _draw_slide(slide_index);end
+			def _draw_arrow_left;end
+			def _draw_arrow_right;end
 		end
 
 		# Компонент для простого отображения текста
