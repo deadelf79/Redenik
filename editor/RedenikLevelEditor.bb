@@ -13,17 +13,17 @@ For x=0 To maxw-1
 		array(x,y)=1	
 	Next
 Next
-array(1, 1 )=0  ; _
-array(2, 1 )=-1 ; trader
-array(3, 1 )=-2 ; inn
-array(4, 1 )=-3 ; quest
-array(5, 1 )=-4 ; bed
-array(6, 1 )=-5 ; chest
-array(7, 1 )=-6 ; npc-man
-array(8, 1 )=-7 ; npc-woman
-array(9, 1 )=-8 ; npc-nosex
-array(10,1 )=-9 ; npc-ally
-array(11,1 )=-10 ; npc-enemy
+array(-xoff/size+1, -yoff/size )=0  ; _
+array(-xoff/size+2, -yoff/size )=-1 ; trader
+array(-xoff/size+3, -yoff/size )=-2 ; inn
+array(-xoff/size+4, -yoff/size )=-3 ; quest
+array(-xoff/size+5, -yoff/size )=-4 ; bed
+array(-xoff/size+6, -yoff/size )=-5 ; chest
+array(-xoff/size+7, -yoff/size )=-6 ; npc-man
+array(-xoff/size+8, -yoff/size )=-7 ; npc-woman
+array(-xoff/size+9, -yoff/size )=-8 ; npc-nosex
+array(-xoff/size+10,-yoff/size )=-9 ; npc-ally
+array(-xoff/size+11,-yoff/size )=-10 ; npc-enemy
 
 For x=-xoff/size-1 To -xoff/size+GraphicsWidth()/size+1
 	array(x,-yoff/size-1)=255
