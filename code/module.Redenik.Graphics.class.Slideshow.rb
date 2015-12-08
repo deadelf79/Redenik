@@ -10,9 +10,18 @@ class Redenik::Graphics::Slideshow < Redenik::Graphics::UI_Component
 		@arrow_right.z = self.z + 1
 		@arrow_orig_left, @arrow_orig_right = @arrow_left.x, @arrow_right.x
 		@arrow_offset_left, @arrow_offset_right, @arrow_anim = 0.0, 0.0, false
+		@arrow_block_left, @arrow_block_right = false, false
 
 		@index = 0
+		@control = true
+		@show_arrows = true
 		select 0
+	end
+
+	def deactivate
+		super
+		@arrow_left.x  = @arrow_orig_left
+		@arrow_right.x = @arrow_orig_right
 	end
 
 	def z=(value)
@@ -50,7 +59,8 @@ class Redenik::Graphics::Slideshow < Redenik::Graphics::UI_Component
 		@slides_list.clear
 	end
 
-	def show_arrows(enabled)
+	def show_arrows=(enabled)
+		@show_arrows = enabled
 		@arrow_left.visible = enabled
 		@arrow_right.visible = enabled
 	end
@@ -65,32 +75,47 @@ class Redenik::Graphics::Slideshow < Redenik::Graphics::UI_Component
 		end
 	end
 
+	def control=(enabled)
+		@control = enabled
+	end
+
+	def block_left?
+		@arrow_block_left
+	end
+
+	def block_right?
+		@arrow_block_right
+	end
+
+	def block_left
+		@arrow_block_left = true
+	end
+
+	def unblock_left
+		@arrow_block_left = false
+	end
+
+	def block_right
+		@arrow_block_right = true
+	end
+
+	def unblock_right
+		@arrow_block_right = false
+	end
+
 	def update
 		super
-		if Input.trigger?( :LEFT )
-			select(@index - 1)
-		end
-		if Input.trigger?( :RIGHT )
-			select(@index + 1)
+		if @control
+			if Input.trigger?( :LEFT )&&!@arrow_block_left
+				select(@index - 1)
+			end
+			if Input.trigger?( :RIGHT )&&!@arrow_block_right
+				select(@index + 1)
+			end
 		end
 		@slides_list.each{ | slide | slide.update }
-		if @arrow_anim
-			if @arrow_offset_left < 8 || @arrow_offset_right < 8
-				@arrow_offset_left 	+= 0.2 if @arrow_offset_left  < 8
-			 	@arrow_offset_right += 0.2 if @arrow_offset_right < 8
-			else
-				@arrow_anim = false
-			end
-		else
-			if @arrow_offset_left > 0 || @arrow_offset_right > 0
-				@arrow_offset_left 	-= 0.2 if @arrow_offset_left  > 0
-			 	@arrow_offset_right -= 0.2 if @arrow_offset_right > 0
-			else
-				@arrow_anim = true
-			end
-		end
-		@arrow_left.x 	= @arrow_orig_left 	+ @arrow_offset_left
-		@arrow_right.x 	= @arrow_orig_right - @arrow_offset_right
+		_update_arrow_movement
+		_update_arrow_block
 	end
 
 	private
@@ -149,4 +174,38 @@ class Redenik::Graphics::Slideshow < Redenik::Graphics::UI_Component
 			flood_fill( width/2-1, 1, white)
 		end
 	end
+
+	def _update_arrow_movement
+		if @arrow_anim
+			if @arrow_offset_left < 8 || @arrow_offset_right < 8
+				@arrow_offset_left 	+= 0.2 if @arrow_offset_left  < 8
+			 	@arrow_offset_right += 0.2 if @arrow_offset_right < 8
+			else
+				@arrow_anim = false
+			end
+		else
+			if @arrow_offset_left > 0 || @arrow_offset_right > 0
+				@arrow_offset_left 	-= 0.2 if @arrow_offset_left  > 0
+			 	@arrow_offset_right -= 0.2 if @arrow_offset_right > 0
+			else
+				@arrow_anim = true
+			end
+		end
+		@arrow_left.x 	= @arrow_orig_left 	+ @arrow_offset_left
+		@arrow_right.x 	= @arrow_orig_right - @arrow_offset_right
+	end
+
+	def _update_arrow_block
+		if @arrow_block_left
+			@arrow_left.visible = false
+		else
+			@arrow_left.visible = true if @show_arrows
+		end
+
+		if @arrow_block_right
+			@arrow_right.visible = false
+		else
+			@arrow_right.visible = true if @show_arrows
+		end
+	end 
 end

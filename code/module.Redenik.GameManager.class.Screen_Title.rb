@@ -27,12 +27,12 @@ class Redenik::GameManager::Screen_Title < Redenik::GameManager::Screen_Menu_Bas
 			108
 		)
 		with @title_window do
-			add_button(Redenik::Translation::Russian::SCREENS[:title][:new_game],:fire___new_game)
-			add_button(Redenik::Translation::Russian::SCREENS[:title][:load_game],:fire___load_game)
-			add_button(Redenik::Translation::Russian::SCREENS[:title][:settings],:fire___settings)
-			add_button(Redenik::Translation::Russian::SCREENS[:title][:achievements],:fire___achievements)
-			add_button(Redenik::Translation::Russian::SCREENS[:title][:statistics],:fire___statistics)
-			add_button(Redenik::Translation::Russian::SCREENS[:title][:quit],:fire___quit_game)
+			add_button( Redenik::Translation::Russian::SCREENS[:title][:new_game],		:fire___new_game )
+			add_button( Redenik::Translation::Russian::SCREENS[:title][:load_game],		:fire___load_game )
+			add_button( Redenik::Translation::Russian::SCREENS[:title][:settings],		:fire___settings )
+			add_button( Redenik::Translation::Russian::SCREENS[:title][:achievements],	:fire___achievements )
+			add_button( Redenik::Translation::Russian::SCREENS[:title][:statistics],	:fire___statistics )
+			add_button( Redenik::Translation::Russian::SCREENS[:title][:quit],			:fire___quit_game )
 			activate
 		end
 		@title_window.z = 1

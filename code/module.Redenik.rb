@@ -113,11 +113,16 @@ module Redenik
 			def create___game_start_window;end
 			def create___game_input_name;end
 			def create___game_help_window;end
+			def create___game_stats_apportion;end
 			def update;end
-			def fire___change_name;end
-			def fire___change_class;end
-			def fire___change_stat(stat);end
 			def fire___start_game;end
+			private
+			def _set_stat(class_id_in_balance);end
+			def _select_apportion(approtion_to_stats);end
+			def _update_select;end
+			def _update_apportion;end
+			def _update_stats;end
+			def _update_movement;end
 		end
 
 		class Screen_Name < Screen_Menu_Base
@@ -646,8 +651,15 @@ module Redenik
 			def index;end
 			def refresh;end
 			def clear;end
-			def show_arrows(enabled);end
+			def show_arrows=(enabled);end
 			def select(index);end
+			def control=(enabled);end
+			def block_left?;end
+			def block_right?;end
+			def block_left;end
+			def unblock_left;end
+			def block_right;end
+			def unblock_right;end
 			private
 			def _draw_all_slides;end
 			def _draw_slide(slide_index);end

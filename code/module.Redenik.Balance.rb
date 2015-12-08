@@ -5,12 +5,14 @@ module Redenik::Balance
 	START___MAX_ITEMS	= 300
 	START___MAX_ARMORS	= 900
 	START___MAX_WEAPON	= 900
+	START___STATS_CAN_APPORTION = 3
 
 	STATS___CLASSES = [
-		{:class_name=>:citizen,		:st=>10,	:dx=>10,	:iq=>10,	:ht=>10},
-		{:class_name=>:warrior,		:st=>12,	:dx=>9,		:iq=>8,		:ht=>11},
-		{:class_name=>:mage,		:st=>8,		:dx=>8,		:iq=>12,	:ht=>10},
-		{:class_name=>:thief,		:st=>8,		:dx=>13,	:iq=>11,	:ht=>8}
+		{:class_name=>:citizen,		:st=>10,	:dx=>10,	:iq=>10,	:ht=>10,	:cr=>10},
+		{:class_name=>:warrior,		:st=>12,	:dx=>9,		:iq=>8,		:ht=>11,	:cr=>10},
+		{:class_name=>:mage,		:st=>8,		:dx=>8,		:iq=>12,	:ht=>10,	:cr=>10},
+		{:class_name=>:thief,		:st=>8,		:dx=>13,	:iq=>11,	:ht=>8,		:cr=>10},
+		{:class_name=>:traider,		:st=>12,	:dx=>12,	:iq=>5,		:ht=>7,		:cr=>14}
 	]
 	ITEM_TYPES = [
 		:heal_hp,	:heal_mp,		:poison,	:scroll, # Scroll здесь - свиток
