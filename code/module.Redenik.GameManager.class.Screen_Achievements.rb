@@ -1,6 +1,11 @@
 #encoding utf-8
 
 class Redenik::GameManager::Screen_Achievements < Redenik::GameManager::Screen_Menu_Base
+	def initialize(*args)
+		super(*args)
+		@achis = {}
+	end
+
 	def create___all_pictures
 		create___background
 		create___game_achievements
@@ -23,20 +28,18 @@ class Redenik::GameManager::Screen_Achievements < Redenik::GameManager::Screen_M
 
 	def create___game_achi_window
 		_load_names
-		@achi_window = Redenik::Graphics::Window.new(
-			300,
-			300,
-			192,
-			192
-		)
-		with @title_window do
-			@achis.each_keys{|achi|
-				add_button(@achis[achi][:view][:name],:fire___show_achiv_desc)
-			}
-			activate
-		end
-		@title_window.z = 1
-		@title_window.refresh
+		@achi_window = Redenik::Graphics::Window.new(282,244,256,196)
+		@achis.each_key{|achi|
+			@achi_window.add_button(@achis[achi]["view"]["name"],:fire___show_achiv_desc)
+		}
+		@achi_window.activate
+		@achi_window.z = 110
+		@achi_window.refresh
+	end
+
+	def update
+		super
+		@achi_window.update
 	end
 
 	def fire___change_achiv_to_show(index)
@@ -50,7 +53,9 @@ class Redenik::GameManager::Screen_Achievements < Redenik::GameManager::Screen_M
 	private
 
 	def _load_names
-		@achis = JSON.decode(open("data/achievements.json","r"))
+		string = open("data/achieve.json","r").readlines.join
+		@achis = JSON.decode(string)
+		@achis.shift
 	end
 
 	def _load_data
