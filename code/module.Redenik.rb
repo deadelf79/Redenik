@@ -7,7 +7,9 @@
 # на все функции встроенных в него классов
 module Redenik
 	class << self
-		# Массив данных обо всех персонажах в игре
+		# Массив данных обо всех персонажах в игре.<br>
+		# Самый первый персонаж в списке (под номером 0) - это персонаж,
+		# который был создан игроком на экране создания персонажа.
 		attr_reader :game_actors
 
 		attr_reader :game_items
@@ -37,6 +39,7 @@ module Redenik
 		def joypad(enable);end
 
 		private
+		def _check_usac(user_actor);end
 		def _gen_actors;end
 		def _gen_items;end
 		def _gen_weapons;end
@@ -674,6 +677,7 @@ module Redenik
 		end
 
 		class InputBox < UI_Component
+			attr_reader :text
 			def initialize(x, y, width, height, initial_text="", max_chars=nil);end
 			def clear;end
 			def refresh;end

@@ -1,5 +1,7 @@
 ﻿# encoding utf-8
 class Redenik::Graphics::InputBox < Redenik::Graphics::UI_Component
+	attr_reader :text
+
 	def initialize( x, y, width, height, initial_text="", max_chars=nil )
 		super(x, y, width, height)
 		@text = initial_text.nil? ? "" : initial_text

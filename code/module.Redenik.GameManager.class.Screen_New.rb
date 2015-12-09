@@ -277,8 +277,24 @@ class Redenik::GameManager::Screen_New < Redenik::GameManager::Screen_Menu_Base
 		end
 	end
 
-	def fire___start_game;end
-
+	def fire___start_game
+		class_index = case @choose_class.index
+					  when 0; 1
+					  when 1; 2
+					  when 2; 3
+					  when 3; 4
+					  when 4; 0
+					  end
+		Redenik.start_game({
+			name:@input_name.text,
+			class_name:Redenik::Balance::STATS___CLASSES[class_index][:class_name],
+			st:@stat_st.index+1,
+			dx:@stat_dx.index+1,
+			iq:@stat_iq.index+1,
+			ht:@stat_ht.index+1,
+			cr:@stat_cr.index+1
+		})
+	end
 	private
 
 	def _set_stat(class_id_in_balance)

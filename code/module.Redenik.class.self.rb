@@ -5,7 +5,7 @@ module Redenik
 		attr_reader :game_actors, :game_items, :game_weapons, :game_armors
 		attr_reader :game_skills, :game_party
 
-		def start_game
+		def start_game(user_actor={})
 			# Подготовим переменные
 			@game_actors 	= []
 			@game_items 	= []
@@ -18,8 +18,9 @@ module Redenik
 				:party_id => 0
 			}
 			@player_actor	= nil
+
 			# Вызовем методы
-			_gen_actors
+			_gen_actors(_check_usac(user_actor))
 			_gen_items
 			_gen_weapons
 			_gen_armors
@@ -66,18 +67,30 @@ module Redenik
 
 		private
 
-		def _gen_actors
+		def _check_usac(user_actor)
+			user_actor = {} unless user_actor.is_a? Hash
+			user_actor[:name] = "NONAME" if user_actor[:name].nil?
+			user_actor[:class_name] = "Citizen" if user_actor[:class_name].nil?
+			user_actor[:st] = 10 if user_actor[:st].nil?
+			user_actor[:dx] = 10 if user_actor[:dx].nil?
+			user_actor[:iq] = 10 if user_actor[:iq].nil?
+			user_actor[:ht] = 10 if user_actor[:ht].nil?
+			user_actor[:cr] = 10 if user_actor[:cr].nil?
+			user_actor
+		end
+
+		def _gen_actors(valid_user_actor)
 			new_level = 0
 			Redenik::Balance::START___MAX_ACTORS.times{|index|
 				rand_class = Redenik::Balance::STATS___CLASSES[
 					Redenik::Balance::STATS___CLASSES.keys.sample
 				]
 				@game_actors << Redenik::Actor.new(
-					Redenik::NameGen.make_name(3,4),									# NAME
-					rand_class[:class_name],											# APPEARANCE
-					[rand_class[:st],rand_class[:dx],rand_class[:iq],rand_class[:ht]],	# STATS
-					[],																	# EQUIPS
-					new_level+=(index.to_f/6).to_i+1 									# LEVEL
+					Redenik::NameGen.make_name(3,4),													# NAME
+					rand_class[:class_name],															# APPEARANCE
+					[rand_class[:st],rand_class[:dx],rand_class[:iq],rand_class[:ht],rand_class[:cr]],	# STATS
+					[],																					# EQUIPS
+					new_level+=(index.to_f/6).to_i+1 													# LEVEL
 				)
 			}
 		end
