@@ -349,6 +349,12 @@ module Redenik
 		end
 	end
 
+	module MapGen
+		class << self
+
+		end
+	end
+
 	module LevelDesign
 		class Storage
 			attr_accessor :items
@@ -525,8 +531,12 @@ module Redenik
 		end
 
 		class Map
-			attr_accessor :events, :tileset, :autotiles
-			def initialize(id,width,height,type,min_level,max_level,max_rooms=100);end
+			attr_accessor :events, :data
+			def initialize(id,width,height,type,min_level,max_level);end
+
+			def width;end
+
+			def height;end
 			
 			# На карте безопасно?
 			def is_safe?;end
@@ -556,27 +566,24 @@ module Redenik
 			# в Цитадели Испытаний?
 			def is_basement?;end
 
-			private
-
-			def _gen_room;end
-			def _collided?(rect);end
-			def _passed_intersect_limit?(rect);end
-			def _gen_passage;end
-			def _render_map;end
-			def _save_map(full_mode=false);end
+			def save_changes;end
 		end
 
 		class StaticMap < Map
 			def initialize(id,filename);end
+			private
+			def _normalize_wall;end
 		end
 
-		class Tilemap < Image
+		class Tilemap
 			def initialize(map,tileset);end
 			def refresh;end
 			def dispose;end
 
 			private
 
+			def _analyze_map;end
+			def _load_tileset;end
 			def _draw_map;end
 		end
 
