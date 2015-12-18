@@ -294,6 +294,8 @@ class Redenik::GameManager::Screen_New < Redenik::GameManager::Screen_Menu_Base
 			ht:@stat_ht.index+1,
 			cr:@stat_cr.index+1
 		})
+
+		Redenik::GameManager::goto(Redenik::GameManager::Screen_Map)
 	end
 	private
 
@@ -315,6 +317,10 @@ class Redenik::GameManager::Screen_New < Redenik::GameManager::Screen_Menu_Base
 	end
 
 	def _update_select
+		if Mouse.area?( 280, 537, 200, 48 )
+			@select_index = 7
+		end
+
 		case @select_index
 		when 0
 			@select.move_to( @input_name.x - 138, @input_name.y + 8 )
