@@ -3,7 +3,7 @@
 module Redenik
 	class << self
 		attr_reader :game_actors, :game_items, :game_weapons, :game_armors
-		attr_reader :game_skills, :game_party
+		attr_reader :game_skills, :game_party, :game_maps, :current_map
 
 		def start_game(user_actor={})
 			# Подготовим переменные
@@ -13,11 +13,13 @@ module Redenik
 			@game_armors 	= []
 			@game_skills	= []
 			@game_party		= []
+			@game_maps 		= []
 			@player_id		= {
 				:actor_id => 0,
 				:party_id => 0
 			}
 			@player_actor	= nil
+			@current_map = 0
 
 			# Вызовем методы
 			_gen_actors(_check_usac(user_actor))
@@ -25,6 +27,7 @@ module Redenik
 			_gen_weapons
 			_gen_armors
 			_gen_skills
+			_gen_game_maps
 
 			add_party_member(0)
 		end
@@ -82,9 +85,7 @@ module Redenik
 		def _gen_actors(valid_user_actor)
 			new_level = 0
 			Redenik::Balance::START___MAX_ACTORS.times{|index|
-				rand_class = Redenik::Balance::STATS___CLASSES[
-					Redenik::Balance::STATS___CLASSES.keys.sample
-				]
+				rand_class = Redenik::Balance::STATS___CLASSES.sample
 				@game_actors << Redenik::Actor.new(
 					Redenik::NameGen.make_name(3,4),													# NAME
 					rand_class[:class_name],															# APPEARANCE
@@ -97,11 +98,11 @@ module Redenik
 
 		def _gen_items
 			sum = 0
-			Redenik::Balance.ITEMS.each_value{|value|sum+=value}
+			Redenik::Balance::ITEMS.each_value{|value|sum+=value}
 			offset = 0
-			Redenik::Balance.ITEMS.each{|key,value|
+			Redenik::Balance::ITEMS.each{|key,value|
 				for index in offset...((value.to_f/sum)*Redenik::Balance::START___MAX_ITEMS).to_i
-					@game_items << Redenik::Actor.new(
+					@game_items << Redenik::Item.new(
 						Redenik::NameGen.make_name(2,3),
 						[key],
 						[:common,:uncommon,:rare].sample,
@@ -109,24 +110,29 @@ module Redenik
 					)
 					# эта проверка нужна здесь только потому,
 					# что я еще не закончил с добалением строк для всех эффектов
-					if Redenik::Translation::Russian.ITEM_DESC[key]!=nil
-						@game_items.last.help_info =
-						format(
-								Redenik::Translation::Russian.ITEM_DESC[key].sample,
+					if Redenik::Translation::Russian::ITEM_DESC[key]!=nil
+						@game_items.last.help_info = format(
+								Redenik::Translation::Russian::ITEM_DESC[key].sample,
 								case @game_items.last.rarity
 								when :common
-									Redenik::Translation::Russian.EFFECT_STR[:low].sample
+									Redenik::Translation::Russian::EFFECT_STR[:low].sample
 								when :uncommon
-									Redenik::Translation::Russian.EFFECT_STR[:medium].sample
+									Redenik::Translation::Russian::EFFECT_STR[:medium].sample
 								when :rare
-									Redenik::Translation::Russian.EFFECT_STR[:hard].sample
+									Redenik::Translation::Russian::EFFECT_STR[:hard].sample
 								end
 						)
 					end
-					@game_items.last.price = Redenik::Balance.ITEM_COSTS[key]+
-					(@game_items.last.rarity)
+					rarity = 0
+					case @game_items.last.rarity
+					when :uncommon
+						rarity = 50
+					when :rare
+						rarity = 100
+					end
+					@game_items.last.price = Redenik::Balance::ITEM_COSTS[key] + rarity
 				end
-				offset = ((value.to_f/sum)*START___MAX_ITEMS).to_i
+				offset = ((value.to_f/sum)*Redenik::Balance::START___MAX_ITEMS).to_i
 			}
 		end
 
@@ -140,6 +146,15 @@ module Redenik
 
 		def _gen_skills
 
+		end
+
+		def _gen_game_maps
+			@game_maps[0] = {}
+			@game_maps[0][:map] = Redenik::Graphics::Static_Map.new(0, 'testmap')
+			@game_maps[0][:tilemap] = Redenik::Graphics::Tilemap.new(@game_maps[0][:map], 'walls')
+			#for index in 1...100
+				# gen other maps
+			#end
 		end
 
 		def _change_player(new_id)

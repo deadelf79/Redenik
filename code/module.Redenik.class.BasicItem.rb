@@ -9,6 +9,10 @@ class Redenik::BasicItem < Redenik::Basic
 		_gen_help_info
 	end
 
+	def help_info=(new_text)
+		@help_info = new_text
+	end
+
 	private
 
 	def _gen_help_info
@@ -16,6 +20,8 @@ class Redenik::BasicItem < Redenik::Basic
 						when :heal_hp
 							#Redenik::NameGen.make_info()
 						when :heal_mp
+
+						when :food
 						end
 	end
 end

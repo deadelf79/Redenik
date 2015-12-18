@@ -26,11 +26,16 @@ module Redenik
 		# к команде игрока.
 		attr_reader :game_party
 
+		attr_reader :game_maps
+
+		attr_reader :current_map
+
 		# Инициирует все данные перед стартом и запускает
 		# переход на первую сцену (титульное меню по умолчанию)
 		def start_game;end
 		def main_game;end
 		def end_game;end
+		def save_game;end
 
 		def add_party_member(id);end
 		def party_dead?;end
@@ -44,6 +49,8 @@ module Redenik
 		def _gen_items;end
 		def _gen_weapons;end
 		def _gen_armors;end
+		def _gen_skills;end
+		def _gen_game_maps;end
 	end
 
 	module GameManager
@@ -166,6 +173,23 @@ module Redenik
 			def fire___yes;end
 			def fire___no;end
 		end
+
+		class Screen_Map < Screen_Base
+			def create___map;end
+			def create___all_events;end
+			def create___ingame_messagebox;end
+			def create___ingame_hud_name;end
+			def create___ingame_hud_hp;end
+			def create___ingame_hud_mp;end
+			def create___ingame_hud_exp;end
+			def create___ingame_hud_current_weapon;end
+			def create___ingame_hud_current_armor;end
+			def create___ingame_hud_popup_list;end
+
+			private
+
+			def _save_changes;end
+		end
 	end
 
 	# Материнские классы, от которых наследуется большинство других
@@ -207,6 +231,7 @@ module Redenik
 		attr_accessor :rarity, :price, :icon_index, :weight
 		attr_reader :help_info
 		def initialize(health,mana,effects,rarity,start_price,type);end
+		def help_info=(new_text);end	
 
 		private
 
@@ -571,8 +596,6 @@ module Redenik
 
 		class StaticMap < Map
 			def initialize(id,filename);end
-			private
-			def _normalize_wall;end
 		end
 
 		class Tilemap
@@ -583,6 +606,7 @@ module Redenik
 			private
 
 			def _analyze_map;end
+			def _resize_map;end
 			def _load_tileset;end
 			def _draw_map;end
 		end
