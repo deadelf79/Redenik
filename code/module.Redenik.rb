@@ -39,6 +39,8 @@ module Redenik
 
 		def add_party_member(id);end
 		def party_dead?;end
+		def player;end
+		def next_member;end
 
 		def joypad_enabled?;end
 		def joypad(enable);end
@@ -506,6 +508,7 @@ module Redenik
 			def text_size(str);end
 			def get_pixel(x,y);end
 			def set_pixel(x,y,color);end
+			def export(filename);end
 
 			# Movement
 
@@ -609,6 +612,8 @@ module Redenik
 			def _resize_map;end
 			def _load_tileset;end
 			def _draw_map;end
+			def _draw_normal_tiles;end
+			def _draw_auto_tiles;end
 		end
 
 		class UI_Component
