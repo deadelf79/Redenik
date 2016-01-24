@@ -30,6 +30,16 @@ module Redenik
 			_gen_game_maps
 
 			add_party_member(0)
+
+			wr [
+				@game_actors,
+				@game_items,
+				@game_weapons,
+				@game_armors,
+				@game_skill,
+				@game_party,
+				@game_maps
+			]
 		end
 
 		def main_game
@@ -40,11 +50,11 @@ module Redenik
 		def end_game;end
 		
 		def add_party_member(id)
-			unless @game_party.inlcude?(@game_actors[id])
+			unless @game_party.include?(@game_actors[id])
 				@game_party << @game_actors[id]
 			end
 			if id==@player_id[:actor_id]
-				_change_player
+				_change_player id
 			end
 		end
 
@@ -66,6 +76,18 @@ module Redenik
 
 		def joypad(enable)
 			@joypad = enable
+		end
+
+		def player
+			@game_party[@player_id[:party_id]]
+		end
+
+		def next_member
+			@game_party.each{|member|
+				next if member.dead?
+				next_id = @game_party.index(member)
+			}
+			next_id
 		end
 
 		private
