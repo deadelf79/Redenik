@@ -21,7 +21,7 @@ class Redenik::GameManager::Screen_Map < Redenik::GameManager::Screen_Base
 	end
 
 	def create___map
-		@map = Redenik.game_maps[Redenik.current_map]
+		@map = Redenik.game_maps[Redenik.current_map][:tilemap]
 	end
 
 	def create___all_events;end
@@ -33,6 +33,10 @@ class Redenik::GameManager::Screen_Map < Redenik::GameManager::Screen_Base
 	def create___ingame_hud_current_weapon;end
 	def create___ingame_hud_current_armor;end
 	def create___ingame_hud_popup_list;end
+
+	def update
+		super
+	end
 
 	private
 
