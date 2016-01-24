@@ -28,7 +28,7 @@ class Redenik::GameManager::Screen_Achievements < Redenik::GameManager::Screen_M
 
 	def create___game_achi_window
 		_load_names
-		@achi_window = Redenik::Graphics::Window.new(282,244,256,196)
+		@achi_window = Redenik::Graphics::Window.new(282,244,256,194)
 		@achis.each_key{|achi|
 			@achi_window.add_button(@achis[achi]["view"]["name"],:fire___show_achiv_desc)
 		}
