@@ -17,7 +17,8 @@ class Redenik::GameManager::Screen_New < Redenik::GameManager::Screen_Menu_Base
 
 	def create___background
 		@background = Plane.new
-		@background.bitmap = Bitmap.new("Gfx/Planes/retrolines")
+		@background.bitmap = Graphics.snap_to_bitmap #Bitmap.new("Gfx/Planes/retrolines")
+		@background.bitmap.blur
 		@background.z = 100
 	end
 
