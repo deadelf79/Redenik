@@ -264,6 +264,13 @@ class Redenik::Graphics::Image < Sprite
 		self
 	end
 
+	def export(filename)
+		# require Zeus81's Bitmap Export
+		filename.gsub!(/\.(png|bmp)$/){""}
+		@data.bitmap.export("#{filename}.png")
+		self
+	end
+
 	# Movement
 
 	def move_to(x,y)
