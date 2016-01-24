@@ -43,7 +43,7 @@ module Redenik::GameManager
 				wr "Screen '#{scene.inspect}' created for...",0
 				setup_scene(scene)
 				wr "#{@stack.last.creation_time} ms"
-			rescue => error
+			rescue Exception => error
 				msgbox "Error when call scene '#{scene}': #{error}. Because of:\n#{error.backtrace.join("\n")}"
 			end
 		end
@@ -51,7 +51,13 @@ module Redenik::GameManager
 		def goto(scene)
 			@stack.each{|screen|screen.dispose}
 			@stack.clear
-			setup_scene(scene)
+			begin
+				wr "Screen '#{scene.inspect}' created for...",0
+				setup_scene(scene)
+				wr "#{@stack.last.creation_time} ms"
+			rescue Exception => error
+				msgbox "Error when call scene '#{scene}': #{error}. Because of:\n#{error.backtrace.join("\n")}"
+			end
 		end
 
 		def cancel
