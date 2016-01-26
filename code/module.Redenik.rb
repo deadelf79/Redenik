@@ -179,14 +179,11 @@ module Redenik
 		class Screen_Map < Screen_Base
 			def create___map;end
 			def create___all_events;end
-			def create___ingame_messagebox;end
-			def create___ingame_hud_name;end
-			def create___ingame_hud_hp;end
-			def create___ingame_hud_mp;end
-			def create___ingame_hud_exp;end
-			def create___ingame_hud_current_weapon;end
-			def create___ingame_hud_current_armor;end
-			def create___ingame_hud_popup_list;end
+			def create___widget_popup;end
+			def create___widget_health;end
+			def create___widget_equipment;end
+			def create___widget_quick;end
+			def create___widget_mapquest;end
 
 			private
 
@@ -197,7 +194,7 @@ module Redenik
 	# Материнские классы, от которых наследуется большинство других
 
 	class Basic
-		attr_reader :name, :health, :mana, :effects
+		attr_reader :name, :health, :mana, :effects, :max_health, :max_mana
 		attr_accessor :gold_modifier
 		def initialize(health,mana,effects,gold_modifier);end
 		
@@ -682,6 +679,13 @@ module Redenik
 			def _draw_sliders;end
 
 			def _draw_vertical_slider;end
+		end
+
+		class Widget_Health < UI_Component
+			def initialize(x,y);end
+			def refresh;end
+			private
+			def _draw_all;end
 		end
 
 		class Slideshow < UI_Component

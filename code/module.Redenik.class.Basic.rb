@@ -1,7 +1,7 @@
 # encoding utf-8
 
 class Basic
-	attr_accessor :health, :mana, :effects
+	attr_accessor :health, :mana, :effects, :max_health, :max_mana
 	attr_accessor :gold_modifier
 	def initialize(health,mana,effects,gold_modifier)
 		@max_health, @max_mana, @effects, @gold_modifier = health, mana, effects, gold_modifier
