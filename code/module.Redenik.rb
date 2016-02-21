@@ -45,6 +45,9 @@ module Redenik
 		def joypad_enabled?;end
 		def joypad(enable);end
 
+		def game_seed;end
+		def game_seed=(actor_name);end
+
 		private
 		def _check_usac(user_actor);end
 		def _gen_actors;end
@@ -57,6 +60,10 @@ module Redenik
 
 	module GameManager
 		class << self
+			# Отладочный холст.<br>
+			# Необходим для отрисовки отладочной информации поверх всего остального
+			attr_accessor :debug_canvas
+			
 			def start;end
 			def main;end
 			def quit;end
@@ -240,7 +247,7 @@ module Redenik
 	#
 	class Person < Basic
 		attr_reader :appearance, :stats, :equips
-		attr_reader :exp, :level, :skills
+		attr_reader :exp, :level, :skills, :sex, :gender
 		def initialize(name,appearance,stats,equips);end
 		def update;end
 		def reset_exp;end
@@ -284,9 +291,26 @@ module Redenik
 		def _generate_exp_curve;end
 	end
 
+	# Специальный класс-прослойка для людей
+
+	class DressingPerson < Person
+		def initialize(name,appearance,stats,equips);end
+		def torso;end
+		def head;end
+		def left_hand;end
+		def right_hand;end
+		def left_shoulder;end
+		def right_shoulder;end
+		def neck;end
+		def left_greave;end # наголенник
+		def right_greave;end
+		def left_shoe;end
+		def right_shoe;end
+	end
+
 	# Игровые классы
 
-	class Actor < Person
+	class Actor < DressingPerson
 		attr_reader :hungriness, :feel_monsters, :feel_traps
 		attr_reader :can_carry_weight
 		def initialize(name,appearance,stats,equips,level);end
@@ -300,6 +324,9 @@ module Redenik
 		# Возвращает массив из всех предметов, находящихся
 		# в инвентаре
 		def inventory;end
+		# Возвращает массив предметов, которые были
+		# помещены в ячейки быстрого доступа
+		def quick_inventory;end
 
 		# Проверяет, присутствует ли предмет в инвентаре
 		# => item - объект класса Redenik::Item, ::Weapon или ::Armor
@@ -312,14 +339,23 @@ module Redenik
 		def _check_level;end
 		def _gain_stat(type);end
 	end
+
+	class Enemy < DressingPerson
+		# dummy now
+		attr_reader :rarity, :base_creature
+		def initialize(name,base_creature,stats,equips);end
+	end
+
+	class Animal < Person
+		# dummy now
+	end
+
+	class Soulless < Person
+		# dummy now
+	end
 	
 	class Armor < BasicItem
 		def initialize(effects,rarity,equip_type);end
-	end
-
-	class Enemy < Person
-		attr_reader :rarity, :base_creature
-		def initialize(name,base_creature,stats,equips);end
 	end
 
 	class Item < BasicItem
@@ -465,6 +501,7 @@ module Redenik
 			def height=(value);end
 			def show;end
 			def hide;end
+			def marshal_dump;end
 
 			# RGSS Sprite
 
@@ -730,7 +767,18 @@ module Redenik
 			def _hide_keyboard;end
 			def _draw_pointer;end
 			def _input_update;end
+			def _mouse_update;end
 			def _enter;end
+		end
+
+		class Scalable_Window < UI_Component
+			def refresh;end
+			def frame_offset;end
+			def frame_offset=(value);end
+			def width=(value);end
+			def height=(value);end
+			def skin;end
+			def skin=(value);end
 		end
 	end
 
