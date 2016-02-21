@@ -1,4 +1,4 @@
-# encoding utf-8
+﻿# encoding utf-8
 
 module Redenik
 	class << self
@@ -21,6 +21,12 @@ module Redenik
 			@player_actor	= nil
 			@current_map = 0
 
+			@seed_is_valera = false
+			@game_seed = 0x1E240 #dec: 123456
+			@game_random = Random.new(@game_seed)
+			self.game_seed = user_actor[:name] unless user_actor[:name].nil?
+			@name_of_the_game = user_actor[:name] 
+
 			# Вызовем методы
 			_gen_actors(_check_usac(user_actor))
 			_gen_items
@@ -30,16 +36,17 @@ module Redenik
 			_gen_game_maps
 
 			add_party_member(0)
+			save_game
 
-			wr [
-				@game_actors,
-				@game_items,
-				@game_weapons,
-				@game_armors,
-				@game_skill,
-				@game_party,
-				@game_maps
-			]
+			# wr [
+			# 	@game_actors,
+			# 	@game_items,
+			# 	@game_weapons,
+			# 	@game_armors,
+			# 	@game_skill,
+			# 	@game_party,
+			# 	@game_maps
+			# ]
 		end
 
 		def main_game
@@ -47,7 +54,35 @@ module Redenik
 			_change_player(next_member) if @game_party[@player_id[:party_id]].dead?
 		end
 		
-		def end_game;end
+		def end_game
+			save_game
+		end
+
+		def save_game
+			dump = {
+				name_of_the_game:@name_of_the_game,
+				game_actors:@game_actors,
+				game_items:@game_items,
+				game_weapons:@game_weapons,
+				game_armors:@game_armors,
+				game_skill:@game_skill,
+				game_party:@game_party,
+				game_maps:@game_maps
+			}
+			Dir.mkdir("_User") unless Dir.exist?("_User")
+			player_dir_name = ""
+			temp_string = @game_seed.to_s
+			for index in 0...[256,temp_string.size].min
+				player_dir_name += temp_string[index]
+			end
+
+			Dir.mkdir("_User/#{player_dir_name}") unless Dir.exist?("_User/#{player_dir_name}")
+			save_data(
+				dump,
+				"_User/#{player_dir_name}/world.dump"
+			)
+			wr "Current game data saved to '_Users/#{player_dir_name}' dir"
+		end
 		
 		def add_party_member(id)
 			unless @game_party.include?(@game_actors[id])
@@ -76,6 +111,24 @@ module Redenik
 
 		def joypad(enable)
 			@joypad = enable
+		end
+
+		def game_seed
+			return :valera if @seed_is_valera
+			return @game_seed
+		end
+
+		def game_seed=(actor_name)
+			if actor_name=~/Валера|Valera/i
+				@seed_is_valera = true
+				@game_seed = rand(12345)
+				@game_random = Random.new(@game_seed)
+			else
+				@seed_is_valera = false
+				@game_seed = actor_name.bytes.join.to_i
+				@game_random = Random.new(@game_seed)
+				wr "New game seed is #{@game_seed}"
+			end
 		end
 
 		def player
@@ -107,7 +160,9 @@ module Redenik
 		def _gen_actors(valid_user_actor)
 			new_level = 0
 			Redenik::Balance::START___MAX_ACTORS.times{|index|
-				rand_class = Redenik::Balance::STATS___CLASSES.sample
+				rand_class = Redenik::Balance::STATS___CLASSES[
+					@game_random.rand(Redenik::Balance::STATS___CLASSES.size)
+				]
 				@game_actors << Redenik::Actor.new(
 					Redenik::NameGen.make_name(3,4),													# NAME
 					rand_class[:class_name],															# APPEARANCE
