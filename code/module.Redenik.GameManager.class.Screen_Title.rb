@@ -1,6 +1,14 @@
 # encoding utf-8
 
 class Redenik::GameManager::Screen_Title < Redenik::GameManager::Screen_Menu_Base
+	def initialize(*args)
+		super(*args)
+		@screen_offset = {
+			x:0,
+			y:Graphics.height-624
+		}
+	end
+
 	def create___all_pictures
 		create___background
 		create___game_title
@@ -17,6 +25,9 @@ class Redenik::GameManager::Screen_Title < Redenik::GameManager::Screen_Menu_Bas
 
 	def create___game_title
 		@game_title = Redenik::Graphics::Cache.load_image('Gfx/Titles/','game_title')
+
+		@game_title.x = @screen_offset[:x]
+		@game_title.y = @screen_offset[:y]
 	end
 
 	def create___title_window

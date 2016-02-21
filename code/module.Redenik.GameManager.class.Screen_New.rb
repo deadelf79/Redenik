@@ -4,6 +4,11 @@ class Redenik::GameManager::Screen_New < Redenik::GameManager::Screen_Menu_Base
 	def initialize(*args)
 		super(*args)
 
+		@screen_offset = {
+			x:0,
+			y:Graphics.height-624
+		}
+
 		@select_index = 0
 	end
 
@@ -17,14 +22,18 @@ class Redenik::GameManager::Screen_New < Redenik::GameManager::Screen_Menu_Base
 
 	def create___background
 		@background = Plane.new
-		@background.bitmap = Graphics.snap_to_bitmap #Bitmap.new("Gfx/Planes/retrolines")
-		@background.bitmap.blur
+		@background.bitmap = Bitmap.new("Gfx/Planes/retrolines")
+		#@background.bitmap = Graphics.snap_to_bitmap
+		#@background.bitmap.blur
 		@background.z = 100
 	end
 
 	def create___game_start
 		@game_start = Redenik::Graphics::Cache.load_image('Gfx/Titles/','game_start')
 		@game_start.z = 101
+
+		@game_start.x = @screen_offset[:x]
+		@game_start.y = @screen_offset[:y]
 	end
 
 	def create___classes
@@ -58,10 +67,10 @@ class Redenik::GameManager::Screen_New < Redenik::GameManager::Screen_Menu_Base
 		@choose_class = Redenik::Graphics::Slideshow.new( 263, 271, 82, 82 )
 		with @choose_class do
 			add_slide(Redenik::Translation::Russian::CLASS_NAMES[ :warrior ][ :name ], 	"warrior")
-			add_slide(Redenik::Translation::Russian::CLASS_NAMES[ :mage ][ :name ], 	"")#"mage")
-			add_slide(Redenik::Translation::Russian::CLASS_NAMES[ :thief ][ :name ], 	"")#"thief")
-			add_slide(Redenik::Translation::Russian::CLASS_NAMES[ :trader ][ :name ], 	"")#"citizen")
-			add_slide(Redenik::Translation::Russian::CLASS_NAMES[ :citizen ][ :name ], 	"")#"citizen")
+			add_slide(Redenik::Translation::Russian::CLASS_NAMES[ :mage ][ :name ], 	"mage")
+			add_slide(Redenik::Translation::Russian::CLASS_NAMES[ :thief ][ :name ], 	"thief")
+			add_slide(Redenik::Translation::Russian::CLASS_NAMES[ :trader ][ :name ], 	"trader")
+			add_slide(Redenik::Translation::Russian::CLASS_NAMES[ :citizen ][ :name ], 	"citizen")
 		end
 		@choose_class.z = 110
 		@choose_class.refresh
@@ -318,7 +327,62 @@ class Redenik::GameManager::Screen_New < Redenik::GameManager::Screen_Menu_Base
 	end
 
 	def _update_select
-		if Mouse.area?( 280, 537, 200, 48 )
+		# selector areas
+		if Mouse.area?( 224, 176, 368, 64 )
+			Redenik::GameManager.debug_canvas.clear
+			rect = Rect.new( 224, 176, 368, 64 )
+			color = Color.new( 255, 135, 0 )
+			Redenik::GameManager.debug_canvas.draw_rect(rect, color, false)
+
+			@select_index = 0
+		elsif Mouse.area?( 216, 264, 176, 96 )
+			Redenik::GameManager.debug_canvas.clear
+			rect = Rect.new( 216, 264, 176, 96 )
+			color = Color.new( 255, 135, 0 )
+			Redenik::GameManager.debug_canvas.draw_rect(rect, color, false)
+
+			@select_index = 1
+		elsif Mouse.area?( 404, 256, 230, 20 )
+			Redenik::GameManager.debug_canvas.clear
+			rect = Rect.new( 404, 256, 230, 20 )
+			color = Color.new( 255, 135, 0 )
+			Redenik::GameManager.debug_canvas.draw_rect(rect, color, false)
+
+			@select_index = 2
+		elsif Mouse.area?( 404, 276, 230, 20 )
+			Redenik::GameManager.debug_canvas.clear
+			rect = Rect.new( 404, 276, 230, 20 )
+			color = Color.new( 255, 135, 0 )
+			Redenik::GameManager.debug_canvas.draw_rect(rect, color, false)
+
+			@select_index = 3
+		elsif Mouse.area?( 404, 296, 230, 20 )
+			Redenik::GameManager.debug_canvas.clear
+			rect = Rect.new( 404, 296, 230, 20 )
+			color = Color.new( 255, 135, 0 )
+			Redenik::GameManager.debug_canvas.draw_rect(rect, color, false)
+
+			@select_index = 4
+		elsif Mouse.area?( 404, 316, 230, 20 )
+			Redenik::GameManager.debug_canvas.clear
+			rect = Rect.new( 404, 316, 230, 20 )
+			color = Color.new( 255, 135, 0 )
+			Redenik::GameManager.debug_canvas.draw_rect(rect, color, false)
+
+			@select_index = 5
+		elsif Mouse.area?( 404, 336, 230, 20 )
+			Redenik::GameManager.debug_canvas.clear
+			rect = Rect.new( 404, 336, 230, 20 )
+			color = Color.new( 255, 135, 0 )
+			Redenik::GameManager.debug_canvas.draw_rect(rect, color, false)
+
+			@select_index = 6
+		elsif Mouse.area?( 296, 520, 224, 48 )
+			Redenik::GameManager.debug_canvas.clear
+			rect = Rect.new( 296, 520, 224, 48 )
+			color = Color.new( 255, 135, 0 )
+			Redenik::GameManager.debug_canvas.draw_rect(rect, color, false)
+
 			@select_index = 7
 		end
 
