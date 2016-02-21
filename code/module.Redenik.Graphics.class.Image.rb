@@ -83,6 +83,16 @@ class Redenik::Graphics::Image < Sprite
 		self.visible = false
 	end
 
+	def marshal_dump
+		data = [
+			@data.bitmap.name,
+			@data.x,
+			@data.y,
+			@data.width,
+			@data.height
+		]
+	end
+
 	# RGSS Sprite
 
 	def visible
@@ -294,13 +304,13 @@ class Redenik::Graphics::Image < Sprite
 		else
 			# Тогда рисуем линиями
 			# Верх
-			draw_line(rect.x,rect.y,rect.x + rect.width,rect.y)
+			draw_line(rect.x, rect.y, rect.x + rect.width,rect.y, color)
 			# Низ
-			draw_line(rect.x,rect.height,rect.x + rect.width,rect.height)
+			draw_line(rect.x, rect.y + rect.height, rect.x + rect.width, rect.y + rect.height, color)
 			# Лево
-			draw_line(rect.x,rect.y,rect.x,rect.y + rect.height)
+			draw_line(rect.x, rect.y, rect.x, rect.y + rect.height, color)
 			# Право
-			draw_line(rect.x + rect.width,rect.y,rect.x + rect.width,rect.height)
+			draw_line(rect.x + rect.width, rect.y, rect.x + rect.width, rect.y + rect.height, color)
 		end
 		self
 	end
@@ -408,15 +418,15 @@ class Redenik::Graphics::Image < Sprite
 	end
 
 	def yellow(subdued=false)
-		subdued ? Color.new(255,255,51) : Color.new(255,255,0)
+		subdued ? Color.new(217,217,31) : Color.new(255,255,0)
 	end
 
 	def lime(subdued=false)
-		subdued ? Color.new(217,115,31) : Color.new(128,255,0)
+		subdued ? Color.new(115,217,31) : Color.new(128,255,0)
 	end
 
 	def green(subdued=false)
-		subdued ? Color.new(217,115,31) : Color.new(0,255,0)
+		subdued ? Color.new(31,217,31) : Color.new(0,255,0)
 	end
 
 	def cyan(subdued=false)
@@ -424,15 +434,15 @@ class Redenik::Graphics::Image < Sprite
 	end
 
 	def blue(subdued=false)
-		subdued ? Color.new(217,115,31) : Color.new(0,0,255)
+		subdued ? Color.new(31,51,217) : Color.new(0,0,255)
 	end
 
 	def purple(subdued=false)
-		subdued ? Color.new(217,115,31) : Color.new(128,0,128)
+		subdued ? Color.new(115,31,115) : Color.new(128,0,128)
 	end
 
 	def pink(subdued=false)
-		subdued ? Color.new(217,115,31) : Color.new(255,128,0)
+		subdued ? Color.new(217,31,169) : Color.new(255,0,128)
 	end
 
 	private
