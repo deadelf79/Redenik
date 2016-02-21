@@ -26,7 +26,7 @@ class Redenik::GameManager::Screen_Map < Redenik::GameManager::Screen_Base
 	end
 
 	def create___widget_health
-
+		@widget_health = Redenik::Graphics::Widget_Health( 16, Graphics.height - 114 - 16)
 	end
 
 	def create___widget_equipment

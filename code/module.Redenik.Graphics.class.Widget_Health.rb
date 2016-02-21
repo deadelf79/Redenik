@@ -1,11 +1,11 @@
 class Redenik::Graphics::Widget_Health < Redenik::Graphics::UI_Component
 	def initialize( x, y )
-		super( x, y, 196, 96 )
+		super( x, y, 200, 114 )
 
 		player = Redenik.player
-		@health, @max_health = player.health, player.max_health
-		@mana, @max_mana = player.mana, player.max_mana
-		@hungriness = layer.hungriness
+		@health, @max_health = 0, 0 #player.health, player.max_health
+		@mana, @max_mana = 0, 0 #player.mana, player.max_mana
+		@hungriness = 0 #player.hungriness
 
 		@window = Redenik::Graphics::Image.new( 0, 0, 200, 114, @main_viewport )
 		@window.copy = Bitmap.new('Gfx/Windows/Widget_Health')
@@ -31,6 +31,7 @@ class Redenik::Graphics::Widget_Health < Redenik::Graphics::UI_Component
 			rect = Rect.new(33, 28, var_percent, 21)
 			@canvas.clear_rect(33, 28, 150, 21)
 			@canvas.draw_rect( rect, @canvas.red(true) )
+
 			@health = player.health
 		end
 
@@ -40,22 +41,23 @@ class Redenik::Graphics::Widget_Health < Redenik::Graphics::UI_Component
 			var_mana = player.mana / var_max * 100
 			var_percent = 150 * var_mana / 100
 
-			rect = Rect.new(33, 28, var_percent, 21)
+			rect = Rect.new(33, 52, var_percent, 21)
 			@canvas.clear_rect(33, 52, 150, 21)
-			@canvas.draw_rect( rect, @canvas.red(true) )
-			@health = player.health
+			@canvas.draw_rect( rect, @canvas.blue(true) )
+
+			@mana = player.mana
 		end
 
 		# hungriness bar
-		# if @health != player.health
-		# 	var_max = player.max_health
-		# 	var_health = player.health / var_max * 100
-		# 	var_percent = 150 * var_health / 100
+		if @hungriness != player.hungriness
+			var_max = player.max_hungriness
+			var_hungriness = player.hungriness / var_max * 100
+			var_percent = 150 * var_hungriness / 100
 
-		# 	rect = Rect.new(33, 28, var_percent, 21)
-		# 	@canvas.clear_rect(33, 28, 150, 21)
-		# 	@canvas.draw_rect( rect, @canvas.red(true) )
-		# 	@health = player.health
-		# end
+			rect = Rect.new(33, 76, var_percent, 21)
+			@canvas.clear_rect(33, 76, 150, 21)
+			@canvas.draw_rect( rect, @canvas.green(true) )
+			@hungriness = player.hungriness
+		end
 	end
 end
