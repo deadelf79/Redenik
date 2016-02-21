@@ -2,7 +2,15 @@
 
 module Redenik::GameManager
 	class << self
+		attr_accessor :debug_canvas
+		
 		def start
+			# Специально для визуальной отладки
+			@debug_canvas = Redenik::Graphics::Image.new(0,0,Graphics.width,Graphics.height)
+			@debug_canvas.z = 9999
+			@debug_canvas.visible = $TEST
+
+			# Стек-машина этого менеджера
 			@stack = []
 			setup_first_scene
 			@started = true
