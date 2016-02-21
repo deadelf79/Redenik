@@ -47,6 +47,7 @@ class Redenik::Graphics::InputBox < Redenik::Graphics::UI_Component
 		end
 
 		_input_update
+		_mouse_update
 	end
 
 	def begin_edit
@@ -224,6 +225,16 @@ class Redenik::Graphics::InputBox < Redenik::Graphics::UI_Component
 						_enter
 					end
 				end
+			end
+		end
+	end
+
+	def _mouse_update
+		if Mouse.click?(1)
+			wr "\t\tmouse in input clicked"
+			unless Mouse.area?( @box.x, @box.y, @box.width, @box.height )
+				self.deactivate
+				self.end_edit
 			end
 		end
 	end
