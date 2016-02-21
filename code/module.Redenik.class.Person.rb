@@ -9,10 +9,12 @@ class Redenik::Person < Redenik::Basic
 	LEVEL___MAXIMUM		= 100
 
 	attr_reader :appearance, :stats, :equips
-	attr_reader :exp, :level
+	attr_reader :exp, :level, :skills, :sex, :gender
 	def initialize(name,appearance,stats,equips)
 		@name, @appearance, @stats, @equips = name, appearance, stats, equips
 		@level = 1
+
+		@sex, @gender = :male, :getero
 
 		@base_exp			= rand(10..30)
 		@divider 			= 3
