@@ -3,7 +3,7 @@
 # полный код класса
 
 #
-class Redenik::Actor < Redenik::Person
+class Redenik::Actor < Redenik::DressingPerson
 
 	def initialize(name,appearance,stats,equips,level)
 		super(name,appearance,stats,equips)
