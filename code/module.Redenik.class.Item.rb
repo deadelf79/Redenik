@@ -10,4 +10,12 @@ class Redenik::Item < Redenik::BasicItem
 	def eatable?
 		@type == :food
 	end
+
+	def medkit?
+		@type == :medkit
+	end
+
+	def use
+		#
+	end
 end

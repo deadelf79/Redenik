@@ -2,6 +2,7 @@
 class Redenik::GameManager::Screen_Map < Redenik::GameManager::Screen_Base
 	def initialize(timer)
 		@creation_time = 0
+		@screen_offset = {x:0,y:0}
 		create___all_windows
 		create___all_pictures
 		create___map
@@ -9,7 +10,7 @@ class Redenik::GameManager::Screen_Map < Redenik::GameManager::Screen_Base
 		_make_timer(timer)
 	end
 
-	def create__all_windows
+	def create___all_windows
 		create___widget_popup
 		create___widget_health
 		create___widget_equipment
@@ -26,7 +27,10 @@ class Redenik::GameManager::Screen_Map < Redenik::GameManager::Screen_Base
 	end
 
 	def create___widget_health
-		@widget_health = Redenik::Graphics::Widget_Health( 16, Graphics.height - 114 - 16)
+		@widget_health = Redenik::Graphics::Widget_Health.new(
+			4,
+			Graphics.height - 114 - 4
+		)
 	end
 
 	def create___widget_equipment
@@ -34,7 +38,10 @@ class Redenik::GameManager::Screen_Map < Redenik::GameManager::Screen_Base
 	end
 
 	def create___widget_quick
-
+		@widget_quick = Redenik::Graphics::Widget_QuickInventory.new( 
+			Graphics.width/2 - 161,
+			Graphics.height - 54 - 4
+		)
 	end
 
 	def create___widget_mapquest
@@ -43,6 +50,17 @@ class Redenik::GameManager::Screen_Map < Redenik::GameManager::Screen_Base
 
 	def update
 		super
+		Redenik::GameManager.debug_canvas.clear
+		Redenik::GameManager.debug_canvas.draw_text(
+			Rect.new(
+				Graphics.width-128,
+				0,
+				128,
+				24
+			),
+			(Graphics.frame_count/Graphics.frame_rate).to_s,
+			Color.new(255,0,0)
+		)
 	end
 
 	private

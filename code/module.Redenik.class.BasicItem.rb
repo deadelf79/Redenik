@@ -6,6 +6,11 @@ class Redenik::BasicItem < Redenik::Basic
 	def initialize(health,mana,effects,rarity,start_price,type)
 		super(health,mana,effects,0)
 		@name = Redenik::NameGen.make_name(3,4)
+
+		@appearance = {
+			icon:nil
+		}
+		_load_icon_by_type
 		_gen_help_info
 	end
 
@@ -13,7 +18,15 @@ class Redenik::BasicItem < Redenik::Basic
 		@help_info = new_text
 	end
 
+	def icon
+		@appearance[:icon]
+	end
+
 	private
+
+	def _load_icon_by_type
+		#
+	end
 
 	def _gen_help_info
 		@help_info =	case @type
