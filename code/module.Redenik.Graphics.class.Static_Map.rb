@@ -17,7 +17,8 @@ class Redenik::Graphics::Static_Map < Redenik::Graphics::Map
 			end
 			if start_read
 				index = @data.add_line
-				@data[index] = line
+				
+				#@data[index] = line
 			end
 		}
 		self
