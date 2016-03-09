@@ -3,10 +3,9 @@
 class Redenik::GameManager::Screen_Base
 	def initialize(timer)
 		@creation_time = 0
+		@screen_offset = {x:0,y:0}
 		create___all_windows
 		create___all_pictures
-
-		@screen_offset = {x:0,y:0}
 		_make_timer(timer)
 	end
 
