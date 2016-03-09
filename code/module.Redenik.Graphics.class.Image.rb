@@ -317,7 +317,7 @@ class Redenik::Graphics::Image < Sprite
 
 	def draw_text(rect,text,color,horizontal_align=0,vertical_align=0)
 		@data.bitmap.font.color = color
-		text_lines = text.split(/\n/)
+		text_lines = text.is_a?(String) ? text.split(/\n/) : [text.to_s]
 		text_size_height = text_size( text ).height * text_lines.size # <= Добавим немного оптимизации подсчётам
 		if rect.height > text_size_height
 			case vertical_align
