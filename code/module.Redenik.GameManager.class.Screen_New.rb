@@ -2,12 +2,11 @@
 
 class Redenik::GameManager::Screen_New < Redenik::GameManager::Screen_Menu_Base
 	def initialize(*args)
-		super(*args)
-
 		@screen_offset = {
 			x:0,
 			y:Graphics.height-624
 		}
+		super(*args)
 
 		@select_index = 0
 	end
@@ -23,8 +22,6 @@ class Redenik::GameManager::Screen_New < Redenik::GameManager::Screen_Menu_Base
 	def create___background
 		@background = Plane.new
 		@background.bitmap = Bitmap.new("Gfx/Planes/retrolines")
-		#@background.bitmap = Graphics.snap_to_bitmap
-		#@background.bitmap.blur
 		@background.z = 100
 	end
 
@@ -181,8 +178,8 @@ class Redenik::GameManager::Screen_New < Redenik::GameManager::Screen_Menu_Base
 	def create___game_stats_apportion
 		@stats_apportion = Redenik::Graphics::Slideshow.new( 527, 382, 50, 20 )
 		with @stats_apportion do
-			(0..48).each{|index|
-				add_slide(index.to_s, "",{background:Color.new(0,0,0,0),color:Color.new(0,255,0)})
+			(0..48).each{ |index|
+				add_slide(index.to_s, "", { background:Color.new( 0, 0, 0, 0 ), color:Color.new( 0, 255, 0 ) })
 			}
 			self.z=110
 			self.show_arrows = false
