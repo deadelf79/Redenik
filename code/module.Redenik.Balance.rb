@@ -39,4 +39,10 @@ module Redenik::Balance
 		:storybook	=> 200,
 		:learnskill => 400
 	}
+	WEAPON_HEALTH = {
+		:common		=> 30,
+		:uncommon	=> 80,
+		:rare		=> 130,
+		:unique		=> 200
+	}
 end
