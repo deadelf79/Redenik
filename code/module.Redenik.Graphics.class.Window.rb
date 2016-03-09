@@ -56,11 +56,12 @@ class Redenik::Graphics::Window < Redenik::Graphics::UI_Component
 		@select_index
 	end
 
-	def clear
+	def clear(full=false)
 		@button_list.each{|button|
 			button.dispose
 		}
 		@button_list.clear
+		@list.clear if full
 	end
 
 	def refresh
@@ -71,6 +72,7 @@ class Redenik::Graphics::Window < Redenik::Graphics::UI_Component
 
 	def columns=(value)
 		@columns = value if value>=1
+		refresh
 	end
 
 	def columns
@@ -199,6 +201,7 @@ class Redenik::Graphics::Window < Redenik::Graphics::UI_Component
 	end
 
 	def _update___select_animation
+		return if @button_list.size==0
 		if @select.visible
 			if @select_movement
 				if (16 - @select_x_offset)>0.2
@@ -286,6 +289,7 @@ class Redenik::Graphics::Window < Redenik::Graphics::UI_Component
 	end
 
 	def _update___slider_movement
+		return if @list.size==0
 		@slider.move_to(
 			@slider.x,
 			@select_index*@main_viewport.rect.height/@list.size
