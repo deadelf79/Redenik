@@ -1,0 +1,34 @@
+body{
+	background-color: #048;
+	font-size: 20px;
+}
+
+#content{
+	background-color: #fff;
+	width: 800px;
+	min-height: 800px;
+	margin: auto;
+	padding: 30px;
+}
+
+ol#locale{
+	list-style-type: none;
+	padding: 5px;
+	float: right;
+	margin: 0px;
+}
+
+ol#locale li{
+	display: initial;
+}
+
+ol#locale img{
+	border: 1px solid #888;
+}
+
+iframe{
+	display: block;
+	width: 100%;
+	height: 100vh;
+	border: 0 solid #000;
+}

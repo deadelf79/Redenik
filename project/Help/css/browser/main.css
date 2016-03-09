@@ -1,0 +1,118 @@
+/* */
+redenik-h1{
+	color: #e00;
+}
+
+andsym{
+	font-weight: 600;
+	padding: 2px 0 2px 0;
+	color:#600;
+}
+
+helper{
+	border: 1px solid #eee;
+	padding: 4px;
+	color: #222;
+	/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#e8d9b0+0,c6bea9+100 */
+	background: #e8d9b0; /* Old browsers */
+	background: -moz-linear-gradient(top,  #e8d9b0 0%, #c6bea9 100%); /* FF3.6-15 */
+	background: -webkit-linear-gradient(top,  #e8d9b0 0%,#c6bea9 100%); /* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(to bottom,  #e8d9b0 0%,#c6bea9 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e8d9b0', endColorstr='#c6bea9',GradientType=0 ); /* IE6-9 */
+}
+
+next-novice{
+	border-radius: 10px;
+	box-shadow: 0 0 5px rgba(0,0,0,0.5);
+	-moz-box-shadow: 0 0 5px rgba(0,0,0,0.5);
+	-webkit-box-shadow: 0 0 5px rgba(0,0,0,0.5);
+	background-color: #e66;
+	padding: 20px;
+	color: #fff;
+	display: block;
+	margin: 10px;
+	font-size: 22px;
+}
+
+next-novice:hover{
+	background-color: #e00;
+}
+
+a{
+	text-decoration: none;
+}
+
+body{
+	font-size: 18px;
+}
+
+img{
+	display: block;
+	background-color: #eee;
+}
+
+nav ul {
+	padding: 0;
+	margin: 0;
+	list-style: none;
+	position: relative;
+	display: inline-table;
+	box-shadow: 0 0 5px rgba(0,0,0,0.5);
+	-moz-box-shadow: 0 0 5px rgba(0,0,0,0.5);
+	-webkit-box-shadow: 0 0 5px rgba(0,0,0,0.5);
+}
+
+nav ul:after {
+	z-index: 600;
+	content: "";
+	clear: both;
+	display: block;
+	width: 200px;
+}
+
+nav ul li:hover > ul {
+	display: block;
+}
+
+nav ul li {
+	float: left;
+	padding: 5px;
+	border: #eee;
+	background: #fff;
+}
+
+nav ul li:hover {
+	background: #e00;
+	color: #fff;
+}
+
+nav ul li:hover > a {
+	color: #fff;
+}
+
+nav ul li a {
+	display: block;
+	text-decoration: none;
+	color: #000;
+}
+
+nav ul ul {
+	display: none;
+	position: absolute;
+	top: 100%;
+	box-shadow: 0 0 10px rgba(0,0,0,0.5);
+	-moz-box-shadow: 0 0 10px rgba(0,0,0,0.5);
+	-webkit-box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+
+nav ul ul li {
+	float: none; 
+	position: relative;
+	color: #000;
+}
+
+nav ul ul ul {
+	position: absolute;
+	left: 100%;
+	top:0;
+}
