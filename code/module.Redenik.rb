@@ -144,13 +144,6 @@ module Redenik
 			def _update_movement;end
 		end
 
-		class Screen_Name < Screen_Menu_Base
-			def update_keyboard;end
-			def fire___enter_char(char);end
-			def fire___delete_char(char);end
-			def fire___change_pointer_pos(pos);end
-		end
-
 		class Screen_Load < Screen_Menu_Base
 			def fire___check_load_file;end
 			def fire___start_loaded_game;end
@@ -238,20 +231,25 @@ module Redenik
 		attr_reader :help_info
 		def initialize(health,mana,effects,rarity,start_price,type);end
 		def help_info=(new_text);end	
+		def icon;end
 
 		private
 
+		def _load_icon_by_type;end
 		def _gen_help_info;end
 	end
 
 	#
 	class Person < Basic
-		attr_reader :appearance, :stats, :equips
+		attr_reader :appearance, :stats
 		attr_reader :exp, :level, :skills, :sex, :gender
-		def initialize(name,appearance,stats,equips);end
-		def update;end
+		attr_reader :surname, :secondname
+		attr_reader :hungriness, :feel_monsters, :feel_traps
+		attr_reader :can_carry_weight
+		def initialize(name,appearance,stats);end
 		def reset_exp;end
 		def exp_curve(level);end
+		def recover;end
 
 		# Сильный?
 		def strong?;end
@@ -295,6 +293,7 @@ module Redenik
 
 	class DressingPerson < Person
 		def initialize(name,appearance,stats,equips);end
+
 		def torso;end
 		def head;end
 		def left_hand;end
@@ -306,13 +305,23 @@ module Redenik
 		def right_greave;end
 		def left_shoe;end
 		def right_shoe;end
+
+		def torso=(value);end
+		def head=(value);end
+		def left_hand=(value);end
+		def right_hand=(value);end
+		def left_shoulder=(value);end
+		def right_shoulder=(value);end
+		def neck=(value);end
+		def left_greave=(value);end
+		def right_greave=(value);end
+		def left_shoe=(value);end
+		def right_shoe=(value);end
 	end
 
 	# Игровые классы
 
 	class Actor < DressingPerson
-		attr_reader :hungriness, :feel_monsters, :feel_traps
-		attr_reader :can_carry_weight
 		def initialize(name,appearance,stats,equips,level);end
 		
 		# Gainers/Losers
@@ -320,6 +329,8 @@ module Redenik
 		def gain_item(item,value);end
 		def lose_item(item,value);end
 		def gain_exp(value);end
+		def set_quick_item(item,slot);end
+		def remove_quick_item(slot);end
 
 		# Возвращает массив из всех предметов, находящихся
 		# в инвентаре
@@ -327,6 +338,10 @@ module Redenik
 		# Возвращает массив предметов, которые были
 		# помещены в ячейки быстрого доступа
 		def quick_inventory;end
+
+		def medkits;end
+
+		def biography=(value);end
 
 		# Проверяет, присутствует ли предмет в инвентаре
 		# => item - объект класса Redenik::Item, ::Weapon или ::Armor
@@ -356,15 +371,22 @@ module Redenik
 	
 	class Armor < BasicItem
 		def initialize(effects,rarity,equip_type);end
+		def use;end
 	end
 
 	class Item < BasicItem
 		def initialize(name,effects,rarity,food);end
 		def eatable?;end
+		def medkit?;end
+		def use;end
 	end
 
 	class Key < BasicItem
 		def initialize(rarity);end
+	end
+
+	class Book < BasicItem
+		def initialize(filename);end
 	end
 
 	class Skill
@@ -381,7 +403,8 @@ module Redenik
 
 		def _gen_mana_by_rare(rarity);end
 
-		def _gen_wield_by_type(type);end
+		def _gen_wield_by_type(weapon_type);end
+		def use;end
 	end
 
 	# МОДУЛИ
@@ -415,10 +438,31 @@ module Redenik
 		end
 	end
 
+	module BiographyGen
+		class << self
+			def prepare;end
+			def actor=(value);end
+			def orphan=(value);end
+			def widower=(value);end
+			def childrens=(value);end
+			def generate;end
+		end
+	end
+
 	module LevelDesign
 		class Storage
 			attr_accessor :items
 			def initialize(max_rarity,max_level);end
+			def add(item,number);end
+			def remove(item,number);end
+			# Возвращает список предметов в виде массива вида
+			# [index] = { item, count }
+			# для отображение в меню хранилища
+			def itemlist;end
+		end
+
+		class BookShelf < Storage
+			def initialize;end
 		end
 
 		class Crate < Storage
@@ -718,13 +762,6 @@ module Redenik
 			def _draw_vertical_slider;end
 		end
 
-		class Widget_Health < UI_Component
-			def initialize(x,y);end
-			def refresh;end
-			private
-			def _draw_all;end
-		end
-
 		class Slideshow < UI_Component
 			def add_slide(name, filename, appearance=nil);end
 			def list;end
@@ -779,6 +816,44 @@ module Redenik
 			def height=(value);end
 			def skin;end
 			def skin=(value);end
+		end
+
+		# WIDGETS
+
+		class Widget_Health < UI_Component
+			def initialize(x,y);end
+			def refresh;end
+			private
+			def _draw_all;end
+		end
+
+		class Widget_History < UI_Component
+			def initialize(x,y);end
+			def refresh;end
+			private
+			def _draw_all;end
+		end
+
+		class Widget_QuickInventory < UI_Component
+			def initialize(x,y);end
+			def refresh;end
+			private
+			def reset_x;end
+			def _draw_all;end
+		end
+
+		class Widget_Equipment < UI_Component
+			def initialize(x,y);end
+			def refresh;end
+			private
+			def _draw_all;end
+		end
+
+		class Widget_MapQuest < UI_Component
+			def initialize(x,y);end
+			def refresh;end
+			private
+			def _draw_all;end
 		end
 	end
 
