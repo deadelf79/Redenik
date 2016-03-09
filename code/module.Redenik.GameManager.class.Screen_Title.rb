@@ -19,8 +19,30 @@ class Redenik::GameManager::Screen_Title < Redenik::GameManager::Screen_Menu_Bas
 	end
 
 	def create___background
+		screen_heights = [
+			624,
+			768,
+			1024,
+			1080,
+			1200,
+			1400
+		]
+		current_height = 0
+
+		screen_heights.each do |height|
+			if height == Graphics.height
+				current_height = height
+			else
+				current_height = 768
+			end
+		end
+
 		backs = ["man","knight"]
+		#@background = Redenik::Graphics::Cache.load_image('Gfx/Titles/',"background_#{backs.sample}_#{current_height}")
 		@background = Redenik::Graphics::Cache.load_image('Gfx/Titles/',"background_#{backs.sample}")
+
+		@background.x = Graphics.width - @background.width
+		@background.y = Graphics.height - @background.height
 	end
 
 	def create___game_title
@@ -32,8 +54,8 @@ class Redenik::GameManager::Screen_Title < Redenik::GameManager::Screen_Menu_Bas
 
 	def create___title_window
 		@title_window = Redenik::Graphics::Window.new(
-			32,
-			375,
+			@screen_offset[:x] + 32,
+			@screen_offset[:y] + 375,
 			208,
 			108
 		)
