@@ -166,8 +166,14 @@ module Redenik
 				@game_actors << Redenik::Actor.new(
 					Redenik::NameGen.make_name(3,4),													# NAME
 					rand_class[:class_name],															# APPEARANCE
-					[rand_class[:st],rand_class[:dx],rand_class[:iq],rand_class[:ht],rand_class[:cr]],	# STATS
-					[],																					# EQUIPS
+					{	# STATS
+						st:rand_class[:st],
+						dx:rand_class[:dx],
+						iq:rand_class[:iq],
+						ht:rand_class[:ht],
+						cr:rand_class[:cr]
+					},	
+					{},																					# EQUIPS
 					new_level+=(index.to_f/6).to_i+1 													# LEVEL
 				)
 			}
