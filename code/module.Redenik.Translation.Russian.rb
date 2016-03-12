@@ -167,6 +167,12 @@ module Redenik::Translation::Russian
 		},
 	}
 
+	USE_ITEM = {
+		message_start: 		"Вы использовали %s.",
+		message_failed: 	"Вы попытались использовать %s и у вас ничего не вышло.",
+		recover_health: 	"Восстановлено %s здоровья."
+	}
+
 	SCREENS = {
 		title: {
 			new_game: 		"Новая игра",

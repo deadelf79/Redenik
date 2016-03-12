@@ -1,4 +1,4 @@
-#encoding utf-8
+﻿#encoding utf-8
 class Redenik::GameManager::Screen_Map < Redenik::GameManager::Screen_Base
 	def initialize(timer)
 		@creation_time = 0
@@ -20,6 +20,8 @@ class Redenik::GameManager::Screen_Map < Redenik::GameManager::Screen_Base
 
 	def create___map
 		@map = Redenik.game_maps[Redenik.current_map][:tilemap]
+
+		Redenik.message_stack.push "Приветствуем вас в мире Рэдэник!"
 	end
 
 	def create___widget_popup
@@ -40,7 +42,7 @@ class Redenik::GameManager::Screen_Map < Redenik::GameManager::Screen_Base
 	def create___widget_quick
 		@widget_quick = Redenik::Graphics::Widget_QuickInventory.new( 
 			Graphics.width/2 - 161,
-			Graphics.height - 54 - 4
+			Graphics.height - 74 - 4
 		)
 	end
 

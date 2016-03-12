@@ -13,7 +13,7 @@ class Redenik::Graphics::Widget_Health < Redenik::Graphics::UI_Component
 		@window = Redenik::Graphics::Image.new( 0, 0, 200, 114, @main_viewport )
 		@window.copy Bitmap.new('Gfx/Windows/Widget_Health')
 
-		@canvas = Redenik::Graphics::Image.new( 4, 4, width, height, @main_viewport )
+		@canvas = Redenik::Graphics::Image.new( 4, 4, width - 8, height - 8, @main_viewport )
 		refresh
 	end
 

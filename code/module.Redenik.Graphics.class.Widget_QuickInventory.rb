@@ -2,15 +2,16 @@
 
 class Redenik::Graphics::Widget_QuickInventory < Redenik::Graphics::UI_Component
 	def initialize( x, y )
-		super( x, y, 322, 54 )
+		super( x, y, 322, 74 )
 
+		@player = Redenik.player
 		@items = []
 		(0...10).each{|index| @items[index] = nil }
 
-		@window = Redenik::Graphics::Image.new( 0, 0, 322, 54, @main_viewport )
+		@window = Redenik::Graphics::Image.new( 0, 0, 322, 74, @main_viewport )
 		@window.copy Bitmap.new('Gfx/Windows/Widget_QuickInventory')
 
-		@canvas = Redenik::Graphics::Image.new( 4, 4, width, height, @main_viewport )
+		@canvas = Redenik::Graphics::Image.new( 4, 4, width - 8, height - 8, @main_viewport )
 		refresh
 	end
 
