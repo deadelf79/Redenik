@@ -14,6 +14,12 @@ module Redenik::Balance
 		{:class_name=>:thief,		:st=>8,		:dx=>13,	:iq=>11,	:ht=>8,		:cr=>10},
 		{:class_name=>:traider,		:st=>12,	:dx=>12,	:iq=>5,		:ht=>7,		:cr=>14}
 	]
+	GAME___COMPLEXITY = [
+		:tourist, 	# турист - (-1/3) меньше хп у врагов
+		:mercenary, # наемник - средний уровень
+		:marauder, 	# мародер - (+1/3) больше хп у врагов, (+1/6) золота
+		:conqueror 	# завоеватель - (+2/3) больше хп у врагов, враги используют укрытия и атакуют из них
+	]
 	ITEM_TYPES = [
 		:heal_hp,	:heal_mp,		:poison,	:scroll, # Scroll здесь - свиток
 		:spellbook, :spellscroll,	:storybook, :learnskill
@@ -38,6 +44,20 @@ module Redenik::Balance
 		:spellscroll=> 150,
 		:storybook	=> 200,
 		:learnskill => 400
+	}
+	ITEM_USE_FX_BY_RARITY = {
+		:common		=> {
+			:heal_mp =>	(15..25)
+		},
+		:uncommon	=> {
+			:heal_mp =>	(25..50)
+		},
+		:rare		=> {
+			:heal_mp =>	(50..90)
+		},
+		:unique		=> {
+			:heal_mp =>	(90..150)
+		}
 	}
 	WEAPON_HEALTH = {
 		:common		=> 30,
