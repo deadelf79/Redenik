@@ -14,6 +14,15 @@ class Redenik::Actor < Redenik::DressingPerson
 		@inv_quick		= []
 		@current_level 	= level
 		@biography 		= ""
+
+		@gender_identity = {
+			asexual:25,
+			autosexual:25,
+			egoism:25,
+			geterosexual:25,
+			gomosexual:25,
+			transsexual:25
+		}
 	end
 
 	# Gainers/Losers
@@ -106,6 +115,28 @@ class Redenik::Actor < Redenik::DressingPerson
 			@current_level = level
 			return true
 		end
+
 		return false
 	end
+
+	def recover_health(amount)
+		if amount > 0
+			if @health != @max_health
+				if @health + amount < @max_health
+					@health += amount
+				else
+					@health = @max_health
+				end
+			end    
+		end
+	end
+
+	def recover_mana(amount);end
+	def lose_hungriness(amount);end
+	def poison;end
+
+	private 
+
+	def _check_level;end
+	def _gain_stat(type);end
 end
