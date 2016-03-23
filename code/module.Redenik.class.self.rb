@@ -4,6 +4,7 @@ module Redenik
 	class << self
 		attr_reader :game_actors, :game_items, :game_weapons, :game_armors
 		attr_reader :game_skills, :game_party, :game_maps, :current_map
+		attr_accessor :message_stack
 
 		def start_game(user_actor={})
 			# Подготовим переменные
@@ -25,7 +26,9 @@ module Redenik
 			@game_seed = 0x1E240 #dec: 123456
 			@game_random = Random.new(@game_seed)
 			self.game_seed = user_actor[:name] unless user_actor[:name].nil?
-			@name_of_the_game = user_actor[:name] 
+			@name_of_the_game = user_actor[:name]
+
+			@message_stack = []
 
 			# Вызовем методы
 			_gen_actors(_check_usac(user_actor))
@@ -158,6 +161,8 @@ module Redenik
 		end
 
 		def _gen_actors(valid_user_actor)
+			# мне нужно генерировать актёров при помощи списка карт
+
 			new_level = 0
 			Redenik::Balance::START___MAX_ACTORS.times{|index|
 				rand_class = Redenik::Balance::STATS___CLASSES[
@@ -235,6 +240,9 @@ module Redenik
 			@game_maps[0] = {}
 			@game_maps[0][:map] = Redenik::Graphics::Static_Map.new(0, 'testmap')
 			@game_maps[0][:tilemap] = Redenik::Graphics::Tilemap.new(@game_maps[0][:map], 'walls')
+			
+			# вначале - туториалы
+
 			#for index in 1...100
 				# gen other maps
 			#end
