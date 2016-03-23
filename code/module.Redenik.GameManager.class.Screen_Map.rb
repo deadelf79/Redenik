@@ -24,6 +24,15 @@ class Redenik::GameManager::Screen_Map < Redenik::GameManager::Screen_Base
 		Redenik.message_stack.push "Приветствуем вас в мире Рэдэник!"
 	end
 
+	def create___all_events
+		# вообще, их нужно бы загружать, но так как я ленивая задница,
+		# то пока что расставлю всё как могу
+		@events = []
+		@player_event_id = -1
+		@events.push Redenik::Graphics::Event.new
+		@events.last.associate_with_actor Redenik.player
+	end
+
 	def create___widget_popup
 		#
 	end

@@ -84,6 +84,8 @@ class Redenik::Graphics::Window < Redenik::Graphics::UI_Component
 	end
 
 	def column_width=(value)
+		value = 1  if value < 1
+		value = width if value > width
 		column_width = value
 	end
 

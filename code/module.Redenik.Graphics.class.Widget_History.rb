@@ -1,4 +1,6 @@
-class Widget_History < UI_Component
+#encoding utf-8
+
+class Redenik::Graphics::Widget_History < Redenik::Graphics::UI_Component
 	def initialize(x,y)
 		super(x,y,200,114)
 
