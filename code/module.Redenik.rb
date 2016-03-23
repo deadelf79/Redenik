@@ -30,6 +30,14 @@ module Redenik
 
 		attr_reader :current_map
 
+		# Стек сообщений.<br>
+		# В него записываются результаты всех произведенных игроком действий:
+		# атаки противника, принятия пищи или зелий, покупки и продажи
+		# предметов, получения и сдачи квестов и много другое.<br>
+		# Все эти сообщения можно почитать в виджете стека сообщений на основном
+		# внутриигровом экране.
+		attr_accessor :message_stack
+
 		# Инициирует все данные перед стартом и запускает
 		# переход на первую сцену (титульное меню по умолчанию)
 		def start_game;end
@@ -74,6 +82,44 @@ module Redenik
 			def call(scene);end
 			def goto(scene);end
 			def cancel;end
+		end
+
+		module MapManager
+			class << self
+				def make_tutorial_map(player_class,stat);end
+
+				private
+
+				def _tutorial___warrior_st;end
+				def _tutorial___warrior_dx;end
+				def _tutorial___warrior_iq;end
+				def _tutorial___warrior_ht;end
+				def _tutorial___warrior_cr;end
+
+				def _tutorial___mage_st;end
+				def _tutorial___mage_dx;end
+				def _tutorial___mage_iq;end
+				def _tutorial___mage_ht;end
+				def _tutorial___mage_cr;end
+
+				def _tutorial___thief_st;end
+				def _tutorial___thief_dx;end
+				def _tutorial___thief_iq;end
+				def _tutorial___thief_ht;end
+				def _tutorial___thief_cr;end
+
+				def _tutorial___trader_st;end
+				def _tutorial___trader_dx;end
+				def _tutorial___trader_iq;end
+				def _tutorial___trader_ht;end
+				def _tutorial___trader_cr;end
+
+				def _tutorial___citizen_st;end
+				def _tutorial___citizen_dx;end
+				def _tutorial___citizen_iq;end
+				def _tutorial___citizen_ht;end
+				def _tutorial___citizen_cr;end
+			end
 		end
 
 		class Achievement
@@ -232,6 +278,8 @@ module Redenik
 		def initialize(health,mana,effects,rarity,start_price,type);end
 		def help_info=(new_text);end	
 		def icon;end
+		def dispose;end
+		def disposed?;end
 
 		private
 
@@ -348,6 +396,11 @@ module Redenik
 		def got_in_inventory?(item);end
 		def got_key?(rarity);end
 		def got_new_level?;end
+
+		def recover_health(amount);end
+		def recover_mana(amount);end
+		def lose_hungriness(amount);end
+		def poison;end
 
 		private 
 
@@ -514,7 +567,8 @@ module Redenik
 		class Event
 			attr_accessor :x, :y, :display_x, :display_y
 			attr_accessor :controlable_now
-			def initialize(map_id,x,y);end
+			def initialize;end#(map_id,x,y);end
+			def associate_with_player;end
 			def associate_with_actor(actor);end
 			def associate_with_enemy(enemy);end
 			def associate_with_npc(npc);end
