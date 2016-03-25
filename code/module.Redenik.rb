@@ -870,6 +870,12 @@ module Redenik
 			def height=(value);end
 			def skin;end
 			def skin=(value);end
+			private 
+			def _repos;end
+		end
+
+		class Dialog < Scalable_Window
+			def initialize(text,bust);end
 		end
 
 		# WIDGETS
