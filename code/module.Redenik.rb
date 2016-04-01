@@ -225,7 +225,7 @@ module Redenik
 		class Screen_Map < Screen_Base
 			def create___map;end
 			def create___all_events;end
-			def create___widget_popup;end
+			def create___widget_history;end
 			def create___widget_health;end
 			def create___widget_equipment;end
 			def create___widget_quick;end
