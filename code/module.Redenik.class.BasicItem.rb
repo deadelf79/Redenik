@@ -10,6 +10,7 @@ class Redenik::BasicItem < Redenik::Basic
 		@appearance = {
 			icon:nil
 		}
+		@effects = []
 		_load_icon_by_type
 		_gen_help_info
 
@@ -36,7 +37,7 @@ class Redenik::BasicItem < Redenik::Basic
 
 	def _load_icon_by_type
 		item_fx = []
-		@effects.each{|fx|
+		@effects.each do|fx|
 			case fx
 			when :heal_hp
 				item_fx += ["hp"]
@@ -49,7 +50,7 @@ class Redenik::BasicItem < Redenik::Basic
 			when :rotten
 				item_fx += ["rotten"]
 			end
-		}
+		end
 
 		# все иконки расположены в папке Gfx/Icons/items
 		# Если предмет - еда
