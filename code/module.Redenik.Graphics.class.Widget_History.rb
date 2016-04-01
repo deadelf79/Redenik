@@ -4,18 +4,23 @@ class Redenik::Graphics::Widget_History < Redenik::Graphics::UI_Component
 	def initialize(x,y)
 		super(x,y,200,114)
 
-		@message_size = Redenik.message_stack.size
+		@message_size = 0 # Redenik.message_stack.size
 
-		@window = Redenik::Graphics::Image.new( 0, 0, 322, 54, @main_viewport )
+		@window = Redenik::Graphics::Image.new( 0, 0, 200, 114, @main_viewport )
 		@window.copy Bitmap.new('Gfx/Windows/Widget_History')
 
-		@canvas = Redenik::Graphics::Window.new( 4, 4, width - 8, height - 8 )
+		@canvas = Redenik::Graphics::Window.new( 8, 8, width - 10, height - 10 )
 		@canvas.deactivate
 		refresh
 	end
 
 	def refresh
 		_draw_all
+	end
+
+	def update
+		super
+		refresh if @message_size != Redenik.message_stack.size
 	end
 
 	private

@@ -35,6 +35,16 @@ class Redenik::Graphics::Window < Redenik::Graphics::UI_Component
 		@slider.z = self.z + 10
 	end
 
+	def activate
+		super
+		@select.show
+	end
+
+	def deactivate
+		super
+		@select.hide
+	end
+
 	def add_button(name, method, appearance = nil, second = "", enabled = true)
 		@last_abc = 'A' if @last_abc.nil?
 		@list << {
@@ -86,7 +96,7 @@ class Redenik::Graphics::Window < Redenik::Graphics::UI_Component
 	def column_width=(value)
 		value = 1  if value < 1
 		value = width if value > width
-		column_width = value
+		@column_width = value
 	end
 
 	def select(index, hide = true)
@@ -171,12 +181,12 @@ class Redenik::Graphics::Window < Redenik::Graphics::UI_Component
 		 	button[:enabled] ? @button_list.last.white : @button_list.last.white(true)
 		)
 
-		rect_letter = Rect.new(
-			@button_list.last.rect.x + @button_list.last.rect.width - 64,
-			@button_list.last.rect.y,
-			32,
-			@button_list.last.rect.height
-		)
+		# rect_letter = Rect.new(
+		# 	@button_list.last.rect.x + @button_list.last.rect.width - 64,
+		# 	@button_list.last.rect.y,
+		# 	32,
+		# 	@button_list.last.rect.height
+		# )
 
 		# @button_list.last.draw_text(
 		# 	rect_letter,

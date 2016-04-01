@@ -11,7 +11,7 @@ class Redenik::GameManager::Screen_Map < Redenik::GameManager::Screen_Base
 	end
 
 	def create___all_windows
-		create___widget_popup
+		create___widget_history
 		create___widget_health
 		create___widget_equipment
 		create___widget_quick
@@ -33,8 +33,10 @@ class Redenik::GameManager::Screen_Map < Redenik::GameManager::Screen_Base
 		@events.last.associate_with_actor Redenik.player
 	end
 
-	def create___widget_popup
-		#
+	def create___widget_history
+		@widget_history = Redenik::Graphics::Widget_History.new(
+			4, 4
+		)
 	end
 
 	def create___widget_health
