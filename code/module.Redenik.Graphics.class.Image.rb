@@ -91,6 +91,7 @@ class Redenik::Graphics::Image < Sprite
 			@data.width,
 			@data.height
 		]
+		data
 	end
 
 	# RGSS Sprite
@@ -363,8 +364,17 @@ class Redenik::Graphics::Image < Sprite
 		end
 	end
 
-	def draw_circle(x,y,radius,color);end
-	def draw_circle_rect(x1,y1,x2,y2,color);end
+	def draw_circle(x,y,radius,color,rasterize=false)
+		if rasterize
+			_draw_circle_wu(x,y,radius,color)
+		else
+			_draw_circle_bresenham(x,y,radius,color)
+		end
+	end
+
+	def draw_circle_rect(x1,y1,x2,y2,color,rasterize=false);end
+
+	def draw_arc(center_x,center_y,start_angle,end_angle,radius,rasterize=false);end
 
 	def draw_plot(x,y,color)
 		@data.bitmap.set_pixel(x,y,color)
@@ -457,8 +467,8 @@ class Redenik::Graphics::Image < Sprite
 		# Оригинальная статья: http://habrahabr.ru/post/185086/
 		steep = (y2-y1).abs > (x2-x1).abs
 		if steep
-			(x1,y1 = _swap(x1,y1))
-			(x2,y2 = _swap(x2,y2))
+			x1,y1 = _swap(x1,y1)
+			x2,y2 = _swap(x2,y2)
 		end
 		if x1>x2
 			x1,x2 = _swap(x1,x2)
@@ -467,17 +477,44 @@ class Redenik::Graphics::Image < Sprite
 		deltax, deltay = x2 - x1, (y2 - y1).abs
     	error, ystep = (deltax.to_f/2).to_i, (y1 < y2) ? 1 : -1
      	y = y1
-     	(x1...x2).each{|x|
+     	(x1...x2).each do |x|
         	draw_plot(steep ? y : x, steep ? x : y, color)
      		error -= deltay
         	if error < 0
 				y += ystep
 				error += deltax
             end
-        }
+        end
 	end
 
-	def _draw_line_wu(x1,y1,x2,y2,color);end
+	def _draw_line_wu(x1,y1,x2,y2,color)
+		
+	end
+
+	def _draw_circle_bresenham(x0,y0,radius,color)
+		# Исходный код: http://habrahabr.ru/post/185086/
+		x = radius
+		y = 0
+		radius_error = 1 - x
+		while (x>=y)
+			draw_plot( x+x0,		y+y0,	color )
+			draw_plot( y+x0,		x+y0,	color )
+			draw_plot( -x+x0,		y+y0,	color )
+			draw_plot( -y+x0,		x+y0,	color )
+			draw_plot( -x+x0,		-y+y0,	color )
+			draw_plot( -y+x0,		-x+y0,	color )
+			draw_plot( x+x0,		-y+y0,	color )
+			draw_plot( y+x0,		-x+y0,	color )
+			y+=1
+
+			if (radius_error < 0)
+				radius_error += 2 * y + 1
+			else
+				x-=1
+				radius_error += 2 * (y - x + 1)
+			end
+		end
+	end
 
 	def _neighbour_pixel(pixel,direction)
 		case direction
