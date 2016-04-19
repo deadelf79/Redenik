@@ -16,6 +16,8 @@ class Redenik::GameManager::Screen_Map < Redenik::GameManager::Screen_Base
 		create___widget_equipment
 		create___widget_quick
 		create___widget_mapquest
+		create___dialog_background
+		create___dialog_window
 	end
 
 	def create___map
@@ -61,8 +63,24 @@ class Redenik::GameManager::Screen_Map < Redenik::GameManager::Screen_Base
 
 	end
 
+	def create___dialog_background
+		@dialog_background = Plane.new
+		@dialog_background.bitmap = Bitmap.new("Gfx/Planes/retrolines")
+		@dialog_background.z = 100
+		@dialog_background.visible = false
+	end
+
+	def create___dialog_window
+		@dialog_window = Redenik::Graphics::Dialog.new
+		
+		# @dialog_window.visible = false
+	end
+
 	def update
 		super
+		@widget_history.update
+		@widget_health.update
+		@widget_quick.update
 		Redenik::GameManager.debug_canvas.clear
 		Redenik::GameManager.debug_canvas.draw_text(
 			Rect.new(
@@ -71,7 +89,7 @@ class Redenik::GameManager::Screen_Map < Redenik::GameManager::Screen_Base
 				128,
 				24
 			),
-			(Graphics.frame_count/Graphics.frame_rate).to_s,
+			Time.now.strftime("%H:%M:%S"),
 			Color.new(255,0,0)
 		)
 	end
