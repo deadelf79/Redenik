@@ -6,6 +6,7 @@ class Redenik::GameManager::Screen_New < Redenik::GameManager::Screen_Menu_Base
 			x:0,
 			y:Graphics.height-624
 		}
+		@stat_start_setup = false
 		super(*args)
 
 		@select_index = 0
@@ -163,8 +164,19 @@ class Redenik::GameManager::Screen_New < Redenik::GameManager::Screen_Menu_Base
 	end
 
 	def create___game_input_name
-		Redenik::NameGen.prepare
-		@input_name = Redenik::Graphics::InputBox.new( 352, 196, 216, 24, Redenik::NameGen.make_name( 3, 4 ) )
+		#Redenik::NameGen.prepare
+		#@input_name = Redenik::Graphics::InputBox.new( 352, 196, 216, 24, Redenik::NameGen.make_name( 3, 4 ) )
+		string = open("Data/Names/ru.json","r").readlines.join
+		json = JSON.decode(string)
+		name = json["man"].sample
+
+		@input_name = Redenik::Graphics::InputBox.new(
+			356,
+			198,
+			216,
+			24,
+			name
+		)
 		@input_name.z = 110
 	end
 
@@ -324,6 +336,27 @@ class Redenik::GameManager::Screen_New < Redenik::GameManager::Screen_Menu_Base
 	end
 
 	def _update_select
+		# select stat at start
+		if not @stat_start_setup
+			_set_stat(1)
+			_update_stats
+			if _update_stats_complete?
+				@stat_start_setup = true
+			end
+		end
+
+		# mouse pointer
+		if Mouse.area?(
+				@input_name.x,
+				@input_name.y,
+				@input_name.width,
+				@input_name.height
+			)
+			Redenik::GameManager.pointer.text
+		else
+			Redenik::GameManager.pointer.normal
+		end
+
 		# selector areas
 		if Mouse.area?( 224, 176, 368, 64 )
 			Redenik::GameManager.debug_canvas.clear
@@ -385,25 +418,20 @@ class Redenik::GameManager::Screen_New < Redenik::GameManager::Screen_Menu_Base
 
 		case @select_index
 		when 0
-			@select.move_to( @input_name.x - 138, @input_name.y + 8 )
+			@select.move_to( @input_name.x - 144, @input_name.y )
 		when 1
 			@select.move_to( @choose_class.x - 26, @choose_class.y + 8 )
 			case @choose_class.index
 			when 0
 				@help_window.text( Redenik::Translation::Russian::CLASS_NAMES[ :warrior ][ :desc ] )
-				_set_stat(1)# warrior
 			when 1
 				@help_window.text(Redenik::Translation::Russian::CLASS_NAMES[ :mage ][ :desc ])
-				_set_stat(2)# mage
 			when 2
 				@help_window.text(Redenik::Translation::Russian::CLASS_NAMES[ :thief ][ :desc ])
-				_set_stat(3)# thief
 			when 3
 				@help_window.text(Redenik::Translation::Russian::CLASS_NAMES[ :trader ][ :desc ])
-				_set_stat(4)# trader
 			when 4
 				@help_window.text(Redenik::Translation::Russian::CLASS_NAMES[ :citizen ][ :desc ])
-				_set_stat(0)# citizen
 			end
 		when 2
 			@select.move_to( @stat_st.x - 100, @stat_st.y )
@@ -517,6 +545,15 @@ class Redenik::GameManager::Screen_New < Redenik::GameManager::Screen_Menu_Base
 		@stat_cr.update if @stat_cr.is_active?
 	end
 
+	def _update_stats_complete?
+		return false unless @stat_st.update_complete?
+		return false unless @stat_dx.update_complete?
+		return false unless @stat_iq.update_complete?
+		return false unless @stat_ht.update_complete?
+		return false unless @stat_cr.update_complete?
+		true
+	end
+
 	def _update_movement
 		unless @choose_class.is_active?||
 			@stat_st.is_active?||
@@ -525,10 +562,35 @@ class Redenik::GameManager::Screen_New < Redenik::GameManager::Screen_Menu_Base
 			@stat_ht.is_active?||
 			@stat_cr.is_active?
 			if Input.trigger?(:DOWN)
-				@select_index < 7 ? @select_index += 1 : 0
+				if @select_index == 1
+					@select_index = 7
+				elsif @select_index == 7
+					@select_index = 0
+				else
+					@select_index += 1
+				end
 			end
+
+			if Input.trigger?(:RIGHT)
+				if @select_index == 1
+					@select_index = 2
+				end
+			end
+
+			if Input.trigger?(:LEFT)
+				if (2..6).include? @select_index
+					@select_index = 1
+				end
+			end
+
 			if Input.trigger?(:UP)
-				@select_index > 0 ? @select_index -= 1 : 7
+				if @select_index == 7
+					@select_index = 1
+				elsif @select_index == 2
+					@select_index = 0
+				else
+					@select_index -= 1 
+				end
 			end
 		end
 	end
