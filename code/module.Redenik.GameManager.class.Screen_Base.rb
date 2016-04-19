@@ -61,6 +61,6 @@ class Redenik::GameManager::Screen_Base
 	private
 
 	def _make_timer(timer)
-		@creation_time = Time.now.to_i - timer.to_i
+		@creation_time = (Time.now - timer.to_i).strftime("%L").to_i
 	end
 end

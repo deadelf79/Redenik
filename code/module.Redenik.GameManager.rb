@@ -3,12 +3,16 @@
 module Redenik::GameManager
 	class << self
 		attr_accessor :debug_canvas
+		attr_accessor :pointer
 		
 		def start
 			# Специально для визуальной отладки
 			@debug_canvas = Redenik::Graphics::Image.new(0,0,Graphics.width,Graphics.height)
 			@debug_canvas.z = 9999
-			@debug_canvas.visible = $TEST
+			@debug_canvas.visible = $TEST||$BTEST||$DEBUG
+
+			# Курсор мыши
+			@pointer = Redenik::Graphics::Mouse.new
 
 			# Стек-машина этого менеджера
 			@stack = []
@@ -34,6 +38,7 @@ module Redenik::GameManager
 		end
 
 		def update_scene
+			@pointer.update unless @pointer.nil?
 			@stack.last.update
 		end
 
@@ -48,9 +53,8 @@ module Redenik::GameManager
 
 		def call(scene)
 			begin
-				wr "Screen '#{scene.inspect}' created for...",0
 				setup_scene(scene)
-				wr "#{@stack.last.creation_time} ms"
+				wr "Screen '#{scene.inspect}' created for #{@stack.last.creation_time} ms"
 			rescue Exception => error
 				msgbox "Error when call scene '#{scene}': #{error}. Because of:\n#{error.backtrace.join("\n")}"
 			end
@@ -60,9 +64,8 @@ module Redenik::GameManager
 			@stack.each{|screen|screen.dispose}
 			@stack.clear
 			begin
-				wr "Screen '#{scene.inspect}' created for...",0
 				setup_scene(scene)
-				wr "#{@stack.last.creation_time} ms"
+				wr "Screen '#{scene.inspect}' created for #{@stack.last.creation_time} ms"
 			rescue Exception => error
 				msgbox "Error when call scene '#{scene}': #{error}. Because of:\n#{error.backtrace.join("\n")}"
 			end
