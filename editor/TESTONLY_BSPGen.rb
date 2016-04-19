@@ -153,7 +153,8 @@ class Leaf
 end
 
 # TEST ZONE
-# AUTHORIZED PERSONEL ONLY
+# AUTHORIZED PERSONNEL ONLY
+puts "starting..."
 
 mapsize = 50
 
@@ -161,6 +162,7 @@ mapsize = 50
 @leafs[0] = Leaf.new( 0, 0, mapsize, mapsize )
 
 loop do
+	puts "leafing..."
 	cutted = false
 	@leafs.each do |leaf|
 		cutted = leaf.cut
@@ -172,10 +174,10 @@ loop do
 	break unless cutted
 end
 
-@leafs.each { |leaf| leaf.fill }
-@leafs.each { |leaf| leaf.worm }
+@leafs.each { |leaf| leaf.fill;puts "filling..." }
+@leafs.each { |leaf| leaf.worm;puts "worming..." }
 
-open("text2image.txt", "w") do | file |
+open("test_result/text2image.txt", "w") do | file |
 
 	@leafs.each { |leaf| file.write "leaf #{leaf.x.to_s.ljust(8)}#{leaf.y.to_s.ljust(8)}#{leaf.width.to_s.ljust(8)}#{leaf.height.to_s.ljust(8)}\n" }
 	@leafs.each { |leaf| file.write "room #{leaf.room.x.to_s.ljust(8)}#{leaf.room.y.to_s.ljust(8)}#{leaf.room.width.to_s.ljust(8)}#{leaf.room.height.to_s.ljust(8)}\n" unless leaf.room.nil? }

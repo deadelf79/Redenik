@@ -153,6 +153,10 @@ While Not KeyHit(1)
 								Text xoff+x*size+size/2,yoff+y*size+size/2,"teleport",1,1
 							Case -13
 								Text xoff+x*size+size/2,yoff+y*size+size/2,"torch",1,1
+							case -100
+								Text xoff+x*size+size/2,yoff+y*size+size/2,"gate a",1,1
+							case -200
+								Text xoff+x*size+size/2,yoff+y*size+size/2,"-opened door-",1,1
 							Case 0
 								Text xoff+x*size+size/2,yoff+y*size+size/2,"_",1,1
 							Case 2

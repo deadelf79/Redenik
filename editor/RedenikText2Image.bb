@@ -1,6 +1,6 @@
 a$ = CommandLine$() 
 
-filename$ = "text2image.txt"
+filename$ = "test_result/text2image.txt"
 
 If a > 0
 
