@@ -105,7 +105,7 @@ class Redenik::Graphics::Slideshow < Redenik::Graphics::UI_Component
 
 	def update
 		super
-		if @control
+		if @control&&self.is_active?
 			if Input.trigger?( :LEFT )&&!@arrow_block_left
 				select(@index - 1)
 			end
@@ -116,6 +116,11 @@ class Redenik::Graphics::Slideshow < Redenik::Graphics::UI_Component
 		@slides_list.each{ | slide | slide.update }
 		_update_arrow_movement
 		_update_arrow_block
+	end
+
+	def update_complete?
+		return false if @slides_list[0].x != (0 - @index) * self.width
+		true
 	end
 
 	private
