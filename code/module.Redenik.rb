@@ -187,6 +187,7 @@ module Redenik
 			def _update_select;end
 			def _update_apportion;end
 			def _update_stats;end
+			def _update_stats_complete?;end
 			def _update_movement;end
 		end
 
@@ -230,6 +231,8 @@ module Redenik
 			def create___widget_equipment;end
 			def create___widget_quick;end
 			def create___widget_mapquest;end
+			def create___dialog_background;end
+			def create___dialog_window;end
 
 			private
 
@@ -654,7 +657,8 @@ module Redenik
 			def draw_text(rect,text,color,horizontal_align=0,vertical_alig=0);end
 			def draw_line(x1,y1,x2,y2,color,rasterize=false);end
 			def draw_circle(x,y,radius,color,rasterize=false);end
-			def draw_circle_rect(x1,y1,x2,y2,color);end
+			def draw_circle_rect(x1,y1,x2,y2,color,rasterize=false);end
+			def draw_arc(center_x,center_y,start_angle,end_angle,radius,rasterize=false);end
 			def draw_plot(x,y,color);end
 
 			def flood_fill(x,y,color);end
@@ -686,8 +690,31 @@ module Redenik
 			# (алгоритм Брезенхема + сглаживание)
 			def _draw_line_wu(x1,y1,x2,y2,color);end
 
+			def _draw_circle_bresenham(x,y,radius,color);end
+			def _draw_circle_wu(x,y,radius,color);end
+
 			def _neighbour_pixel(pixel,direction);end
 			def _find_border(pixel,color,direction);end
+		end
+
+		class Mouse
+			def initialize;end
+			def update;end
+			def normal;end
+			def attack;end
+			def look;end
+			def talk;end
+			def door;end
+			def chest;end
+			def url;end
+			def cant;end
+			def eat;end
+			def drink;end
+			def take;end
+			# Специальный курсор для перетаскивания предметов (он как бы держит предмет)
+			def hold;end
+			def text;end
+			def wait;end
 		end
 
 		class Map
@@ -831,6 +858,7 @@ module Redenik
 			def unblock_left;end
 			def block_right;end
 			def unblock_right;end
+			def update_complete?;end
 			private
 			def _draw_all_slides;end
 			def _draw_slide(slide_index);end
@@ -867,7 +895,7 @@ module Redenik
 			def frame_offset;end
 			def frame_offset=(value);end
 			def width=(value);end
-			def height=(value);end
+			def height=(value);end 
 			def skin;end
 			def skin=(value);end
 			private 
@@ -875,7 +903,13 @@ module Redenik
 		end
 
 		class Dialog < Scalable_Window
-			def initialize(text,bust);end
+			def initialize;end
+			def set_text(value);end
+			def set_bust(filename,position);end
+			def rem_bust(position);end
+			def nobust;end
+			def choice(left,right);end
+			def multichoice(array);end
 		end
 
 		# WIDGETS
