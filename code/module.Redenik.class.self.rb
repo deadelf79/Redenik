@@ -31,6 +31,7 @@ module Redenik
 			@message_stack = []
 
 			# Вызовем методы
+			Redenik::NameGen.prepare
 			_gen_actors(_check_usac(user_actor))
 			_gen_items
 			_gen_weapons
@@ -238,7 +239,7 @@ module Redenik
 
 		def _gen_game_maps
 			@game_maps[0] = {}
-			@game_maps[0][:map] = Redenik::Graphics::Static_Map.new(0, 'testmap')
+			@game_maps[0][:map] = Redenik::Graphics::Static_Map.new(0, 'weapon_trader')
 			@game_maps[0][:tilemap] = Redenik::Graphics::Tilemap.new(@game_maps[0][:map], 'walls')
 			
 			# вначале - туториалы
