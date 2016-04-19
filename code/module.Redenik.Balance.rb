@@ -8,11 +8,46 @@ module Redenik::Balance
 	START___STATS_CAN_APPORTION = 3
 
 	STATS___CLASSES = [
-		{:class_name=>:citizen,		:st=>10,	:dx=>10,	:iq=>10,	:ht=>10,	:cr=>10},
-		{:class_name=>:warrior,		:st=>12,	:dx=>9,		:iq=>8,		:ht=>11,	:cr=>10},
-		{:class_name=>:mage,		:st=>8,		:dx=>8,		:iq=>12,	:ht=>10,	:cr=>10},
-		{:class_name=>:thief,		:st=>8,		:dx=>13,	:iq=>11,	:ht=>8,		:cr=>10},
-		{:class_name=>:traider,		:st=>12,	:dx=>12,	:iq=>5,		:ht=>7,		:cr=>14}
+		{
+			:class_name=>:citizen,
+			:st=>10,
+			:dx=>10,
+			:iq=>10,
+			:ht=>10,
+			:cr=>10
+		},
+		{
+			:class_name=>:warrior,
+			:st=>12,
+			:dx=>9,
+			:iq=>8,
+			:ht=>11,
+			:cr=>10
+		},
+		{
+			:class_name=>:mage,
+			:st=>8,
+			:dx=>8,
+			:iq=>12,
+			:ht=>10,
+			:cr=>10
+		},
+		{
+			:class_name=>:thief,
+			:st=>8,
+			:dx=>13,
+			:iq=>11,
+			:ht=>8,
+			:cr=>10
+		},
+		{
+			:class_name=>:traider,
+			:st=>12,
+			:dx=>12,
+			:iq=>5,
+			:ht=>7,
+			:cr=>14
+		}
 	]
 	GAME___COMPLEXITY = [
 		:tourist, 	# турист - (-1/3) меньше хп у врагов
@@ -47,15 +82,19 @@ module Redenik::Balance
 	}
 	ITEM_USE_FX_BY_RARITY = {
 		:common		=> {
+			:heal_hp =>	(15..25),
 			:heal_mp =>	(15..25)
 		},
 		:uncommon	=> {
+			:heal_hp =>	(25..50),
 			:heal_mp =>	(25..50)
 		},
 		:rare		=> {
+			:heal_hp =>	(50..90),
 			:heal_mp =>	(50..90)
 		},
 		:unique		=> {
+			:heal_hp =>	(90..150),
 			:heal_mp =>	(90..150)
 		}
 	}
