@@ -9,7 +9,7 @@ class Redenik::Graphics::Widget_History < Redenik::Graphics::UI_Component
 		@window = Redenik::Graphics::Image.new( 0, 0, 200, 114, @main_viewport )
 		@window.copy Bitmap.new('Gfx/Windows/Widget_History')
 
-		@canvas = Redenik::Graphics::Window.new( 8, 8, width - 10, height - 10 )
+		@canvas = Redenik::Graphics::Window.new( @window.x + 14, @window.y + 12, width - 10, height - 10 )
 		@canvas.deactivate
 		refresh
 	end
@@ -39,15 +39,20 @@ class Redenik::Graphics::Widget_History < Redenik::Graphics::UI_Component
 				#count = Redenik.message_stack.size - @message_size
 				for index in @message_size...Redenik.message_stack.size
 					with @canvas do
-						add_button(
+						# add_button(
+						# 	Redenik.message_stack[index],
+						# 	nil,
+						# 	{font_color:Color.new(0,30,80)},
+						# 	"",
+						# 	false
+						# )
+						add_text(
 							Redenik.message_stack[index],
-							nil,
-							nil,
-							"",
-							false
+							{font_color:Color.new(0,30,80)}
 						)
 					end
 				end
+				@message_size = Redenik.message_stack.size
 				@canvas.refresh
 			end
 		end

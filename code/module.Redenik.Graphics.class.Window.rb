@@ -25,6 +25,7 @@ class Redenik::Graphics::Window < Redenik::Graphics::UI_Component
 		@slider.opacity = 128
 
 		@button_h_offset = 0
+		@last_index = -1
 
 		select 0
 	end
@@ -53,9 +54,22 @@ class Redenik::Graphics::Window < Redenik::Graphics::UI_Component
 			appearance:appearance,
 			enabled:enabled,
 			second:second,
-			abc:@last_abc
+			abc:@last_abc,
+			textonly:false
 		}
 		@last_abc = @last_abc=='Z' ? 0 : @abc[@abc.index(@last_abc)+1]
+	end
+
+	def add_text(name, appearance = nil)
+		@list << {
+			name:name,
+			method:nil,
+			appearance:appearance,
+			enabled:true,
+			second:"",
+			abc:"",
+			textonly:true
+		}
 	end
 
 	def list
@@ -161,11 +175,16 @@ class Redenik::Graphics::Window < Redenik::Graphics::UI_Component
 		)
 
 		icon_offset = 0
+		button_font_color = nil
 		if button[:appearance]!=nil
-			temp = Redenik::Graphics::Cache.load_bitmap( 'Gfx/Icons/', button[:appearance][:icon] )
-			icon_offset = temp.width
-			@button_list.last.blt( 0, 0, temp, @button_list.last.rect )
-			temp.dispose
+			if button[:appearance][:icon]!=nil
+				temp = Redenik::Graphics::Cache.load_bitmap( 'Gfx/Icons/', button[:appearance][:icon] )
+				icon_offset = temp.width
+				@button_list.last.blt( 0, 0, temp, @button_list.last.rect )
+				temp.dispose
+			end
+
+			button_font_color = button[:appearance][:font_color] unless button[:appearance][:text_color].nil?
 		end
 
 		rect_offsetted = Rect.new(
@@ -178,21 +197,8 @@ class Redenik::Graphics::Window < Redenik::Graphics::UI_Component
 		@button_list.last.draw_text(
 			rect_offsetted,
 			button[:name],
-		 	button[:enabled] ? @button_list.last.white : @button_list.last.white(true)
+		 	button_font_color.nil? ? button[:enabled] ? @button_list.last.white : @button_list.last.white(true) : button_font_color
 		)
-
-		# rect_letter = Rect.new(
-		# 	@button_list.last.rect.x + @button_list.last.rect.width - 64,
-		# 	@button_list.last.rect.y,
-		# 	32,
-		# 	@button_list.last.rect.height
-		# )
-
-		# @button_list.last.draw_text(
-		# 	rect_letter,
-		# 	@list[@button_list.index(@button_list.last)][:abc],
-		# 	@button_list.last.orange(true)
-		# )
 	end
 
 	def _draw_sliders
@@ -215,21 +221,11 @@ class Redenik::Graphics::Window < Redenik::Graphics::UI_Component
 	def _update___select_animation
 		return if @button_list.size==0
 		if @select.visible
-			if @select_movement
-				if (16 - @select_x_offset)>0.2
-					@select_x_offset += 0.2
-				else
-					@select_movement = !@select_movement
-				end
-			else
-				if @select_x_offset > 0 
-					@select_x_offset -= 0.2
-				else
-					@select_movement = !@select_movement
-				end
+			if @select_index != @last_index
+				@select.x = @select_x_offset
+				@button_list[@select_index].x = @select_x_offset + 24
+				@last_index = @select_index
 			end
-			@select.x = @select_x_offset
-			@button_list[@select_index].x = @select_x_offset + 24
 		end
 	end
 
@@ -251,6 +247,7 @@ class Redenik::Graphics::Window < Redenik::Graphics::UI_Component
 		end
 
 		@list.each do |item|
+			next if item[:abc]==""
 			if eval("Keys.press?(Keys::CONTROL)&&Keys.trigger?(Keys::#{item[:abc]})")
 				select( @list.index(item) )
 			end
@@ -258,7 +255,16 @@ class Redenik::Graphics::Window < Redenik::Graphics::UI_Component
 	end
 
 	def _update___button_select_by_mouse
+		return false if not Mouse.area?( x, y, width, height )
+		visible_buttons = []
 		@button_list.each do |button|
+			if button.x>=x&&button.width<=x+width
+				if button.y>=y&&button.height<=y+height
+					visible_buttons.push button
+				end
+			end
+		end
+		visible_buttons.each do |button|
 			if Mouse.area?( x, y, width, height )
 				if Mouse.area?( (button.x - @select_x_offset - 24) + x, button.y + y, button.width, button.height )
 					Redenik::GameManager.debug_canvas.clear
@@ -283,6 +289,31 @@ class Redenik::Graphics::Window < Redenik::Graphics::UI_Component
 				end
 			end
 		end
+		# @button_list.each do |button|
+		# 	if Mouse.area?( x, y, width, height )
+		# 		if Mouse.area?( (button.x - @select_x_offset - 24) + x, button.y + y, button.width, button.height )
+		# 			Redenik::GameManager.debug_canvas.clear
+		# 			rect = Rect.new(
+		# 				button.x - @select_x_offset - 24 + x,
+		# 				button.y + y,
+		# 				button.width,
+		# 				button.height
+		# 			)
+		# 			color = Color.new( 255, 135, 0 )
+		# 			Redenik::GameManager.debug_canvas.draw_rect(rect, color, false)
+		# 			rect = Rect.new(
+		# 				button.x + button.width - 48 - @select_x_offset - 24 + x,
+		# 				button.y + y,
+		# 				button.width,
+		# 				button.height
+		# 			)
+		# 			text = @list[ @button_list.index(button) ][:abc]
+		# 			Redenik::GameManager.debug_canvas.draw_text(rect, text, color)
+
+		# 			select( @button_list.index( button ) ) if @button_list.index( button ) != @select_index
+		# 		end
+		# 	end
+		# end
 	end
 
 	def _update___button_select_by_wheel
