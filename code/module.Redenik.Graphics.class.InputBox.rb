@@ -230,9 +230,13 @@ class Redenik::Graphics::InputBox < Redenik::Graphics::UI_Component
 	end
 
 	def _mouse_update
-		if Mouse.click?(1)
-			wr "\t\tmouse in input clicked"
-			unless Mouse.area?( @box.x, @box.y, @box.width, @box.height )
+		Mouse.update
+		if Mouse.area?( @box.x, @box.y, @box.width, @box.height )
+			Redenik::GameManager.pointer.text
+		else
+			Redenik::GameManager.pointer.normal
+			if Mouse.click?(1)
+				wr "\t\tmouse in inputbox clicked"
 				self.deactivate
 				self.end_edit
 			end
