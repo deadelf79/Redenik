@@ -1,28 +1,13 @@
 ===========================================================================
-14.09.15(Monday)-20:05:53
+23.04.16(Saturday)-18:06:15
 ===========================================================================
 Initialize
+Entries successful loaded in 2016-04-23 18:06:15 +0300
+Found arguments. Here is list:
+	•	console
+	•	test
+Game loaded in debug mode.
 Engine load successful
-scene Class created for...
-===========================================================================
-Catch an error! See backtrace:
-No such file or directory - Gfx/Titles/background
-C:/Users/user/YandexDisk/Source/Redenik/code/module.Redenik.Graphics.Cache.rb:24:in `initialize'
-C:/Users/user/YandexDisk/Source/Redenik/code/module.Redenik.Graphics.Cache.rb:24:in `new'
-C:/Users/user/YandexDisk/Source/Redenik/code/module.Redenik.Graphics.Cache.rb:24:in `normal_bitmap'
-C:/Users/user/YandexDisk/Source/Redenik/code/module.Redenik.Graphics.Cache.rb:13:in `load_bitmap'
-C:/Users/user/YandexDisk/Source/Redenik/code/module.Redenik.GameManager.class.Screen_Title.rb:14:in `create___background'
-C:/Users/user/YandexDisk/Source/Redenik/code/module.Redenik.GameManager.class.Screen_Title.rb:5:in `create___all_pictures'
-C:/Users/user/YandexDisk/Source/Redenik/code/module.Redenik.GameManager.class.Screen_Base.rb:7:in `initialize'
-C:/Users/user/YandexDisk/Source/Redenik/code/module.Redenik.GameManager.rb:25:in `new'
-C:/Users/user/YandexDisk/Source/Redenik/code/module.Redenik.GameManager.rb:25:in `setup_scene'
-C:/Users/user/YandexDisk/Source/Redenik/code/module.Redenik.GameManager.rb:43:in `call'
-C:/Users/user/YandexDisk/Source/Redenik/code/module.Redenik.GameManager.rb:21:in `setup_first_scene'
-C:/Users/user/YandexDisk/Source/Redenik/code/module.Redenik.GameManager.rb:7:in `start'
-C:/Users/user/YandexDisk/Source/Redenik/code/module.Redenik.GameManager.rb:12:in `main'
-{0008}:11:in `block in <main>'
-:1:in `block in rgss_main'
-:1:in `loop'
-:1:in `rgss_main'
-{0008}:11:in `<main>'
-ruby:in `eval'
+Screen 'Redenik::GameManager::Screen_Title' created for 692 ms
+
+ThereWasGrey

@@ -1,4 +1,6 @@
-﻿// sample.plugin
+﻿//sample.plugin
+//author : DeadElf79
+//desc : 
 
 var a = 0, b=2;
 if (a === 0){

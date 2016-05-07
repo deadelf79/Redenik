@@ -240,6 +240,24 @@ module Redenik
 		end
 	end
 
+	module Time
+		class << self
+			def start;end
+			def step;end
+			def now;end
+
+			def second;end
+			def minute;end
+			def hour;end
+			def day;end
+			def week;end
+			def month;end
+			def year;end
+			def age;end
+			def era;end
+		end
+	end
+
 	# Материнские классы, от которых наследуется большинство других
 
 	class Basic
