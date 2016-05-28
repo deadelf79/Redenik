@@ -45,6 +45,8 @@ module Redenik
 		def end_game;end
 		def save_game;end
 
+		def change_statistics(type,value);end
+
 		def add_party_member(id);end
 		def party_dead?;end
 		def player;end
@@ -64,6 +66,11 @@ module Redenik
 		def _gen_armors;end
 		def _gen_skills;end
 		def _gen_game_maps;end
+		def _change_player(new_id);end
+		def _make_setup_dir;end
+		def _make_save_dir;end
+		def _make_mod_dir;end
+		def _make_default_settings;end
 	end
 
 	module GameManager
@@ -120,12 +127,6 @@ module Redenik
 				def _tutorial___citizen_ht;end
 				def _tutorial___citizen_cr;end
 			end
-		end
-
-		class Achievement
-			def initialize(hash);end
-			def get?;end
-			def get;end
 		end
 
 		class Screen_Base
@@ -258,230 +259,251 @@ module Redenik
 		end
 	end
 
+	module SteamManager
+		class Achievement
+			def initialize(hash);end
+			def get?;end
+			def get;end
+		end
+	end
+
 	# Материнские классы, от которых наследуется большинство других
+	module GameData
+		class Basic
+			attr_reader :name, :health, :mana, :effects, :max_health, :max_mana
+			attr_reader :gold_modifier
+			def initialize(health,mana,effects,gold_modifier);end
+			
+			# Проверка на смерть объекта
+			def dead?;end
+			
+			# Првоерка, жив ли еще объект (здоровье должно
+			# быть выше нуля)
+			def alive?;end
+			
+			# Запускает постепенное восстановление здоровья 
+			# => value - значение, на которое будет восстановлено текущее здоровье по прошествии времени
+			def restore_health(value);end
+			
+			# Полностью восстанавливает здоровье единоразово
+			def full_restore;end
+			
+			# Запускает постепенное восстановление маны
+			# => value - значение, на которое будет восстановлено текущее количество маны по прошествии времени
+			def restore_mana(value);end
+			
+			# Расходует ману, единоразово отнимая от текущего количество необходимое
+			def use_mana(value);end
 
-	class Basic
-		attr_reader :name, :health, :mana, :effects, :max_health, :max_mana
-		attr_accessor :gold_modifier
-		def initialize(health,mana,effects,gold_modifier);end
+			# Проверяет, хватает ли маны на использование
+			def enough_mana?(value);end
+			
+			# Обновляет объект
+			def update;end
+		end
+
+		class BasicItem < Basic
+			attr_accessor :rarity, :price, :icon_index, :weight
+			attr_reader :help_info
+			def initialize(health,mana,effects,rarity,start_price,type);end
+			def help_info=(new_text);end	
+			def icon;end
+			def dispose;end
+			def disposed?;end
+			def use;end
+
+			private
+
+			def _load_icon_by_type;end
+			def _gen_help_info;end
+		end
+
+		#
+		class Person < Basic
+			attr_reader :appearance, :stats
+			attr_reader :exp, :level, :skills, :sex, :gender
+			attr_reader :surname, :secondname
+			attr_reader :hungriness, :feel_monsters, :feel_traps
+			attr_reader :can_carry_weight
+			def initialize(name,appearance,stats);end
+			def reset_exp;end
+			def exp_curve(level);end
+			def recover;end
+
+			# Сильный?
+			def strong?;end
+			
+			# Слабый?
+			def weak?;end
+			
+			# Умный?
+			def smart?;end
+			
+			# Глупый?
+			def stupid?;end
+			
+			# Проворный?
+			def agile?;end
+			
+			# Неуклюжий?
+			def clumsy?;end
+			
+			# Живучий?
+			def survivable?;end
+
+			# Нежизнеспособный?
+			def unviable?;end
+
+			# Очаровательный?
+			def charming?;end
+			
+			# Грубый?
+			def rough?;end
+
+			private 
+
+			def _check_hungry;end
+			def _gen_actor_by_stats(stats);end
+			def _reset_exp;end
+			def _generate_exp_curve;end
+		end
+
+		# Специальный класс-прослойка для людей
+
+		class DressingPerson < Person
+			def initialize(name,appearance,stats,equips);end
+
+			def torso;end
+			def head;end
+			def left_hand;end
+			def right_hand;end
+			def left_shoulder;end
+			def right_shoulder;end
+			def neck;end
+			def left_greave;end # наголенник
+			def right_greave;end
+			def left_shoe;end
+			def right_shoe;end
+
+			def torso=(value);end
+			def head=(value);end
+			def left_hand=(value);end
+			def right_hand=(value);end
+			def left_shoulder=(value);end
+			def right_shoulder=(value);end
+			def neck=(value);end
+			def left_greave=(value);end
+			def right_greave=(value);end
+			def left_shoe=(value);end
+			def right_shoe=(value);end
+		end
+
+		# Игровые классы
+
+		class Actor < DressingPerson
+			def initialize(name,appearance,stats,equips,level);end
+			
+			# Gainers/Losers
+
+			def gain_item(item,value);end
+			def lose_item(item,value);end
+			def gain_exp(value);end
+			def set_quick_item(item,slot);end
+			def remove_quick_item(slot);end
+
+			# Возвращает массив из всех предметов, находящихся
+			# в инвентаре
+			def inventory;end
+			# Возвращает массив предметов, которые были
+			# помещены в ячейки быстрого доступа
+			def quick_inventory;end
+
+			def medkits;end
+
+			def biography=(value);end
+
+			# Проверяет, присутствует ли предмет в инвентаре
+			# => item - объект класса Redenik::Item, ::Weapon или ::Armor
+			def got_in_inventory?(item);end
+			def got_key?(rarity);end
+			def got_new_level?;end
+
+			def recover_health(amount);end
+			def recover_mana(amount);end
+			def lose_hungriness(amount);end
+			def poison;end
+			def equip(item);end
+
+			private 
+
+			def _check_level;end
+			def _gain_stat(type);end
+		end
+
+		class Enemy < DressingPerson
+			# dummy now
+			attr_reader :rarity, :base_creature
+			def initialize(name,base_creature,stats,equips);end
+		end
+
+		class Animal < Person
+			# dummy now
+		end
+
+		class Soulless < Person
+			# dummy now
+		end
 		
-		# Проверка на смерть объекта
-		def dead?;end
-		
-		# Првоерка, жив ли еще объект (здоровье должно
-		# быть выше нуля)
-		def alive?;end
-		
-		# Запускает постепенное восстановление здоровья 
-		# => value - значение, на которое будет восстановлено текущее здоровье по прошествии времени
-		def restore_health(value);end
-		
-		# Полностью восстанавливает здоровье единоразово
-		def full_restore;end
-		
-		# Запускает постепенное восстановление маны
-		# => value - значение, на которое будет восстановлено текущее количество маны по прошествии времени
-		def restore_mana(value);end
-		
-		# Расходует ману, единоразово отнимая от текущего количество необходимое
-		def use_mana(value);end
+		class Armor < BasicItem
+			def initialize(effects,rarity,equip_type);end
+			def use;end
+		end
 
-		# Проверяет, хватает ли маны на использование
-		def enough_mana?(value);end
-		
-		# Обновляет объект
-		def update;end
-	end
+		class Item < BasicItem
+			def initialize(name,effects,rarity,food);end
+			def eatable?;end
+			def medkit?;end
+		end
 
-	class BasicItem < Basic
-		attr_accessor :rarity, :price, :icon_index, :weight
-		attr_reader :help_info
-		def initialize(health,mana,effects,rarity,start_price,type);end
-		def help_info=(new_text);end	
-		def icon;end
-		def dispose;end
-		def disposed?;end
+		class Key < BasicItem
+			def initialize(rarity);end
+		end
 
-		private
+		class Book < Item
+			def initialize(filename);end
+		end
 
-		def _load_icon_by_type;end
-		def _gen_help_info;end
-	end
+		class Skill
+			attr_reader :exp, :condition_string, :level
+			attr_reader :name, :help_info
+		end
 
-	#
-	class Person < Basic
-		attr_reader :appearance, :stats
-		attr_reader :exp, :level, :skills, :sex, :gender
-		attr_reader :surname, :secondname
-		attr_reader :hungriness, :feel_monsters, :feel_traps
-		attr_reader :can_carry_weight
-		def initialize(name,appearance,stats);end
-		def reset_exp;end
-		def exp_curve(level);end
-		def recover;end
+		class Weapon < BasicItem
+			def initialize(effects,rarity,weapon_type);end
 
-		# Сильный?
-		def strong?;end
-		
-		# Слабый?
-		def weak?;end
-		
-		# Умный?
-		def smart?;end
-		
-		# Глупый?
-		def stupid?;end
-		
-		# Проворный?
-		def agile?;end
-		
-		# Неуклюжий?
-		def clumsy?;end
-		
-		# Живучий?
-		def survivable?;end
+			private
 
-		# Нежизнеспособный?
-		def unviable?;end
+			def _gen_health_by_rare(rarity);end
 
-		# Очаровательный?
-		def charming?;end
-		
-		# Грубый?
-		def rough?;end
+			def _gen_mana_by_rare(rarity);end
 
-		private 
-
-		def _check_hungry;end
-		def _gen_actor_by_stats(stats);end
-		def _reset_exp;end
-		def _generate_exp_curve;end
-	end
-
-	# Специальный класс-прослойка для людей
-
-	class DressingPerson < Person
-		def initialize(name,appearance,stats,equips);end
-
-		def torso;end
-		def head;end
-		def left_hand;end
-		def right_hand;end
-		def left_shoulder;end
-		def right_shoulder;end
-		def neck;end
-		def left_greave;end # наголенник
-		def right_greave;end
-		def left_shoe;end
-		def right_shoe;end
-
-		def torso=(value);end
-		def head=(value);end
-		def left_hand=(value);end
-		def right_hand=(value);end
-		def left_shoulder=(value);end
-		def right_shoulder=(value);end
-		def neck=(value);end
-		def left_greave=(value);end
-		def right_greave=(value);end
-		def left_shoe=(value);end
-		def right_shoe=(value);end
-	end
-
-	# Игровые классы
-
-	class Actor < DressingPerson
-		def initialize(name,appearance,stats,equips,level);end
-		
-		# Gainers/Losers
-
-		def gain_item(item,value);end
-		def lose_item(item,value);end
-		def gain_exp(value);end
-		def set_quick_item(item,slot);end
-		def remove_quick_item(slot);end
-
-		# Возвращает массив из всех предметов, находящихся
-		# в инвентаре
-		def inventory;end
-		# Возвращает массив предметов, которые были
-		# помещены в ячейки быстрого доступа
-		def quick_inventory;end
-
-		def medkits;end
-
-		def biography=(value);end
-
-		# Проверяет, присутствует ли предмет в инвентаре
-		# => item - объект класса Redenik::Item, ::Weapon или ::Armor
-		def got_in_inventory?(item);end
-		def got_key?(rarity);end
-		def got_new_level?;end
-
-		def recover_health(amount);end
-		def recover_mana(amount);end
-		def lose_hungriness(amount);end
-		def poison;end
-
-		private 
-
-		def _check_level;end
-		def _gain_stat(type);end
-	end
-
-	class Enemy < DressingPerson
-		# dummy now
-		attr_reader :rarity, :base_creature
-		def initialize(name,base_creature,stats,equips);end
-	end
-
-	class Animal < Person
-		# dummy now
-	end
-
-	class Soulless < Person
-		# dummy now
-	end
-	
-	class Armor < BasicItem
-		def initialize(effects,rarity,equip_type);end
-		def use;end
-	end
-
-	class Item < BasicItem
-		def initialize(name,effects,rarity,food);end
-		def eatable?;end
-		def medkit?;end
-		def use;end
-	end
-
-	class Key < BasicItem
-		def initialize(rarity);end
-	end
-
-	class Book < BasicItem
-		def initialize(filename);end
-	end
-
-	class Skill
-		attr_reader :exp, :condition_string, :level
-		attr_reader :name, :help_info
-	end
-
-	class Weapon < BasicItem
-		def initialize(effects,rarity,weapon_type);end
-
-		private
-
-		def _gen_health_by_rare(rarity);end
-
-		def _gen_mana_by_rare(rarity);end
-
-		def _gen_wield_by_type(weapon_type);end
-		def use;end
+			def _gen_wield_by_type(weapon_type);end
+		end
 	end
 
 	# МОДУЛИ
+
+	module SkillManager
+		class << self
+			def prepare;end
+			def learn_skill(id);end
+			def unlearn_skill(id);end
+			def learned?(id);end
+			def block_skill(id);end
+			def unblock_skill(id);end
+			def blocked?(id);end
+		end
+	end
 
 	module Alchemy
 		class Ingredient
@@ -606,6 +628,7 @@ module Redenik
 
 		class Image < Sprite
 			def initialize(x,y,w=32,h=32);end
+			def open(x,y,bitmap);end
 			def copy(bitmap);end
 			def clone;end
 			def x;end

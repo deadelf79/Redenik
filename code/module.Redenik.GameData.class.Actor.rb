@@ -3,10 +3,10 @@
 # полный код класса
 
 #
-class Redenik::Actor < Redenik::DressingPerson
+class Redenik::GameData::Actor < Redenik::GameData::DressingPerson
 
-	def initialize(name,appearance,stats,equips,level)
-		super(name,appearance,stats,equips)
+	def initialize(name,appearance,stats,level)
+		super(name,appearance,stats,{})
 		@inv_items 		= []
 		@inv_weapon 	= []
 		@inv_armor 		= []
@@ -134,6 +134,7 @@ class Redenik::Actor < Redenik::DressingPerson
 	def recover_mana(amount);end
 	def lose_hungriness(amount);end
 	def poison;end
+	def equip(item);end
 
 	private 
 

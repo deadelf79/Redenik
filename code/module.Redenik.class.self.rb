@@ -29,9 +29,32 @@ module Redenik
 			@name_of_the_game = user_actor[:name]
 
 			@message_stack = []
+			@statistics = {
+				total_gold_collected: 			0,
+				total_alchemy_recepy_found: 	0,
+				total_books_readed: 			0,
+				deepest_gate: 					:a,
+				deepest_floor: 					1,
+				total_friend_count:				0,
+				total_sex_actions: 				0,
+				total_sex_partners: 			0,
+				total_gametime_played: 			0,
+				most_played_actor: 				"",
+				most_played_actor_time: 		0,
+				most_lovely_weapon: 			"",
+				best_guild_rank: 				:none
+			}
+
+			@user_setup_directory	= "./"
+			@user_save_directory 	= "./_SaveGameData"
+			@user_mod_directory 	= "./_UserMods"
 
 			# Вызовем методы
 			Redenik::NameGen.prepare
+			_make_setup_dir
+			_make_save_dir
+			_make_mod_dir
+			_make_default_settings
 			_gen_actors(_check_usac(user_actor))
 			_gen_items
 			_gen_weapons
@@ -41,16 +64,6 @@ module Redenik
 
 			add_party_member(0)
 			save_game
-
-			# wr [
-			# 	@game_actors,
-			# 	@game_items,
-			# 	@game_weapons,
-			# 	@game_armors,
-			# 	@game_skill,
-			# 	@game_party,
-			# 	@game_maps
-			# ]
 		end
 
 		def main_game
@@ -58,12 +71,31 @@ module Redenik
 			_change_player(next_member) if @game_party[@player_id[:party_id]].dead?
 		end
 		
-		def end_game
-			save_game
+		def end_game	
+			dump = {
+				dead:true,
+				name_of_the_game:@name_of_the_game,
+				game_party:@game_party
+			}
+			@statistics.each_key{ |key|
+				dump[key] = @statistics[key]
+			}
+
+			player_dir_name = ""
+			temp_string = @game_seed.to_s
+			for index in 0...[256,temp_string.size].min
+				player_dir_name += temp_string[index]
+			end
+			save_data(
+				dump,
+				"#{@user_save_directory}/#{player_dir_name}/world.dump"
+			)
+			wr "Dead game data was saved to '#{@user_save_directory}/#{player_dir_name}'"
 		end
 
 		def save_game
 			dump = {
+				dead:false,
 				name_of_the_game:@name_of_the_game,
 				game_actors:@game_actors,
 				game_items:@game_items,
@@ -73,19 +105,23 @@ module Redenik
 				game_party:@game_party,
 				game_maps:@game_maps
 			}
-			Dir.mkdir("_User") unless Dir.exist?("_User")
+			Dir.mkdir("#{@user_save_directory}") unless Dir.exist?("#{@user_save_directory}")
 			player_dir_name = ""
 			temp_string = @game_seed.to_s
 			for index in 0...[256,temp_string.size].min
 				player_dir_name += temp_string[index]
 			end
 
-			Dir.mkdir("_User/#{player_dir_name}") unless Dir.exist?("_User/#{player_dir_name}")
+			Dir.mkdir("#{@user_save_directory}/#{player_dir_name}") unless Dir.exist?("#{@user_save_directory}/#{player_dir_name}")
 			save_data(
 				dump,
-				"_User/#{player_dir_name}/world.dump"
+				"#{@user_save_directory}/#{player_dir_name}/world.dump"
 			)
-			wr "Current game data saved to '_Users/#{player_dir_name}' dir"
+			wr "Current game data was saved to '#{@user_save_directory}/#{player_dir_name}'"
+		end
+
+		def change_statistics(type,value)
+			@statistics[type]+=[value,0].max
 		end
 		
 		def add_party_member(id)
@@ -114,6 +150,7 @@ module Redenik
 		end
 
 		def joypad(enable)
+			wr "Joypad is now #{enable ? "enabled" : "disabled"}"
 			@joypad = enable
 		end
 
@@ -123,7 +160,7 @@ module Redenik
 		end
 
 		def game_seed=(actor_name)
-			if actor_name=~/Валера|Valera/i
+			if actor_name=~/Валер(?:а|ий)|Valer(?:a|i[yi])/i
 				@seed_is_valera = true
 				@game_seed = rand(12345)
 				@game_random = Random.new(@game_seed)
@@ -131,8 +168,9 @@ module Redenik
 				@seed_is_valera = false
 				@game_seed = actor_name.bytes.join.to_i
 				@game_random = Random.new(@game_seed)
-				wr "New game seed is #{@game_seed}"
 			end
+			wr "Valera, why?.." unless @seed_is_valera
+			wr "New game seed is #{@game_seed}"
 		end
 
 		def player
@@ -140,6 +178,7 @@ module Redenik
 		end
 
 		def next_member
+			next_id = -1
 			@game_party.each{|member|
 				next if member.dead?
 				next_id = @game_party.index(member)
@@ -163,24 +202,29 @@ module Redenik
 
 		def _gen_actors(valid_user_actor)
 			# мне нужно генерировать актёров при помощи списка карт
+			# а здесь генерируются только первые встречаемые нами неписи,
+			# которые будут использованы для предыстории персонажа
+			# в генераторе биографии
 
-			new_level = 0
+			string = open("Data/Names/ru.json","r").readlines.join
+			json = JSON.decode(string)
+
 			Redenik::Balance::START___MAX_ACTORS.times{|index|
+				name = json["man"].sample
 				rand_class = Redenik::Balance::STATS___CLASSES[
 					@game_random.rand(Redenik::Balance::STATS___CLASSES.size)
 				]
-				@game_actors << Redenik::Actor.new(
-					Redenik::NameGen.make_name(3,4),													# NAME
-					rand_class[:class_name],															# APPEARANCE
-					{	# STATS
+				@game_actors << Redenik::GameData::Actor.new(
+					name,					# NAME
+					rand_class[:class_name],# APPEARANCE
+					{						# STATS
 						st:rand_class[:st],
 						dx:rand_class[:dx],
 						iq:rand_class[:iq],
 						ht:rand_class[:ht],
 						cr:rand_class[:cr]
-					},	
-					{},																					# EQUIPS
-					new_level+=(index.to_f/6).to_i+1 													# LEVEL
+					},
+					1						# LEVEL
 				)
 			}
 		end
@@ -191,7 +235,7 @@ module Redenik
 			offset = 0
 			Redenik::Balance::ITEMS.each{|key,value|
 				for index in offset...((value.to_f/sum)*Redenik::Balance::START___MAX_ITEMS).to_i
-					@game_items << Redenik::Item.new(
+					@game_items << Redenik::GameData::Item.new(
 						Redenik::NameGen.make_name(2,3),
 						[key],
 						[:common,:uncommon,:rare].sample,
@@ -250,11 +294,104 @@ module Redenik
 		end
 
 		def _change_player(new_id)
+			if new_id==-1
+				wr ""
+				return
+			end
 			if !@game_party[new_id].nil?
 				@player_actor = @game_party[new_id]
 				@player_id[:party_id]=new_id
 				@player_id[:actor_id]=@game_actors.index(@game_party[new_id])
+			else
+
 			end
+		end
+
+		def _make_setup_dir
+			if ($TEST||$DEBUG)
+				@user_setup_directory = "./"
+			else
+				if RUBY_PLATFORM =~ /mingw/
+					Dir.mkdir("#{ENV["HOME"]}/AppData/Roaming/DeadElf79")
+					Dir.mkdir("#{ENV["HOME"]}/AppData/Roaming/DeadElf79/Redenik")
+					@user_setup_directory = "#{ENV["HOME"]}/AppData/Roaming/DeadElf79/Redenik"
+				elsif RUBY_PLATFORM =~ /linux/
+					Dir.mkdir("./config/DeadElf79")
+					Dir.mkdir("./config/DeadElf79/Redenik")
+					@user_setup_directory = "./config/DeadElf79/Redenik"
+				else
+					raise 'Cannot read current OS!'
+				end
+			end
+		end
+
+		def _make_save_dir
+			if ($TEST||$DEBUG)
+				@user_save_directory = "./_SaveGameData"
+			else
+				if RUBY_PLATFORM =~ /mingw/
+					Dir.mkdir("#{ENV["HOME"]}/AppData/Roaming/DeadElf79/Redenik/SaveGameData")
+					@user_save_directory = "#{ENV["HOME"]}/AppData/Roaming/DeadElf79/Redenik/SaveGameData"
+				elsif RUBY_PLATFORM =~ /linux/
+					Dir.mkdir("./config/DeadElf79/Redenik/SaveGameData")
+					@user_save_directory = "./config/DeadElf79/Redenik/SaveGameData"
+				else
+					raise 'Cannot read current OS!'
+				end
+			end
+		end
+
+		def _make_mod_dir
+			if ($TEST||$DEBUG)
+				@user_mod_directory = "./_UserMods"
+			else
+				if RUBY_PLATFORM =~ /mingw/
+					Dir.mkdir("#{ENV["HOME"]}/AppData/Roaming/DeadElf79/Redenik/UserMods")
+					@user_save_directory = "#{ENV["HOME"]}/AppData/Roaming/DeadElf79/Redenik/UserMods"
+				elsif RUBY_PLATFORM =~ /linux/
+					Dir.mkdir("./config/DeadElf79/Redenik/UserMods")
+					@user_save_directory = "./config/DeadElf79/Redenik/UserMods"
+				else
+					raise 'Cannot read current OS!'
+				end
+			end
+		end
+
+		def _make_default_settings
+			ini = IniFile.open("#{@user_setup_directory}/Redenik.ini")
+			# GAME
+			ini["Game","RTP"] 							= ""
+			ini["Game","Library"] 						= "System\\RGSS301.dll"
+			ini["Game","Scripts"] 						= "Data\\Scripts.rvdata2"
+			ini["Game","Title"] 						= "Redenik"
+			# GRAPHICS
+			ini["Graphics","intWidth"] 					= "816"
+			ini["Graphics","intHeight"] 				= "624"
+			ini["Graphics","boolFullscreenStart"] 		= "false"
+			# CONTROLS
+			# keys
+			ini["Controls", "boolEnableLetterHotkeys"] 	= "true"
+			ini["Controls", "boolEnableMouseControl"] 	= "true"
+			# menus
+			ini["Controls", "MapMenu"] 					= "M"
+			ini["Controls", "QuestMenu"] 				= "U"
+			ini["Controls", "InventoryMenu"] 			= "I"
+			ini["Controls", "StatusMenu"] 				= "J"
+			ini["Controls", "EquipmentMenu"] 			= "O"
+			ini["Controls", "MagicMenu"] 				= "K"
+			ini["Controls", "AlchemyMenu"] 				= "L"
+			# quick inventory
+			ini["Controls", "QuickInventoryItem1" ] 	= "N0"
+			ini["Controls", "QuickInventoryItem2" ] 	= "N1"
+			ini["Controls", "QuickInventoryItem3" ] 	= "N2"
+			ini["Controls", "QuickInventoryItem4" ] 	= "N3"
+			ini["Controls", "QuickInventoryItem5" ] 	= "N4"
+			ini["Controls", "QuickInventoryItem6" ] 	= "N5"
+			ini["Controls", "QuickInventoryItem7" ] 	= "N6"
+			ini["Controls", "QuickInventoryItem8" ] 	= "N7"
+			ini["Controls", "QuickInventoryItem9" ] 	= "N8"
+			ini["Controls", "QuickInventoryItem10"] 	= "N9"
+			ini.save
 		end
 	end
 end

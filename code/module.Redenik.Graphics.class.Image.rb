@@ -1,26 +1,31 @@
 # encoding utf-8
 
 class Redenik::Graphics::Image < Sprite
-	def initialize(x, y, w=32, h=32, viewport = nil)
+	def initialize( x, y, w=32, h=32, viewport = nil )
 		@data = Sprite.new(viewport)
 		@data.x = x
 		@data.y = y
-		@data.bitmap = Bitmap.new(w,h)
+		@data.bitmap = Bitmap.new( w, h )
 
 		@dest_x, @dest_y = @data.x, @data.y
 		@moving = false
 		self
 	end
 
-	def copy(bitmap)
+	def open( x, y, bitmap )
+		self.new( x, y, bitmap.width, bitmap.height )
+  		self.copy( bitmap )
+	end
+
+	def copy( bitmap )
 		@data.bitmap.dispose
 		@data.bitmap = bitmap
 		self
 	end
 
 	def clone
-		my_clone = Redenik::Graphics::Image.new(x, y, width, height)
-		my_clone.copy(@data.bitmap)
+		my_clone = Redenik::Graphics::Image.new( x, y, width, height )
+		my_clone.copy( @data.bitmap )
 		my_clone
 	end
 
@@ -36,7 +41,7 @@ class Redenik::Graphics::Image < Sprite
 		@data.z
 	end
 
-	def x=(value)
+	def x=( value )
 		@data.x = value
 		self
 	end

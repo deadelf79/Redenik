@@ -1,7 +1,7 @@
 # encoding utf-8
 
 module Redenik::Balance
-	START___MAX_ACTORS 	= 30
+	START___MAX_ACTORS 	= 5
 	START___MAX_ITEMS	= 300
 	START___MAX_ARMORS	= 900
 	START___MAX_WEAPON	= 900

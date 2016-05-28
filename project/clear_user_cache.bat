@@ -1,2 +1,2 @@
-cd "./_User"
-rd /s /q "../_User"
+cd "./_SaveGameData"
+rd /s /q "../_SaveGameData"
