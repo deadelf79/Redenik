@@ -83,11 +83,11 @@ module Redenik
 			def main;end
 			def quit;end
 			def setup_first_scene;end
-			def setup_scene(scene);end
+			def setup_scene(scene,*args);end
 			def update_scene;end
 			def dispose_scene;end
-			def call(scene);end
-			def goto(scene);end
+			def call(scene,*args);end
+			def goto(scene,*args);end
 			def cancel;end
 		end
 
@@ -130,7 +130,7 @@ module Redenik
 		end
 
 		class Screen_Base
-			def initialize(timer);end
+			def initialize(timer,*args);end
 			def update;end
 			def update_basics;end
 			def update_gfx;end
@@ -303,7 +303,7 @@ module Redenik
 		end
 
 		class BasicItem < Basic
-			attr_accessor :rarity, :price, :icon_index, :weight
+			attr_accessor :rarity, :price, :icon, :weight
 			attr_reader :help_info
 			def initialize(health,mana,effects,rarity,start_price,type);end
 			def help_info=(new_text);end	
@@ -329,6 +329,7 @@ module Redenik
 			def reset_exp;end
 			def exp_curve(level);end
 			def recover;end
+			def add_drunk;end
 
 			# Сильный?
 			def strong?;end
@@ -460,17 +461,35 @@ module Redenik
 		end
 
 		class Item < BasicItem
-			def initialize(name,effects,rarity,food);end
+			def initialize(name,effects,rarity,food=false);end
 			def eatable?;end
 			def medkit?;end
+
+			private
+
+			def _use_item;end
+			def _load_icon_by_type(dir);end
+
+			class Alcohol < Item;end
+
+			class Book < Item
+				def initialize(filename);end
+
+				private
+
+				def _load_icon_by_type;end
+				def _load_book_name;end
+
+				class Comics;end
+				class Historical;end
+				class Skillbook;end
+				class Diary;end
+				class Magazine;end
+			end
 		end
 
 		class Key < BasicItem
 			def initialize(rarity);end
-		end
-
-		class Book < Item
-			def initialize(filename);end
 		end
 
 		class Skill
@@ -628,7 +647,12 @@ module Redenik
 
 		class Image < Sprite
 			def initialize(x,y,w=32,h=32);end
-			def open(x,y,bitmap);end
+			def self.open(x,y,bitmap);end
+			# Открывает изображение из файла. При невозможности открытия
+			# создает новый файл по размерам, заданных rect, помещает его
+			# в заданные в rect координаты и заливает цветом default_color.<br>
+			# Параметр viewport имеет такое же значение, как и в self.open 
+			def self.safety_open(filename,rect,default_color,viewport=nil);end
 			def copy(bitmap);end
 			def clone;end
 			def x;end
@@ -998,6 +1022,7 @@ module Redenik
 	end
 
 	module Balance;end
+	module SystemData;end
 
 	module PluginManager
 		class << self
@@ -1014,12 +1039,5 @@ module Redenik
 			def _convert_conditions;end
 			def _convert_variables;end
 		end
-	end
-end
-
-module Kernel
-	def with(instance, &block)
-		instance.instance_eval(&block)
-		instance
 	end
 end
