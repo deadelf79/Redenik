@@ -12,9 +12,50 @@ class Redenik::Graphics::Image < Sprite
 		self
 	end
 
-	def open( x, y, bitmap )
+	def self.open( x, y, bitmap )
+		error = [false,false,false]
+		unless x.is_a? Fixnum
+			x = 0
+			error[0]=true
+		end
+		unless y.is_a? Fixnum
+			y = 0
+			error[1]=true
+		end
+		unless bitmap.is_a? Bitmap
+			bitmap = Bitmap.new( 32, 32 )
+			error[2]=true
+		end
+		if error[0]&&error[1]&&error[2];raise "Image.open: arg.err: x, y and bitmap has classmissed. Recreated with defaults."
+		elsif error[0]&&error[1];raise "Image.open: arg.err: x and y has classmissed. Recreated with defaults."
+		elsif error[0]&&error[2];raise "Image.open: arg.err: x and bitmap has classmissed. Recreated with defaults."
+		elsif error[1]&&error[2];raise "Image.open: arg.err: y and bitmap has classmissed. Recreated with defaults."
+		elsif error[0];raise "Image.open: arg.err: x has classmissed. Recreated with defaults."
+		elsif error[1];raise "Image.open: arg.err: y has classmissed. Recreated with defaults."
+		elsif error[2];raise "Image.open: arg.err: bitmap has classmissed. Recreated with defaults."
+		end
+
 		self.new( x, y, bitmap.width, bitmap.height )
   		self.copy( bitmap )
+  		self
+  	rescue => e
+  		wr e
+	end
+
+	def self.safety_open( filename, rect, default_color, viewport = nil )
+		if FileTest.exist?(filename)
+			self.new( rect.x, rect.y, rect.width, rect.height, viewport )
+			@data.bitmap = Bitmap.new( filename )
+		else
+			self.new( rect.x, rect.y, rect.width, rect.height, viewport )
+			@data.x = x
+			@data.y = y
+			@data.bitmap = Bitmap.new( rect.width, rect.height )
+			@data.bitmap.fill_rect( rect, default_color )
+		end
+		self
+	rescue => e
+  		wr e
 	end
 
 	def copy( bitmap )
