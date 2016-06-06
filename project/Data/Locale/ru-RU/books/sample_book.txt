@@ -1,0 +1,4 @@
+﻿name=
+icon=
+titlepage=
+page1=
