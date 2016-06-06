@@ -231,6 +231,11 @@ module Redenik::Translation::Russian
 			no: 			"Нет, остаться", 
 		}
 	}
+	
+	STORAGE_MESSAGES = {
+		error:		"Вы не смогли положить вещи на хранение.",
+		push_list:	"Вы положили на хранение %d %s."
+	}
 
 	TUTORIAL_DIALOG = {
 		common: {
