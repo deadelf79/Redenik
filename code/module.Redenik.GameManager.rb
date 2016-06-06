@@ -30,11 +30,11 @@ module Redenik::GameManager
 		end
 
 		def setup_first_scene
-			self.call(Redenik::GameManager::Screen_Title)
+			self.call( Redenik::GameManager::Screen_Title )
 		end
 
-		def setup_scene(scene)
-			@stack << scene.new(Time.now)
+		def setup_scene( scene, *args )
+			@stack << scene.new( Time.now, *args )
 		end
 
 		def update_scene
@@ -51,7 +51,7 @@ module Redenik::GameManager
 			@stack.size == 0
 		end
 
-		def call(scene)
+		def call(scene,*args)
 			begin
 				setup_scene(scene)
 				wr "Screen '#{scene.inspect}' created for #{@stack.last.creation_time} ms"
@@ -60,7 +60,7 @@ module Redenik::GameManager
 			end
 		end
 
-		def goto(scene)
+		def goto(scene,*args)
 			@stack.each{|screen|screen.dispose}
 			@stack.clear
 			begin
