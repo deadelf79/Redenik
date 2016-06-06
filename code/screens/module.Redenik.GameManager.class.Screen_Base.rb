@@ -1,12 +1,13 @@
 # encoding utf-8
 
 class Redenik::GameManager::Screen_Base
-	def initialize(timer)
+	def initialize( timer, *args )
+		@args = args
 		@creation_time = 0
-		@screen_offset = {x:0,y:0}
+		@screen_offset = { x:0, y:0 }
 		create___all_windows
 		create___all_pictures
-		_make_timer(timer)
+		_make_timer( timer )
 	end
 
 	def update
