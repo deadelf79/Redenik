@@ -8,7 +8,7 @@ class Redenik::LevelDesign::Storage
 		@types = types
 	end
 
-	def add(item,number)
+	def add(item,number,user_does_this=false)
 		if item.is_a?(Redenik::Weapon||Redenik::Armor||Redenik::Item||Redenik::Key)
 			return false if item.is_a?(Redenik::Weapon)	&&!types.include?(:weapon)
 			return false if item.is_a?(Redenik::Armor)	&&!types.include?(:armor)
@@ -19,8 +19,24 @@ class Redenik::LevelDesign::Storage
 			for count in 0...number
 				@items.push item
 			end
+			if user_does_this
+				Redenik.message_stack.push(
+					format(
+						Redenik::Translation::Russian.STORAGE_MESSAGES[:push_list],
+						item,
+						number
+					)
+				)	
+			end
+			return true
 		else
+			if user_does_this
+				Redenik.message_stack.push(
+					Redenik::Translation::Russian.STORAGE_MESSAGES[:error]	
+				)	
+			end
 			wr "\tThere is an error with add an '#{item.name}' to storage."
+			return false
 		end
 	end
 
