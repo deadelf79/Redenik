@@ -1,0 +1,8 @@
+module Redenik::SystemData
+	TILESIZE = 32
+	ICONSIZE = 32
+
+	DEFAULT_GFXWIDTH 	= 816
+	DEFAULT_GFXHEIGHT 	= 624
+	DEFAULT_GFXFULL 	= true
+end

@@ -365,9 +365,9 @@ module Redenik
 			ini["Game","Scripts"] 						= "Data\\Scripts.rvdata2"
 			ini["Game","Title"] 						= "Redenik"
 			# GRAPHICS
-			ini["Graphics","intWidth"] 					= "816"
-			ini["Graphics","intHeight"] 				= "624"
-			ini["Graphics","boolFullscreenStart"] 		= "false"
+			ini["Graphics","intWidth"] 					= Redenik::SystemData::DEFAULT_GFXWIDHT
+			ini["Graphics","intHeight"] 				= Redenik::SystemData::DEFAULT_GFXHEIGHT
+			ini["Graphics","boolFullscreenStart"] 		= Redenik::SystemData::DEFAULT_GFXFULL
 			# CONTROLS
 			# keys
 			ini["Controls", "boolEnableLetterHotkeys"] 	= "true"
