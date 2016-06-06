@@ -1,9 +1,11 @@
 # encoding utf-8
 
 class Redenik::GameData::BasicItem < Redenik::GameData::Basic
-	attr_accessor :rarity, :price, :icon_index, :weight
+	attr_accessor :rarity, :price, :icon, :weight
 	attr_reader :help_info
 	def initialize(health,mana,effects,rarity,start_price,type)
+		# добавить бы сюда проверок параметров, кстати.
+
 		# вызов родителя 
 		super(health,mana,effects,0)
 		
@@ -28,6 +30,7 @@ class Redenik::GameData::BasicItem < Redenik::GameData::Basic
 	end
 
 	def help_info=(new_text)
+		@help_info = "" if new_text.is_a? String
 		@help_info = new_text
 	end
 
