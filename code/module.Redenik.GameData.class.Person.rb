@@ -11,6 +11,7 @@ class Redenik::Person < Redenik::Basic
 	attr_reader :appearance, :stats, :equips
 	attr_reader :exp, :level, :skills, :sex, :gender
 	attr_reader :hungriness, :max_hungriness
+	attr_reader :drunkenness, :max_drunkenness
 	attr_reader :feel_monsters, :feel_traps
 	attr_reader :can_carry_weight
 	def initialize(name,appearance,stats)
@@ -20,6 +21,7 @@ class Redenik::Person < Redenik::Basic
 
 		@surname, @secondname = "", ""
 		@sex, @gender = :male, :getero
+		@drunkenness, @max_drunkenness = 0, 100
 
 		@base_exp			= rand(10..30)
 		@divider 			= 3

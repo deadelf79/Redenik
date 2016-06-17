@@ -7,30 +7,39 @@
 # на все функции встроенных в него классов
 module Redenik
 	class << self
-		# Массив данных обо всех персонажах в игре.<br>
+		# [Массив данных обо всех персонажах в игре]
 		# Самый первый персонаж в списке (под номером 0) - это персонаж,
 		# который был создан игроком на экране создания персонажа.
 		attr_reader :game_actors
 
+		# [Массив данных обо всех предметах в игре]
+		# Предметы генерируются по типам:
+		# * Redenik::GameData::Item::Book
+		# Только зелья имеют редкость и генерируются в соответствии с Redenik::Balance
 		attr_reader :game_items
 
+		# [Массив данных обо всем оружии в игре]
+		# 
 		attr_reader :game_weapons
 
+		# [Массив данных обо всей броне в игре]
+		# 
 		attr_reader :game_armors
 
-		attr_reader :game_skills
-
-		# Массив данных и команде.<br>
+		# [Массив данных о команде]
 		# Содержит набор ссылок на персонажей из массива @game_actors, с которыми
 		# были установлены дружеские отношения и которые присоединились
 		# к команде игрока.
 		attr_reader :game_party
 
+		# [Массив данных обо всех картах в игре]
+		# 
 		attr_reader :game_maps
 
+		# Возвращает индекс текущей карты.
 		attr_reader :current_map
 
-		# Стек сообщений.<br>
+		# [Стек сообщений]
 		# В него записываются результаты всех произведенных игроком действий:
 		# атаки противника, принятия пищи или зелий, покупки и продажи
 		# предметов, получения и сдачи квестов и много другое.<br>
@@ -38,13 +47,23 @@ module Redenik
 		# внутриигровом экране.
 		attr_accessor :message_stack
 
+		# [Список имен книг]
+		# Содержит список имен для всех книг, которые есть в игре. Список используется
+		# при генерации новых книг из числа тех, у которых не оказалось собственного
+		# имени (классы Redenik::GameData::Item::Book::Skillbook и Redenik::GameData::Item::Book::Magictome).
+		attr_accessor :nameslist_books
+
 		# Инициирует все данные перед стартом и запускает
 		# переход на первую сцену (титульное меню по умолчанию)
-		def start_game;end
+		def start_game(user_actor={});end
+
 		def main_game;end
+
 		def end_game;end
+
 		def save_game;end
 
+		# 
 		def change_statistics(type,value);end
 
 		def add_party_member(id);end
@@ -57,6 +76,7 @@ module Redenik
 
 		def game_seed;end
 		def game_seed=(actor_name);end
+		def game_start_generics;end
 
 		private
 		def _check_usac(user_actor);end
@@ -75,20 +95,48 @@ module Redenik
 
 	module GameManager
 		class << self
-			# Отладочный холст.<br>
+			# [Отладочный холст]
 			# Необходим для отрисовки отладочной информации поверх всего остального
 			attr_accessor :debug_canvas
-			
+
+			attr_accessor :pointer
+
+			# 
 			def start;end
+
+			# 
 			def main;end
+
+			# 
 			def quit;end
+
+			# 
 			def setup_first_scene;end
+
+			# 
 			def setup_scene(scene,*args);end
+
+			# 
 			def update_scene;end
+
+			# 
 			def dispose_scene;end
+
+			# 
 			def call(scene,*args);end
+
+			# 
 			def goto(scene,*args);end
+
+			# 
 			def cancel;end
+		end
+
+		module FlowStack
+			def prepare;end
+			def push(type,target,value);end
+			def pop;end
+			def update;end
 		end
 
 		module MapManager
@@ -329,7 +377,6 @@ module Redenik
 			def reset_exp;end
 			def exp_curve(level);end
 			def recover;end
-			def add_drunk;end
 
 			# Сильный?
 			def strong?;end
@@ -412,6 +459,21 @@ module Redenik
 			def set_quick_item(item,slot);end
 			def remove_quick_item(slot);end
 
+			# Skills & Magic
+
+			def learn_skill(skill_id);end
+			def forget_skill(skill_id);end
+			def learn_magic(skill_id);end
+			def forget_magic(skill_id);end
+			def skill_level(skill_id);end
+			def magic_level(skill_id);end
+			def raise_skill_exp;end
+			def raise_magic_exp;end
+			def raise_skill_level(skill_id);end
+			def raise_magic_level(skill_id);end
+			def skill(skill_id);end
+			def magic(skill_id);end
+
 			# Возвращает массив из всех предметов, находящихся
 			# в инвентаре
 			def inventory;end
@@ -420,6 +482,8 @@ module Redenik
 			def quick_inventory;end
 
 			def medkits;end
+
+			def equip(item);end
 
 			def biography=(value);end
 
@@ -431,16 +495,22 @@ module Redenik
 
 			def recover_health(amount);end
 			def recover_mana(amount);end
+			def raise_hungriness(amount);end		
+			def raise_drunkenness(amount);end
+			def raise_poison(amount);end
+			def lose_drunkenness(amount);end
 			def lose_hungriness(amount);end
-			def poison;end
-			def equip(item);end
+			def lose_health(amount);end
+			def lose_mana(amount);end
 
 			private 
 
 			def _check_level;end
 			def _gain_stat(type);end
+			def _gain_skill(skill_id);end
 		end
 
+		# TODO: заменить на менеджер отношений...
 		class Enemy < DressingPerson
 			# dummy now
 			attr_reader :rarity, :base_creature
@@ -458,20 +528,58 @@ module Redenik
 		class Armor < BasicItem
 			def initialize(effects,rarity,equip_type);end
 			def use;end
+
+			# mixins
+			module ArmorWeight
+				def mixin_initialize(weight);end
+			end
+
+			# subclasses
+
 		end
 
 		class Item < BasicItem
-			def initialize(name,effects,rarity,food=false);end
+			def initialize(name,effects,rarity,consumable,food=false);end
 			def eatable?;end
 			def medkit?;end
+			def consumable?;end
 
 			private
 
 			def _use_item;end
 			def _load_icon_by_type(dir);end
 
-			class Alcohol < Item;end
+			# mixins
+			module Alcohol
+				def mixin_initialize(value);end
+				def mixin_use_item(actor);end
+				def mixin_dec_info;end 
+			end
+			
+			module Healing
+				def mixin_initialize(health,mana,hungriness,drunkenness);end
+				def mixin_use_item(actor);end
+				def mixin_gen_help_info(food);end
+				private
+				def _recheck_modifiers;end
+			end
+			
+			module RaiseStats
+				def mixin_initialize(stat,value,time);end
+				def mixin_use_item(actor);end
+			end
+			
+			module RaiseSkill
+				def mixin_initialize(skill_id);end
+				def mixin_use_item(actor);end
+				def mixin_dec_info;end
+			end
 
+			module ItemWeight
+				def mixin_initialize(weight);end
+			end
+
+			# subclasses
 			class Book < Item
 				def initialize(filename);end
 
@@ -479,12 +587,45 @@ module Redenik
 
 				def _load_icon_by_type;end
 				def _load_book_name;end
+				def _load_book_icon;end
 
 				class Comics;end
 				class Historical;end
 				class Skillbook;end
 				class Diary;end
 				class Magazine;end
+				class Magictome;end
+			end
+
+			class Food
+				def initialize;end
+
+				private
+
+				def _load_icon_by_type;end
+
+				class Becon;end
+				class Bread;end
+				class Butter;end
+				class Cheese;end
+				class Mushroom;end
+				class Salt;end
+			end
+
+			class Drink
+				def initialize;end
+
+				private
+
+				def _load_icon_by_type;end
+
+				class Water;end
+				class SeaWater;end
+				class Milk;end
+				class Wine;end
+				class Beer;end
+				class Tekila;end
+				class Vodka;end
 			end
 		end
 
@@ -493,8 +634,12 @@ module Redenik
 		end
 
 		class Skill
-			attr_reader :exp, :condition_string, :level
+			attr_reader :exp, :level
 			attr_reader :name, :help_info
+			def initialize(name,help_info,max_level);end
+			def raise_exp(value);end
+			def raise_level;end
+			def use;end
 		end
 
 		class Weapon < BasicItem
@@ -507,6 +652,32 @@ module Redenik
 			def _gen_mana_by_rare(rarity);end
 
 			def _gen_wield_by_type(weapon_type);end
+
+			# mixins
+			module ForHunters;end
+			module ForSports;end
+			module ForThrowing;end
+			module Stabbing;end
+			module Slashing;end
+			# Ударно-раздробляющее
+			module ShockFragmenting;end
+
+			# subclasses
+			class Axe;end
+			class Bow;end
+			class Claws;end
+			class Club;end
+			class Crossbow;end
+			# Кортик
+			class Dirk;end
+			class Hammer;end
+			class Katana;end
+			class LongSword;end
+			class Knife;end
+			class Morgenstern;end
+			class Staff;end
+			class Sword;end
+			class Wakizashi;end
 		end
 	end
 

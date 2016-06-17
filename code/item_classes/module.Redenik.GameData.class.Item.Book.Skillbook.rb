@@ -1,34 +1,35 @@
 # encoding utf-8
 
-class Redenik::GameData::Item::Book::Comics < Redenik::GameData::Item::Book
-	def initialize(filename)
-		super(Redenik::NameGen.make_name(4,8),[],:common,false)
-
-		@book_data = open(filename,"r").readlines
+class Redenik::GameData::Item::Book::Skillbook < Redenik::GameData::Item::Book
+	def initialize(skill_id)
+		super('')
+		@skill_id = skill_id
+		@consumable = true
 	end
 
 	private
 
-	def _use_item
-		Redenik::GameManager::goto(Redenik::GameManager::Screen_ReadBook(self))
-	end
-
 	def _load_icon_by_type
-		entries = Dir.open("./gfx/icons/book/comics").entries
-		iconname = ""
-		loop do
-			iconname = entries.sample
-			break if iconname=~/(png|jp[e]?g)$/
-		end
-
-		@icon = Redenik::Graphics::Image.safety_open(
-			iconname,
-			Rect(0,0,Redenik::SystemData::ICONSIZE,Redenik::SystemData::ICONSIZE),
-			Color.new(255,255,255,64)
-		)
+		super("./gfx/icons/book/skillbook")
 	end
 
 	def _gen_help_info
 		
+	end
+	
+	def _use_item(actor)
+		cant_use = false
+		cause = []
+		if actor.skill_level(@skill_id)==0
+			actor.learn_skill(@skill_id)
+			cause.push format(Redenik::Translation::Russian::USE_ITEM[:message_learn_skill],@name)
+			if @consumable
+				dispose
+			end
+		else
+			cause.push format(Redenik::Translation::Russian::USE_ITEM[:message_skill_already_learned],@name)
+			cant_use = true
+		end
+		return [cant_use,cause]
 	end
 end

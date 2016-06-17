@@ -1,17 +1,18 @@
-class Redenik::GameData::Item::Alcohol < Redenik::GameData::Item
-	alias original_method_initialize initialize
-	def initialize(*args)
-		original_method_initialize(*args)
-
-		@alcohol_modifier = true
+module Redenik::GameData::Item::Alcohol
+	def mixin_initialize(value)
+		@drunkenness_modifier 	= true
+		@drunkenness_add 		= value
+	end
+	
+	def mixin_use_item(actor)
+		if @drunkenness_modifier
+			actor.raise_drunkenness @drunkenness_add
+		end
 	end
 
-	alias original_method_use_item _use_item
-	def _use_item(actor)
-		original_method_use_item
-
-		if @alcohol_modifier
-			actor.add_drunk
-		end
+	def mixin_dec_info
+		result = []
+		result.push Redenik::Translation::Russian::ITEM_DESC[:alcohol].sample
+		return result
 	end
 end

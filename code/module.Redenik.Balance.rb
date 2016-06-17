@@ -49,38 +49,37 @@ module Redenik::Balance
 			:cr=>14
 		}
 	]
+
 	GAME___COMPLEXITY = [
 		:tourist, 	# турист - (-1/3) меньше хп у врагов
 		:mercenary, # наемник - средний уровень
 		:marauder, 	# мародер - (+1/3) больше хп у врагов, (+1/6) золота
 		:conqueror 	# завоеватель - (+2/3) больше хп у врагов, враги используют укрытия и атакуют из них
 	]
-	ITEM_TYPES = [
-		:heal_hp,	:heal_mp,		:poison,	:scroll, # Scroll здесь - свиток
-		:spellbook, :spellscroll,	:storybook, :learnskill
+
+	ITEM_TYPES = [ # TODO: вообще следует переписать, тут ведь дофига всего
+		:heal_hp,	:heal_mp,		:poison,
+		:spellbook, :magictome
 	]
+
 	ITEMS = {
 		# Тип	 	=> Вес типа (чем выше, тем больше будет предметов типа в процентном соотношении)
 		:heal_hp	=> 100,
 		:heal_mp	=> 100,
 		:poison		=> 50,
-		:scroll 	=> 25,
 		:spellbook	=> 50,
-		:spellscroll=> 100,
-		:storybook	=> 50,
-		:learnskill => 25
+		:magictome 	=> 50
 	}
+
 	ITEM_COSTS = {
 		:heal_hp	=> 100,
-		:heal_mp	=> 150,
-		:poison		=> 200,
-		:scroll 	=> 150,
-		:spellbook	=> 300,
-		:spellscroll=> 150,
-		:storybook	=> 200,
-		:learnskill => 400
+		:heal_mp	=> 100,
+		:poison		=> 150,
+		:spellbook	=> 250,
+		:magictome 	=> 250
 	}
-	ITEM_USE_FX_BY_RARITY = {
+
+	ITEM_USE_FX_BY_RARITY = { # TODO: добавить все рарности
 		:common		=> {
 			:heal_hp =>	(15..25),
 			:heal_mp =>	(15..25)
@@ -98,10 +97,51 @@ module Redenik::Balance
 			:heal_mp =>	(90..150)
 		}
 	}
-	WEAPON_HEALTH = {
-		:common		=> 30,
-		:uncommon	=> 80,
-		:rare		=> 130,
-		:unique		=> 200
+
+	WEAPON_HEALTH = {# TODO: добавить все рарности
+		common:			30,
+		uncommon:		80,
+		intensified: 	120,
+		enchanted: 		100,
+		rare:			350,
+		legendary: 		475,
+		ultrarare: 		725,
+		unique:			2000
+	}
+
+	WEAPON_MANA = {
+		common:		0,
+		uncommon:	0,
+		rare:		0,
+		legendary: 	0,
+		ultrarare: 	0,
+		unique:		0
+	}
+
+	WEAPON_WEILDS = {
+		axe: 			:dual,
+		bow: 			:mono,
+		claws: 			:mono,
+		club: 			:mono,
+		crossbow: 		:mono,
+		dirk: 			:mono,
+		hammer: 		:dual,
+		katana: 		:mono,
+		longsword: 		:dual,
+		knife: 			:mono,
+		morgenstern: 	:mono,
+		staff: 			:dual,
+		sword: 			:mono,
+		wakizashi: 		:mono
+	}
+
+	FOOD_HEALING = {
+		default: 	[ 10, 0, 30 ],
+		becon: 		[ 10, 0, 35 ],
+		bread: 		[ 10, 0, 25 ]
+	}
+
+	DRINK_HEALING = {
+		default: 	[],
 	}
 end

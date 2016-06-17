@@ -1,5 +1,6 @@
-﻿# encoding utf-8
+# encoding utf-8
 
+# 
 module Redenik::Translation::Russian
 	AMOUNT_1 = "штука"
 	AMOUNT_2_4 = "штуки"
@@ -46,17 +47,167 @@ module Redenik::Translation::Russian
 			"%s сворачивает кровь",
 			"действует как бинт",
 			"приводит к исцелению",
-			"%s устраняет поверждения тканей"
+			"%s устраняет поверждения тканей",
+			"восполняет жизненные силы",
+			"рекомендовано при болезнях",
+			"не имеет противопоказаний"
 		],
 		heal_mp: [
 			"%s раскрывает душу для новых свершений",
 			"пахнет противно, но действует %s",
-			"%s восполняет магические силы"
+			"%s восполняет магические силы",
+			"%s раскрывает чакры",
+			"настраивает на нужную волну потока энергии",
+			"высвобождает потоки маны"
 		],
-		poison: [],
-		food: [],
-		drink: [],
-		magic_scroll: []
+		poison: [
+			"избавляет от страданий",
+			"%s избавляет от страданий",
+			"лечит от всего"
+		],
+		food: [
+			"на вкус как курица",
+			"сытная и здоровая пища",
+			"%s утоляет голод",
+			"рекомендовано детям с шести лет",
+			"теперь - с новым вкусом",
+			"приготовлено по домашним рецептам",
+			"приготовлено по старинным рецептам",
+			"сделано своими руками",
+			"приготовлено с любовью",
+			"вкусно, как в детстве",
+			"приготовлено лучшими бабшуками",
+			"из лучших сортов ингредиентов",
+			" "
+		],
+		drink: [
+			"это вкусно и полезно",
+			"жидкая гадость",
+			"пахнет приятно"
+		],
+		alcohol: [
+			"действует опьяняюще",
+			"приносит радость бытия",
+			"избавляет от страха",
+			"привносит в жизнь новый смысл",
+			"горькое лекарство от несчастий",
+			"избавляет от стеснительности",
+			"помогает скрасить одиночество",
+			"изменяет восприятие реальности",
+			"губит молодость",
+			"является отягчяющим обстоятельством",
+			"запрещено несовершеннолетним",
+			"приводит к похмелью",
+			"расширяет сосуды",
+			"расширяет круг друзей",
+			"позволяет ползать по тротуару",
+			"заставляет совершать глупости",
+			"помогает избавиться от невинности",
+			"разжижает мозги",
+			"снижает нервное напряжение",
+			"успокаивает и расслабляет",
+			"высвобождает демона внутри",
+			"утоляет жажду приключений"
+		],
+		magictome: [],
+		skillbook: []
+	}
+
+	ITEM_EFFECTS = {
+		food: {
+			default: 	{
+				health: 		0,
+				mana: 			0,
+				hungriness: 	0,
+				drunkenness: 	0
+			},
+			becon: 		{
+				health: 		0,
+				mana: 			0,
+				hungriness: 	0,
+				drunkenness: 	0
+			},
+			bread: 		{
+				health: 		0,
+				mana: 			0,
+				hungriness: 	0,
+				drunkenness: 	0
+			},
+			butter: 	{
+				health: 		0,
+				mana: 			0,
+				hungriness: 	0,
+				drunkenness: 	0
+			},
+			cheese: 	{
+				health: 		0,
+				mana: 			0,
+				hungriness: 	0,
+				drunkenness: 	0
+			},
+			mushroom: 	{
+				health: 		0,
+				mana: 			0,
+				hungriness: 	0,
+				drunkenness: 	0
+			},
+			salt: 		{
+				health: 		0,
+				mana: 			0,
+				hungriness: 	0,
+				drunkenness: 	0
+			}
+		},
+		drink: {
+			default: 	{
+				health: 		0,
+				mana: 			0,
+				hungriness: 	0,
+				drunkenness: 	0
+			},
+			water: 	{
+				health: 		0,
+				mana: 			0,
+				hungriness: 	0,
+				drunkenness: 	0
+			},
+			seawater: 	{
+				health: 		0,
+				mana: 			0,
+				hungriness: 	0,
+				drunkenness: 	0
+			},
+			milk: 	{
+				health: 		0,
+				mana: 			0,
+				hungriness: 	0,
+				drunkenness: 	0
+			},
+			wine: 	{
+				health: 		0,
+				mana: 			0,
+				hungriness: 	0,
+				drunkenness: 	0
+			},
+			beer: 	{
+				health: 		0,
+				mana: 			0,
+				hungriness: 	0,
+				drunkenness: 	0
+			},
+			tekila: 	{
+				health: 		0,
+				mana: 			0,
+				hungriness: 	0,
+				drunkenness: 	0
+			},
+			vodka: 	{
+				health: 		0,
+				mana: 			0,
+				hungriness: 	0,
+				drunkenness: 	0
+			}
+		}
 	}
 
 	WEAPONS_NAMES = {
@@ -182,9 +333,15 @@ module Redenik::Translation::Russian
 	}
 
 	USE_ITEM = {
-		message_start: 		"Вы использовали %s.",
-		message_failed: 	"Вы попытались использовать %s и у вас ничего не вышло.",
-		recover_health: 	"Восстановлено %s здоровья."
+		message_start: 					"Вы использовали %s.",
+		message_failed: 				"Вы попытались использовать %s и у вас ничего не вышло.",
+		message_recover_health: 		"Восстановлено %s здоровья.",
+		message_learn_skill: 			"Вы научились %s.",
+		message_forget_skill: 			"Вы разучились %s.",
+		message_learn_magic: 			"Вы выучили новое заклинание: %s.",
+		message_forget_magic: 			"Вы забыли заклинание '%s'.",
+		message_magic_already_learned: 	"Заклинание '%s' уже изучено.",
+		message_skill_already_learned: 	"Вы уже умеете %s и ничего нового не узнали."
 	}
 
 	SCREENS = {

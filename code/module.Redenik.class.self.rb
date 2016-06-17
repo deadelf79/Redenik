@@ -1,10 +1,11 @@
 ﻿# encoding utf-8
 
+# 
 module Redenik
 	class << self
 		attr_reader :game_actors, :game_items, :game_weapons, :game_armors
-		attr_reader :game_skills, :game_party, :game_maps, :current_map
-		attr_accessor :message_stack
+		attr_reader :game_party, :game_maps, :current_map
+		attr_accessor :message_stack, :nameslist_books
 
 		def start_game(user_actor={})
 			# Подготовим переменные
@@ -12,7 +13,6 @@ module Redenik
 			@game_items 	= []
 			@game_weapons 	= []
 			@game_armors 	= []
-			@game_skills	= []
 			@game_party		= []
 			@game_maps 		= []
 			@player_id		= {
@@ -21,6 +21,8 @@ module Redenik
 			}
 			@player_actor	= nil
 			@current_map = 0
+
+			@nameslist_books = []
 
 			@seed_is_valera = false
 			@game_seed = 0x1E240 #dec: 123456
@@ -50,18 +52,7 @@ module Redenik
 			@user_mod_directory 	= "./_UserMods"
 
 			# Вызовем методы
-			Redenik::NameGen.prepare
-			_make_setup_dir
-			_make_save_dir
-			_make_mod_dir
-			_make_default_settings
-			_gen_actors(_check_usac(user_actor))
-			_gen_items
-			_gen_weapons
-			_gen_armors
-			_gen_skills
-			_gen_game_maps
-
+			game_start_generics
 			add_party_member(0)
 			save_game
 		end
@@ -144,6 +135,19 @@ module Redenik
 			all
 		end
 
+		def player
+			@game_party[@player_id[:party_id]]
+		end
+
+		def next_member
+			next_id = -1
+			@game_party.each{|member|
+				next if member.dead?
+				next_id = @game_party.index(member)
+			}
+			next_id
+		end
+
 		def joypad_enabled?
 			@joypad = true if @joypad.nil?
 			@joypad
@@ -173,17 +177,18 @@ module Redenik
 			wr "New game seed is #{@game_seed}"
 		end
 
-		def player
-			@game_party[@player_id[:party_id]]
-		end
-
-		def next_member
-			next_id = -1
-			@game_party.each{|member|
-				next if member.dead?
-				next_id = @game_party.index(member)
-			}
-			next_id
+		def game_start_generics
+			Redenik::NameGen.prepare
+			_make_setup_dir
+			_make_save_dir
+			_make_mod_dir
+			_make_default_settings
+			_gen_actors(_check_usac(user_actor))
+			_gen_items
+			_gen_weapons
+			_gen_armors
+			_gen_skills
+			_gen_game_maps
 		end
 
 		private
@@ -355,6 +360,8 @@ module Redenik
 					raise 'Cannot read current OS!'
 				end
 			end
+
+			# запиши сюда создание файла, в котором будут записываться подключаемые моды
 		end
 
 		def _make_default_settings
@@ -370,8 +377,8 @@ module Redenik
 			ini["Graphics","boolFullscreenStart"] 		= Redenik::SystemData::DEFAULT_GFXFULL
 			# CONTROLS
 			# keys
-			ini["Controls", "boolEnableLetterHotkeys"] 	= "true"
-			ini["Controls", "boolEnableMouseControl"] 	= "true"
+			ini["Controls", "boolEnableLetterHotkeys"] 	= Redenik::SystemData::DEFAULT_ENABLED_LETTER_HOTKEYS
+			ini["Controls", "boolEnableMouseControl"] 	= Redenik::SystemData::DEFAULT_ENABLED_NOUSE
 			# menus
 			ini["Controls", "MapMenu"] 					= "M"
 			ini["Controls", "QuestMenu"] 				= "U"
