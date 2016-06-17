@@ -18,25 +18,14 @@ class Redenik::Weapon < Redenik::BasicItem
 	end
 
 	def _gen_mana_by_rare(rarity)
-
+		Redenik::Balance::WEAPON_HEALTH[rarity]
 	end
 
 	def _gen_wield_by_type(weapon_type)
-		case weapon_type
-		when :axe
-			return :dual
-		when :claws
+		begin
+			Redenik::Balance::WEAPON_WEILDS[weapon_type.to_sym]
+		rescue
 			return :mono
-		when :club
-			return :mono
-		when :hammer
-			return :dual
-		when :knife
-			return :mono
-		when :staff
-			return :dual
-		when :sword
-			return [:dual, :mono].sample
 		end
 	end
 end

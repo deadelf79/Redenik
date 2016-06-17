@@ -79,7 +79,8 @@ module Redenik::Balance
 		:magictome 	=> 250
 	}
 
-	ITEM_USE_FX_BY_RARITY = { # TODO: добавить все рарности
+	# !!TODO: оставлять ли? потому что рарности у предметов нет и не будет
+	ITEM_USE_FX_BY_RARITY = { # --TODO: добавить все рарности
 		:common		=> {
 			:heal_hp =>	(15..25),
 			:heal_mp =>	(15..25)
@@ -95,6 +96,103 @@ module Redenik::Balance
 		:unique		=> {
 			:heal_hp =>	(90..150),
 			:heal_mp =>	(90..150)
+		}
+	}
+
+	ITEM_EFFECTS = {
+		food: {
+			default: 	{
+				health: 		0,
+				mana: 			0,
+				hungriness: 	0,
+				drunkenness: 	0
+			},
+			becon: 		{
+				health: 		0,
+				mana: 			0,
+				hungriness: 	0,
+				drunkenness: 	0
+			},
+			bread: 		{
+				health: 		0,
+				mana: 			0,
+				hungriness: 	0,
+				drunkenness: 	0
+			},
+			butter: 	{
+				health: 		0,
+				mana: 			0,
+				hungriness: 	0,
+				drunkenness: 	0
+			},
+			cheese: 	{
+				health: 		0,
+				mana: 			0,
+				hungriness: 	0,
+				drunkenness: 	0
+			},
+			mushroom: 	{
+				health: 		0,
+				mana: 			0,
+				hungriness: 	0,
+				drunkenness: 	0
+			},
+			salt: 		{
+				health: 		0,
+				mana: 			0,
+				hungriness: 	0,
+				drunkenness: 	0
+			}
+		},
+		drink: {
+			default: 	{
+				health: 		0,
+				mana: 			0,
+				hungriness: 	0,
+				drunkenness: 	0
+			},
+			water: 	{
+				health: 		0,
+				mana: 			0,
+				hungriness: 	0,
+				drunkenness: 	0
+			},
+			seawater: 	{
+				health: 		0,
+				mana: 			0,
+				hungriness: 	0,
+				drunkenness: 	0
+			},
+			milk: 	{
+				health: 		0,
+				mana: 			0,
+				hungriness: 	0,
+				drunkenness: 	0
+			},
+			wine: 	{
+				health: 		0,
+				mana: 			0,
+				hungriness: 	0,
+				drunkenness: 	0
+			},
+			beer: 	{
+				health: 		0,
+				mana: 			0,
+				hungriness: 	0,
+				drunkenness: 	0
+			},
+			tekila: 	{
+				health: 		0,
+				mana: 			0,
+				hungriness: 	0,
+				drunkenness: 	0
+			},
+			vodka: 	{
+				health: 		0,
+				mana: 			0,
+				hungriness: 	0,
+				drunkenness: 	0
+			}
 		}
 	}
 
