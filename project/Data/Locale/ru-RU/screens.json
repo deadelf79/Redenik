@@ -1,0 +1,51 @@
+{
+	"title"				:	{
+		"new_game"			:	"Новая игра",
+		"load_game"			:	"Загрузить",
+		"settings"			:	"Настройки",
+		"achievements"		:	"Достижения",
+		"statistics"		:	"Статистика",
+		"quit"				:	"Выход"
+	},
+	"new_game"			:	{
+		"enter_name"		:	"Введите имя:",
+		"choose_class"		:	"Выберите класс:",
+		"remaining_points"	:	"Осталось распределить:",
+		"start_game"		:	"Начать игру"
+	},
+	"load_game"			:	{
+
+	},
+	"settings"			:	{
+		"graphics"			: {},
+		"audio"				: {},
+		"controls"			: {},
+		"game"				: {}
+	},
+	"achievements"		:	{
+		"message_title"		:	"Достижения",
+		"ingame"		:	"Внутрииигровые",
+		"steam"			:	"Steam",
+	},
+	"statistics"		:	{
+		"total_gold_collected"			: "",
+		"total_alchemy_recepy_found"	: "",
+		"total_books_readed"			: "",
+		"deepest_gate"					: "",
+		"deepest_floor"					: "",
+		"total_friend_count"			: "",
+		"total_sex_actions"				: "",
+		"total_sex_partners"			: "",
+		"total_gametime_played"			: "",
+		"most_played_actor"				: "",
+		"most_played_actor_time"		: "",
+		"most_lovely_weapon"			: "",
+		"best_guild_rank"				: ""
+	},
+	"quit"				:	{
+		"message_title"		:	"Предупреждение",
+		"question"			:	"Выйти из игры?",
+		"yes"				:	"Да, выйти",
+		"no"				:	"Нет, остаться",
+	}
+}
