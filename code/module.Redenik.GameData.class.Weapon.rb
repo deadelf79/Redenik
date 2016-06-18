@@ -9,7 +9,8 @@ class Redenik::Weapon < Redenik::BasicItem
 		super(@health,@mana,effects,rarity,start_price,:weapon)
 	end
 
-	def use;end
+	def use(target);end
+	def equip;end
 
 	private
 
@@ -23,7 +24,7 @@ class Redenik::Weapon < Redenik::BasicItem
 
 	def _gen_wield_by_type(weapon_type)
 		begin
-			Redenik::Balance::WEAPON_WEILDS[weapon_type.to_sym]
+			Redenik::Balance::WEAPON_WEILDS[weapon_type.to_s.downcase.to_sym]
 		rescue
 			return :mono
 		end
