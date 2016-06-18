@@ -528,6 +528,7 @@ module Redenik
 		class Armor < BasicItem
 			def initialize(effects,rarity,equip_type);end
 			def use;end
+			def equip;end
 
 			# mixins
 			module ArmorWeight
@@ -536,6 +537,98 @@ module Redenik
 
 			# subclasses
 
+		end
+
+		class Cloth < BasicItem
+			def initialize(rarity,start_price);end
+			def use;end
+			def equip;end
+
+			# mixins
+			module ClothWeight
+				def mixin_initialize(weight);end
+			end
+
+			module UnderLayer;end
+			module MidLayer;end
+			module OuterLayer;end
+			module Colors;end
+
+			# subclasses
+			class Accessories
+				class Belt;end
+			end
+
+			class Footwear
+				class Footwrap;end
+				class Puttee;end
+				class Sock;end
+				class Stockings;end
+				# See there: https://en.wikipedia.org/wiki/Tabi
+				class Tabi;end
+			end
+
+			class Outerwear;end
+
+			class Shorts
+				class Jeggings;end
+				class Leggings;end
+				class Sweatpants;end
+				class YogaPants;end
+			end
+
+			class Skirt
+				class Miniskirt;end
+			end
+
+			class Swimwear
+				class Bikini;end
+				class Monokini;end
+				class OnePiece;end
+				class TwoPiece;end
+				class Trunks;end
+			end
+
+			class Tops
+				class TShirt;end
+			end
+
+			class Underwear
+				# for women
+				class Bloomers;end
+				class Bra
+					class FullCup;end
+					class Plunge;end
+					class Balconette;end
+				end
+				class Bustier;end
+				class Camiknicker;end
+				class Corset;end
+				class Panties
+					class Bikini;end
+					class Boyshorts;end
+					class Briefs
+						class Classic;end
+						class HighCut;end
+						class Control;end
+					end
+					class Hipsters;end
+					class Pantalettes;end
+					class Tanga
+						class Thongs;end
+						class GString;end
+					end
+				end
+				# for men
+				class Underpants
+					class BoxerShorts;end
+					class BoxerBriefs;end
+					class MidwayBriefs;end
+					class Trunks;end
+					class Briefs;end
+					class Thong;end
+				end
+			end
 		end
 
 		class Item < BasicItem
@@ -553,7 +646,7 @@ module Redenik
 			module Alcohol
 				def mixin_initialize(value);end
 				def mixin_use_item(actor);end
-				def mixin_dec_info;end 
+				def mixin_gen_help_info;end 
 			end
 			
 			module Healing
@@ -572,7 +665,7 @@ module Redenik
 			module RaiseSkill
 				def mixin_initialize(skill_id);end
 				def mixin_use_item(actor);end
-				def mixin_dec_info;end
+				def  mixin_gen_help_info;end
 			end
 
 			module ItemWeight
@@ -589,43 +682,43 @@ module Redenik
 				def _load_book_name;end
 				def _load_book_icon;end
 
-				class Comics;end
-				class Historical;end
-				class Skillbook;end
-				class Diary;end
-				class Magazine;end
-				class Magictome;end
+				class Comics < Book;end
+				class Historical < Book;end
+				class Skillbook < Book;end
+				class Diary < Book;end
+				class Magazine < Book;end
+				class Magictome < Book;end
 			end
 
-			class Food
+			class Food < Item
 				def initialize;end
 
 				private
 
 				def _load_icon_by_type;end
 
-				class Becon;end
-				class Bread;end
-				class Butter;end
-				class Cheese;end
-				class Mushroom;end
-				class Salt;end
+				class Becon < Food;end
+				class Bread < Food;end
+				class Butter < Food;end
+				class Cheese < Food;end
+				class Mushroom < Food;end
+				class Salt < Food;end
 			end
 
-			class Drink
+			class Drink < Item
 				def initialize;end
 
 				private
 
 				def _load_icon_by_type;end
 
-				class Water;end
-				class SeaWater;end
-				class Milk;end
-				class Wine;end
-				class Beer;end
-				class Tekila;end
-				class Vodka;end
+				class Water < Drink;end
+				class SeaWater < Drink;end
+				class Milk < Drink;end
+				class Wine < Drink;end
+				class Beer < Drink;end
+				class Tekila < Drink;end
+				class Vodka < Drink;end
 			end
 		end
 
@@ -645,6 +738,10 @@ module Redenik
 		class Weapon < BasicItem
 			def initialize(effects,rarity,weapon_type);end
 
+			def use(target);end
+
+			def equip;end
+
 			private
 
 			def _gen_health_by_rare(rarity);end
@@ -663,20 +760,61 @@ module Redenik
 			module ShockFragmenting;end
 
 			# subclasses
+
+			# [Топор]
+			# *Описание:* Двуручное оружие
 			class Axe;end
+
+			# [Лук]
+			# *Описание:* Двуручное оружие
 			class Bow;end
+
+			# [Когти]
+			# *Описание:* Одноручное оружие
 			class Claws;end
+
+			# [Дубина]
+			# *Описание:* Двуручное оружие
 			class Club;end
+
+			# [Арбалет]
+			# *Описание:* Двуручное оружие
 			class Crossbow;end
-			# Кортик
+
+			# [Кортик]
+			# *Описание:* Двуручное оружие
 			class Dirk;end
+
+			# [Молот]
+			# *Описание:* Двуручное оружие
 			class Hammer;end
+
+			# [Катана]
+			# *Описание:* Одноручное оружие
 			class Katana;end
+
+			# [Длинный меч]
+			# *Описание:* Двуручное оружие
 			class LongSword;end
+
+			# [Нож]
+			# *Описание:* Одноручное оружие
 			class Knife;end
+
+			# [Моргенштерн]
+			# *Описание:* Одноручное оружие
 			class Morgenstern;end
+
+			# [Посох]
+			# *Описание:* Двуручное оружие
 			class Staff;end
+
+			# [Меч]
+			# *Описание:* Одноручное оружие
 			class Sword;end
+
+			# [Вакидзаси]
+			# *Описание:* Одноручное оружие
 			class Wakizashi;end
 		end
 	end
@@ -692,6 +830,13 @@ module Redenik
 			def block_skill(id);end
 			def unblock_skill(id);end
 			def blocked?(id);end
+		end
+	end
+
+	module RelationshipManager
+		class << self
+			def enemies?(actor1,actor2);end
+			def friends?(actor1,actor2);end
 		end
 	end
 
