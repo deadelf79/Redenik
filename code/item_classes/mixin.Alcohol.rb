@@ -10,7 +10,7 @@ module Redenik::GameData::Item::Alcohol
 		end
 	end
 
-	def mixin_dec_info
+	def mixin_gen_help_info
 		result = []
 		result.push Redenik::Translation::Russian::ITEM_DESC[:alcohol].sample
 		return result

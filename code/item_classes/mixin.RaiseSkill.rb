@@ -7,7 +7,7 @@ module Redenik::GameData::Item::RaiseSkill
 		actor.raise_skill_level @skill_id 
 	end
 
-	def mixin_dec_info
+	def mixin_gen_help_info
 		result = []
 		result.push format(
 			Redenik::Translation::Russian::ITEM_DESC[:skillbook].sample,
