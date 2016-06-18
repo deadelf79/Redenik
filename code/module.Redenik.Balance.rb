@@ -208,21 +208,23 @@ module Redenik::Balance
 	}
 
 	WEAPON_MANA = {
-		common:		0,
-		uncommon:	0,
-		rare:		0,
-		legendary: 	0,
-		ultrarare: 	0,
-		unique:		0
+		common:			0,
+		uncommon:		0,
+		intensified: 	0,
+		enchanted: 		0,
+		rare:			0,
+		legendary: 		0,
+		ultrarare: 		0,
+		unique:			0
 	}
 
 	WEAPON_WEILDS = {
 		axe: 			:dual,
-		bow: 			:mono,
+		bow: 			:dual,
 		claws: 			:mono,
-		club: 			:mono,
-		crossbow: 		:mono,
-		dirk: 			:mono,
+		club: 			:dual,
+		crossbow: 		:dual,
+		dirk: 			:dual,
 		hammer: 		:dual,
 		katana: 		:mono,
 		longsword: 		:dual,
