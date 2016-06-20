@@ -247,6 +247,13 @@ module Redenik::Translation::Russian
 		message_skill_already_learned: 	"Вы уже умеете %s и ничего нового не узнали."
 	}
 
+	USE_WEAPON = {
+		message_broken: "",
+		message_failed: "",
+		message_too_heavy_to_use: "",
+		message_cant_throw: ""
+	}
+
 	SCREENS = {
 		title: {
 			new_game: 		"Новая игра",

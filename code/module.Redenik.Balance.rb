@@ -235,6 +235,23 @@ module Redenik::Balance
 		wakizashi: 		:mono
 	}
 
+	WEAPON_WEIGHTS = {
+		axe: 			0,
+		bow: 			0,
+		claws: 			0,
+		club: 			0,
+		crossbow: 		0,
+		dirk: 			0,
+		hammer: 		0,
+		katana: 		0,
+		longsword: 		0,
+		knife: 			0,
+		morgenstern: 	0,
+		staff: 			0,
+		sword: 			0,
+		wakizashi: 		0
+	}
+
 	FOOD_HEALING = {
 		default: 	[ 10, 0, 30 ],
 		becon: 		[ 10, 0, 35 ],
