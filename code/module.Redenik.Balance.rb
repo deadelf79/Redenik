@@ -57,6 +57,11 @@ module Redenik::Balance
 		:conqueror 	# завоеватель - (+2/3) больше хп у врагов, враги используют укрытия и атакуют из них
 	]
 
+	ACTOR_MAX_HEALTH = 999
+	ACTOR_MAX_ARMOR = 999
+	ITEM_MIN_WEIGHT = 0.1
+	ITEM_MAX_WEIGHT = 500.0
+
 	ITEM_TYPES = [ # TODO: вообще следует переписать, тут ведь дофига всего
 		:heal_hp,	:heal_mp,		:poison,
 		:spellbook, :magictome
@@ -196,7 +201,39 @@ module Redenik::Balance
 		}
 	}
 
-	WEAPON_HEALTH = {# TODO: добавить все рарности
+	ITEM_WEIGHTS = {
+		book: {
+			default: 	0,
+			comics: 	0,
+			diary: 		0,
+			historical: 0,
+			magazine: 	0,
+			magictome: 	0,
+			skillbook: 	0
+		},
+		default: 0,
+		drink: {
+			default: 	0,
+			water: 		0,
+			seawater: 	0,
+			milk: 		0,
+			wine: 		0,
+			beer: 		0,
+			tekila: 	0,
+			vodka: 		0
+		},
+		food: {
+			default: 	0,
+			becon: 		0,
+			bread: 		0,
+			butter: 	0,
+			cheese: 	0,
+			mushroom: 	0,
+			salt: 		0
+		}
+	}
+
+	WEAPON_HEALTH = {
 		common:			30,
 		uncommon:		80,
 		intensified: 	120,
@@ -205,6 +242,18 @@ module Redenik::Balance
 		legendary: 		475,
 		ultrarare: 		725,
 		unique:			2000
+	}
+
+	# насколько сильно ломается оружие в зависимости от его редкости
+	WEAPON_BY_ARMOR_BREAK = {
+		common:			2.3,
+		uncommon:		2.1,
+		intensified: 	1.5,
+		enchanted: 		1.5,
+		rare:			1.15,
+		legendary: 		1.0,
+		ultrarare: 		0.88,
+		unique:			0.75
 	}
 
 	WEAPON_MANA = {

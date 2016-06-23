@@ -38,4 +38,12 @@ class Redenik::GameData::Item::Food < Redenik::GameData::Item
 		info = mixin_gen_help_info(food)
 		self.help_info = info.join(" ")
 	end
+
+	def _load_weight
+		if self.class.lowercase == "food"
+			@weight = Redenik::Balance::ITEM_WEIGHTS[:food][:default]
+		else
+			@weight = Redenik::Balance::ITEM_WEIGHTS[:food][self.class.lowercase.to_sym]
+		end
+	end
 end

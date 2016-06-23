@@ -40,7 +40,15 @@ class Redenik::GameData::Item::Book < Redenik::GameData::Item
 	end
 
 	def _gen_help_info
-		
+		# load from file
+	end
+
+	def _load_weight
+		if self.class.lowercase == "book"
+			@weight = Redenik::Balance::ITEM_WEIGHTS[:book][:default]
+		else
+			@weight = Redenik::Balance::ITEM_WEIGHTS[:book][self.class.lowercase.to_sym]
+		end
 	end
 
 	def _load_book_name

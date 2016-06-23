@@ -16,6 +16,7 @@ class Redenik::GameData::Item < Redenik::GameData::BasicItem
 			ht:0,
 			cr:0
 		}
+		_load_weight
 	end
 
 	def eatable?
@@ -76,5 +77,9 @@ class Redenik::GameData::Item < Redenik::GameData::BasicItem
 		# этот метод будет перезаписываться потомками, но тут лежит основа
 		info = []
 		self.help_info = info.join(" ")
+	end
+	
+	def _load_weight
+		@weight = Redenik::Balance::ITEM_WEIGHTS[:default]
 	end
 end
