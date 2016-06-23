@@ -486,6 +486,8 @@ module Redenik
 			def equip(item);end
 
 			def biography=(value);end
+			# Сумма параметров брони
+			def armor;end
 
 			# Проверяет, присутствует ли предмет в инвентаре
 			# => item - объект класса Redenik::Item, ::Weapon или ::Armor
@@ -530,6 +532,10 @@ module Redenik
 			def use;end
 			def equip;end
 
+			private
+
+			def _load_weight;end
+
 			# mixins
 			module ArmorWeight
 				def mixin_initialize(weight);end
@@ -543,6 +549,10 @@ module Redenik
 			def initialize(rarity,start_price);end
 			def use;end
 			def equip;end
+
+			private
+
+			def _load_weight;end
 
 			# mixins
 			module ClothWeight
@@ -641,6 +651,8 @@ module Redenik
 
 			def _use_item;end
 			def _load_icon_by_type(dir);end
+			def _gen_help_info;end
+			def _load_weight;end
 
 			# mixins
 			module Alcohol
@@ -665,11 +677,7 @@ module Redenik
 			module RaiseSkill
 				def mixin_initialize(skill_id);end
 				def mixin_use_item(actor);end
-				def  mixin_gen_help_info;end
-			end
-
-			module ItemWeight
-				def mixin_initialize(weight);end
+				def mixin_gen_help_info;end
 			end
 
 			# subclasses
@@ -736,13 +744,25 @@ module Redenik
 		end
 
 		class Weapon < BasicItem
+			attr_reader :dual_wield
+
 			def initialize(effects,rarity,weapon_type);end
 
-			def use(target);end
+			def use(actor,target);end
 
-			def equip;end
+			def throw(actor,target);end
+
+			def equip(hand);end
+
+			def dual_wield?;end
+
+			def can_use?;end
+			def can_throw?;end
+			def can_cook?;end
 
 			private
+
+			def _use_weapon(actor,target);end
 
 			def _gen_health_by_rare(rarity);end
 
@@ -750,72 +770,147 @@ module Redenik
 
 			def _gen_wield_by_type(weapon_type);end
 
+			def _load_weight;end
+
+			def _show_message_after_use(results_of_use);end
+			def _show_message_cant_use(actor);end
+			def _show_message_cant_throw(actor);end
+
+			# примесь для русского языка: Род и Число
+			# Weapon name is male
+			module WeaponM;end
+			# Weapon name is female
+			module WeaponF;end
+			# Weapon name is neuter
+			module WeaponN;end
+			# Weapon name is plural
+			module WeaponP;end
 			# mixins
 			module ForHunters;end
 			module ForSports;end
 			module ForThrowing;end
+			module ForCooking;end
+			# Колющее
 			module Stabbing;end
+			# Рубящее
 			module Slashing;end
 			# Ударно-раздробляющее
 			module ShockFragmenting;end
+			# Стрелковое оружие
+			#--
+			# честно, так и есть, сам хохотал
+			#++
+			module SmallArms;end
 
 			# subclasses
+			
+			# == Топор
+			# [Тип владения:] Двуручное оружие
+			# [Тип оружия:] Рубящее
+			# [Описание:] 
+			class Axe
+				include WeaponM
+				include Slashing
+			end
 
-			# [Топор]
-			# *Описание:* Двуручное оружие
-			class Axe;end
+			# == Лук
+			# [Тип владения:] Двуручное оружие
+			# [Тип оружия:] Стрелковое
+			# [Описание:] 
+			class Bow
+				include WeaponM
+			end
 
-			# [Лук]
-			# *Описание:* Двуручное оружие
-			class Bow;end
+			# == Цепной хлыст
+			# [Тип владения:] Одноручное оружие
+			# [Тип оружия:] 
+			# [Описание:] 
+			class Chainwhip;end
 
-			# [Когти]
-			# *Описание:* Одноручное оружие
+			# == Когти
+			# [Тип владения:] Одноручное оружие
+			# [Тип оружия:] 
+			# [Описание:] 
 			class Claws;end
 
-			# [Дубина]
-			# *Описание:* Двуручное оружие
+			# == Дубина
+			# [Тип владения:] Двуручное оружие
+			# [Тип оружия:] Ударное
+			# [Описание:] 
 			class Club;end
 
-			# [Арбалет]
-			# *Описание:* Двуручное оружие
+			# == Арбалет
+			# [Тип владения:] Двуручное оружие
+			# [Тип оружия:] Стрелковое
+			# [Описание:] 
 			class Crossbow;end
 
-			# [Кортик]
-			# *Описание:* Двуручное оружие
+			# == Кортик
+			# [Тип владения:] Двуручное оружие
+			# [Тип оружия:] 
+			# [Описание:] 
 			class Dirk;end
 
-			# [Молот]
-			# *Описание:* Двуручное оружие
+			# == Молот
+			# [Тип владения:] Двуручное оружие
+			# [Тип оружия:] Ударно-раздробляющее
+			# [Описание:] 
 			class Hammer;end
 
-			# [Катана]
-			# *Описание:* Одноручное оружие
+			# == Катана
+			# [Тип владения:] Одноручное оружие
+			# [Тип оружия:] 
+			# [Описание:] 
 			class Katana;end
 
-			# [Длинный меч]
-			# *Описание:* Двуручное оружие
+			# == Длинный меч
+			# [Тип владения:] Двуручное оружие
+			# [Тип оружия:] 
+			# [Описание:] 
 			class LongSword;end
 
-			# [Нож]
-			# *Описание:* Одноручное оружие
+			# == Нож
+			# [Тип владения:] Одноручное оружие
+			# [Тип оружия:] 
+			# [Описание:] 
 			class Knife;end
 
-			# [Моргенштерн]
-			# *Описание:* Одноручное оружие
+			# == Кусаригама
+			# [Тип владения:] Одноручное оружие
+			# [Тип оружия:] 
+			# [Описание:] 
+			# [Wiki:] link(https://ru.wikipedia.org/wiki/Кусаригама)
+			class Kusarigama;end
+
+			# == Моргенштерн
+			# [Тип владения:] Одноручное оружие
+			# [Тип оружия:] Ударно-раздробляющее
+			# [Описание:] 
 			class Morgenstern;end
 
-			# [Посох]
-			# *Описание:* Двуручное оружие
+			# == Посох
+			# [Тип владения:] Двуручное оружие
+			# [Тип оружия:] 
+			# [Описание:] 
 			class Staff;end
 
-			# [Меч]
-			# *Описание:* Одноручное оружие
+			# == Меч
+			# [Тип владения:] Одноручное оружие
+			# [Тип оружия:] 
+			# [Описание:] 
 			class Sword;end
 
-			# [Вакидзаси]
-			# *Описание:* Одноручное оружие
+			# == Вакидзаси
+			# [Тип владения:] Одноручное оружие
+			# [Тип оружия:] 
+			# [Описание:] 
 			class Wakizashi;end
+
+			# == Хлыст-клинок
+			# [Тип владения:] Одноручное оружие
+			# [Тип оружия:] 
+			# [Описание:] 
+			class Whipblade;end
 		end
 	end
 

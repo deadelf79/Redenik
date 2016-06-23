@@ -148,6 +148,7 @@ module Redenik::Translation::Russian
 			:medium 	=> ["начищенный","заостренный"],
 			:hard 		=> ["заточенный","острый"]
 		},
+		# TODO: Добавить все виды оружия
 		:weapon_type => {
 			axe: 	[ 1, "топор" ],
 			claws: 	[ 2, "коготь" ],
@@ -248,10 +249,30 @@ module Redenik::Translation::Russian
 	}
 
 	USE_WEAPON = {
-		message_broken: "",
-		message_failed: "",
-		message_too_heavy_to_use: "",
-		message_cant_throw: ""
+		message_cant_use: "нелья использовать %s",
+		message_cant_use_cause_broken: "нельзя использовать %s, потому что %s %s",
+		message_cant_throw: "нельзя бросить %s",
+		message_cant_use_cause_actor_chained: "невозможно использовать %s - у %s связаны руки",
+		message_cucb_this_m: "он",
+		message_cucb_this_f: "она",
+		message_cucb_this_n: "оно",
+		message_cucb_this_p: "они",
+		message_cucb_broken_m: "сломан",
+		message_cucb_broken_f: "сломана",
+		message_cucb_broken_n: "сломано",
+		message_cucb_broken_p: "сломаны",
+		message_too_heavy_to_use: "слишком тяжело использовать %s",
+		message_armor_is_broken: "%s разбивает броню противника",
+		message_armor_is_broken_critical: "%s разбивает броню противника вдребезги",
+		messsage_used_m: "%s использовал %s",
+		messsage_used_f: "%s использовала %s",
+		message_used_slash_m: "%s рубанул %s",
+		message_used_slash_f: "%s рубанула %s",
+		message_used_stabb_m:"",
+		message_used_stabb_f:"",
+		message_actor_throw_m: "%s бросил %s в %s",
+		message_actor_throw_f: "%s бросила %s в %s",
+		message_actor_missed: "%s промахнулся"
 	}
 
 	SCREENS = {
